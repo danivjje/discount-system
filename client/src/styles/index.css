@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+
+button {
+    @apply cursor-pointer;
+}
+
+@layer main {
+    .page {
+        @apply max-w-[1100px];
+        @apply mx-auto;
+        @apply min-h-dvh;
+        @apply p-5;
+    }
+}

@@ -8,13 +8,16 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist
+client/node_modules
+server/node_modules
+
+client/dist
+server/dist
 dist-ssr
 *.local
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
+.vscode
 .idea
 .DS_Store
 *.suo
@@ -23,4 +26,4 @@ dist-ssr
 *.sln
 *.sw?
 
-tailwind.config.ts
+client/tailwind.config.ts
