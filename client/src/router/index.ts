@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, type Router } from 'vue-router';
 
-const router = createRouter({
+const router: Router = createRouter({
   history: createWebHistory(),
   routes: [
     {
@@ -12,6 +12,11 @@ const router = createRouter({
       name: 'customers',
       path: '/customers',
       component: import('@/views/CustomersPage.vue'),
+    },
+    {
+      name: 'settings',
+      path: '/settings',
+      component: import('@/views/SettingsPage.vue'),
     },
   ],
 });

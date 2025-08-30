@@ -12,7 +12,8 @@ const customers: Ref<Customer[]> = ref([]);
 </script>
 
 <template>
-  <div class="page">
+  <div class="page flex flex-col items-center">
+    <RouterLink to="/" class="mb-10">Вернуться назад</RouterLink>
     <table class="w-full">
       <thead>
         <tr>
