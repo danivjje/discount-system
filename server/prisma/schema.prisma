@@ -13,12 +13,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Admin {
+model User {
   id Int @id @default(autoincrement())
   username String @unique
   password String
+  approved Boolean @default(false)
 
-  @@map("admins")
+  @@map("users")
 }
 
 model Customer {
@@ -36,4 +37,6 @@ model AppConfig {
   id Int @id @default(autoincrement())
   key String @unique
   value String
+
+  @@map("app_config")
 }

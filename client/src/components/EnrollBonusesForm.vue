@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
-import type { EnrollBonusesForm } from '@/types';
+import type { Customer, EnrollBonusesForm } from '@/types';
+import { postCustomer } from '@/api';
 
 const enrollBonusesData: EnrollBonusesForm = reactive({
   phone: '',
   sum: 0,
 });
+
+const enrollBonuses = async () => {
+  const customer: Customer = await postCustomer(enrollBonusesData);
+};
 </script>
 
 <template>

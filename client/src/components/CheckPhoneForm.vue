@@ -7,7 +7,7 @@ const isCodeSent: Ref<boolean> = ref(false);
 
 <template>
   <form @submit.prevent class="mb-5 flex flex-col items-center">
-    <div v-if="isCodeSent" class="flex flex-col items-center">
+    <div v-if="!isCodeSent" class="flex flex-col items-center">
       <Input v-model="phoneInputValue" type="tel" placeholder="Номер телефона" class="mb-2" />
       <Button type="submit">Узнать баланс</Button>
     </div>
