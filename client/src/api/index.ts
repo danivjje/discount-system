@@ -1,4 +1,4 @@
-import type { AppConfig, AuthUserForm, Customer, EnrollBonusesForm, User } from '@/types';
+import type { AppConfig, AuthUserForm, Customer, User } from '@/types';
 
 const API_LINK: string = 'http://localhost:3000/api';
 
@@ -12,9 +12,12 @@ export const getCustomer = async (phone: string): Promise<Customer> => {
   return await response.json();
 };
 
-export const postCustomer = async (data: EnrollBonusesForm): Promise<Customer> => {
-  const response = await fetch(`${API_LINK}/customers`, {
-    method: 'post',
+export const postCustomer = async (phone: string, data: { sum: number }): Promise<Customer> => {
+  const response = await fetch(`${API_LINK}/customers/${phone}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
     body: JSON.stringify(data),
   });
   return await response.json();
@@ -22,6 +25,9 @@ export const postCustomer = async (data: EnrollBonusesForm): Promise<Customer> =
 
 export const patchCustomerResetBonuses = async (phone: string): Promise<Customer> => {
   const response = await fetch(`${API_LINK}/customers/${phone}/reset-bonuses`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
     method: 'PATCH',
   });
   return await response.json();
@@ -34,7 +40,10 @@ export const getConfig = async (): Promise<AppConfig[]> => {
 
 export const postConfig = async (data: AppConfig[]): Promise<AppConfig> => {
   const response = await fetch(`${API_LINK}/config`, {
-    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
     body: JSON.stringify(data),
   });
   return await response.json();
@@ -42,6 +51,9 @@ export const postConfig = async (data: AppConfig[]): Promise<AppConfig> => {
 
 export const authLoginUser = async (data: AuthUserForm): Promise<User> => {
   const response = await fetch(`${API_LINK}/auth/login`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
     method: 'POST',
     body: JSON.stringify(data),
   });

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useConfigStore } from '@/store';
-import { ref, type Ref } from 'vue';
+import { onMounted, ref, type Ref } from 'vue';
 
 const { configKey, title, inputType, inputPlaceholder } = defineProps<{
   configKey: string;
   title: string;
   inputType: string;
   inputPlaceholder?: string;
+  defaultValue?: number | boolean | string | null;
 }>();
 
 const configStore = useConfigStore();
@@ -23,6 +24,12 @@ const submitConfigKeyUpdate = async (): Promise<void> => {
 
   await configStore.updateConfig();
 };
+
+onMounted(() => {
+  if (configStore.config.length === 0) {
+    configStore.fetchConfig();
+  }
+});
 </script>
 
 <template>
@@ -31,6 +38,7 @@ const submitConfigKeyUpdate = async (): Promise<void> => {
     <input
       :type="inputType"
       :placeholder="inputPlaceholder || ''"
+      :value="defaultValue || null"
       class="mr-2 w-fit border border-solid border-gray-400 px-5 py-2"
     />
     <button class="px-5 py-2">Изменить</button>

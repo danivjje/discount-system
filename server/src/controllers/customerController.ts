@@ -1,7 +1,6 @@
 import prisma from '@/client';
 import { AppConfig, Customer } from '@prisma/client';
 import { RequestHandler } from 'express';
-import { DEFAULT_BONUS_PERCENT } from '@/constants';
 
 export const getCustomers: RequestHandler = async (_req, res) => {
   const customers: Customer[] = await prisma.customer.findMany();
@@ -18,21 +17,23 @@ export const getCustomer: RequestHandler = async (req, res) => {
 
 export const upsertCustomer: RequestHandler = async (req, res) => {
   const phone: string = req.params.phone;
+  console.log('SEX: req.body: ', req.body);
   const sum: number = typeof req.body.sum === 'number' ? req.body.sum : Number(req.body.sum);
   const foundCustomer: Customer | null = await prisma.customer.findUnique({
     where: { phone },
   });
 
+  const percentConfig: AppConfig | null = await prisma.appConfig.findUnique({ where: { key: 'bonusPercent' } });
+  if (!percentConfig) throw new Error('set bonus percent');
+  const bonusPercent: number = +percentConfig.value;
+  const bonuses: number = sum / (100 / bonusPercent);
+
   if (!foundCustomer) {
     const customer: Customer = await prisma.customer.create({
-      data: { phone, totalSum: sum },
+      data: { phone, totalSum: sum, bonuses: bonuses },
     });
     return res.json(customer);
   }
-
-  const percentConfig: AppConfig | null = await prisma.appConfig.findUnique({ where: { key: 'bonusPercent' } });
-  const bonusPercent: number = percentConfig ? +percentConfig.value : DEFAULT_BONUS_PERCENT;
-  const bonuses: number = sum / (100 / bonusPercent);
 
   const updatedCustomer: Customer = await prisma.customer.update({
     where: { id: foundCustomer.id },
