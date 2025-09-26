@@ -12,7 +12,7 @@ const apiRouter = express.Router();
 
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/customers', customerRouter);
-apiRouter.use('/app-config', appConfigRouter);
+apiRouter.use('/config', appConfigRouter);
 
 app.use('/api', apiRouter);
 app.listen(port, () => {

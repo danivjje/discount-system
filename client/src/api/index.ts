@@ -1,4 +1,4 @@
-import type { AppConfig, Customer, EnrollBonusesForm } from '@/types';
+import type { AppConfig, AuthUserForm, Customer, EnrollBonusesForm, User } from '@/types';
 
 const API_LINK: string = 'http://localhost:3000/api';
 
@@ -20,15 +20,35 @@ export const postCustomer = async (data: EnrollBonusesForm): Promise<Customer> =
   return await response.json();
 };
 
-export const getConfig = async (): Promise<AppConfig> => {
+export const patchCustomerResetBonuses = async (phone: string): Promise<Customer> => {
+  const response = await fetch(`${API_LINK}/customers/${phone}/reset-bonuses`, {
+    method: 'PATCH',
+  });
+  return await response.json();
+};
+
+export const getConfig = async (): Promise<AppConfig[]> => {
   const response = await fetch(`${API_LINK}/config`);
   return await response.json();
 };
 
-export const postConfig = async (data: AppConfig): Promise<AppConfig> => {
+export const postConfig = async (data: AppConfig[]): Promise<AppConfig> => {
   const response = await fetch(`${API_LINK}/config`, {
     method: 'post',
     body: JSON.stringify(data),
   });
+  return await response.json();
+};
+
+export const authLoginUser = async (data: AuthUserForm): Promise<User> => {
+  const response = await fetch(`${API_LINK}/auth/login`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+  return await response.json();
+};
+
+export const authCheckUser = async (): Promise<User> => {
+  const response = await fetch(`${API_LINK}/auth/check`);
   return await response.json();
 };

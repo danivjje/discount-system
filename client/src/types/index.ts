@@ -1,12 +1,5 @@
-export interface EnrollBonusesForm {
-  phone: string;
-  sum: number;
-}
-
-export interface Admin {
-  id: number;
+export interface User {
   username: string;
-  password: string;
 }
 
 export interface Customer {
@@ -17,5 +10,15 @@ export interface Customer {
 }
 
 export interface AppConfig {
-  [key: string]: string;
+  [key: string]: string | number | boolean;
+}
+
+export interface EnrollBonusesForm {
+  phone: string;
+  sum: number;
+}
+
+export interface AuthUserForm {
+  username: string;
+  password: string;
 }

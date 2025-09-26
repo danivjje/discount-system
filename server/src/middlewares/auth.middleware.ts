@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 const secretKey: string = process.env.JWT_TOKEN as string;
 
 const authMiddleware: RequestHandler = async (req, _res, next) => {
-  const token = req.header('Authorization');
+  const token = req.cookies['authtoken'];
 
   if (!token) throw new Error('Access denied');
 
@@ -12,7 +12,9 @@ const authMiddleware: RequestHandler = async (req, _res, next) => {
     const verified = jwt.verify(token.split(' ')[1], secretKey);
     req.user = verified;
     next();
-  } catch (err) {}
+  } catch (err) {
+    throw new Error("token wasn't validated");
+  }
 };
 
 export default authMiddleware;

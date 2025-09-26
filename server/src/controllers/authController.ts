@@ -1,5 +1,5 @@
 import prisma from '@/client';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import { User } from '@prisma/client';
 import { compareSync } from 'bcrypt-ts';
 import { RequestHandler } from 'express';
@@ -17,6 +17,25 @@ export const authUser: RequestHandler = async (req, res) => {
     throw new Error('Неверный пароль');
   }
 
-  const token: string = jwt.sign({ username }, process.env.JWT_TOKEN as string, { algorithm: 'HS256' });
+  const token: string = jwt.sign({ username }, process.env.JWT_SECRET_KEY as string, {
+    algorithm: 'HS256',
+    expiresIn: '1h',
+  });
+  res.cookie('authtoken', token, {
+    httpOnly: true,
+  });
+
   return res.json(token);
+};
+
+export const checkAuth: RequestHandler = async (req, res) => {
+  const token = req.cookies['token'];
+  if (!token) throw new Error('token is not valid');
+
+  try {
+    const verifiedToken: JwtPayload | string = jwt.verify(token, process.env.JWT_SECRET_KEY as string);
+    res.json(verifiedToken);
+  } catch (err) {
+    throw new Error('token is not valid');
+  }
 };
