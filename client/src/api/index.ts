@@ -1,66 +1,97 @@
-import type { AppConfig, AuthUserForm, Customer, User } from '@/types';
+import {
+  customerScheme,
+  getConfigScheme,
+  getCustomersScheme,
+  loginFormScheme,
+  phoneScheme,
+  postConfigScheme,
+  postCustomerScheme,
+  userScheme,
+} from '@/schemes';
+import type { AppConfig, LoginForm, Customer, User } from '@/types';
+import type { z, ZodSchema } from 'zod';
 
 const API_LINK: string = 'http://localhost:3000/api';
 
+const parseData = <T extends ZodSchema>(scheme: T, data: unknown): z.infer<T> => {
+  try {
+    return scheme.parse(data);
+  } catch (err) {
+    throw err;
+  }
+};
+
 export const getCustomers = async (): Promise<Customer[]> => {
   const response = await fetch(`${API_LINK}/customers`);
-  return await response.json();
+  const data = await response.json();
+  return parseData(getCustomersScheme, data);
 };
 
 export const getCustomer = async (phone: string): Promise<Customer> => {
+  parseData(phoneScheme, phone);
   const response = await fetch(`${API_LINK}/customers/${phone}`);
-  return await response.json();
+  const data = await response.json();
+  return parseData(customerScheme, data);
 };
 
-export const postCustomer = async (phone: string, data: { sum: number }): Promise<Customer> => {
-  const response = await fetch(`${API_LINK}/customers/${phone}`, {
+export const postCustomer = async (customerData: { phone: string; sum: number }): Promise<Customer> => {
+  parseData(postCustomerScheme, customerData);
+  const response = await fetch(`${API_LINK}/customers/${customerData.phone}`, {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'POST',
-    body: JSON.stringify(data),
+    body: JSON.stringify(customerData),
   });
-  return await response.json();
+  const data = await response.json();
+  return parseData(customerScheme, data);
 };
 
 export const patchCustomerResetBonuses = async (phone: string): Promise<Customer> => {
+  parseData(phoneScheme, phone);
   const response = await fetch(`${API_LINK}/customers/${phone}/reset-bonuses`, {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'PATCH',
   });
-  return await response.json();
+  const data = await response.json();
+  return parseData(customerScheme, data);
 };
 
 export const getConfig = async (): Promise<AppConfig[]> => {
   const response = await fetch(`${API_LINK}/config`);
-  return await response.json();
+  const data = await response.json();
+  return parseData(getConfigScheme, data);
 };
 
-export const postConfig = async (data: AppConfig[]): Promise<AppConfig> => {
+export const postConfig = async (configData: AppConfig[]): Promise<AppConfig[]> => {
+  parseData(postConfigScheme, configData);
   const response = await fetch(`${API_LINK}/config`, {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'POST',
-    body: JSON.stringify(data),
+    body: JSON.stringify(configData),
   });
-  return await response.json();
+  const data = await response.json();
+  return parseData(getConfigScheme, data);
 };
 
-export const authLoginUser = async (data: AuthUserForm): Promise<User> => {
+export const authLoginUser = async (loginData: LoginForm): Promise<void> => {
+  parseData(loginFormScheme, loginData);
   const response = await fetch(`${API_LINK}/auth/login`, {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'POST',
-    body: JSON.stringify(data),
+    body: JSON.stringify(loginData),
   });
   return await response.json();
 };
 
 export const authCheckUser = async (): Promise<User> => {
   const response = await fetch(`${API_LINK}/auth/check`);
-  return await response.json();
+  const data = await response.json();
+  return parseData(userScheme, data);
 };

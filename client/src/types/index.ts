@@ -1,24 +1,9 @@
-export interface User {
-  username: string;
-}
+import { userScheme, customerScheme, configScheme, loginFormScheme, enrollBonusesFormScheme } from '@/schemes';
+import z from 'zod';
 
-export interface Customer {
-  id: number;
-  phone: string;
-  bonuses: number;
-  totalSum: number;
-}
+export type Customer = z.infer<typeof customerScheme>;
+export type User = z.infer<typeof userScheme>;
+export type AppConfig = z.infer<typeof configScheme>;
 
-export interface AppConfig {
-  [key: string]: string | number | boolean;
-}
-
-export interface EnrollBonusesForm {
-  phone: string;
-  sum: number;
-}
-
-export interface AuthUserForm {
-  username: string;
-  password: string;
-}
+export type LoginForm = z.infer<typeof loginFormScheme>;
+export type EnrollBonusesForm = z.infer<typeof enrollBonusesFormScheme>;
