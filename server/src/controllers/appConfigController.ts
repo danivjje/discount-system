@@ -1,4 +1,5 @@
 import prisma from '@/client';
+import { AppConfigValue } from '@/types';
 import { AppConfig } from '@prisma/client';
 import { RequestHandler } from 'express';
 
@@ -9,10 +10,18 @@ export const getAppConfig: RequestHandler = async (_req, res) => {
 
 export const updateAppConfig: RequestHandler = async (req, res) => {
   const appConfig: AppConfig[] = req.body;
-  console.log(req.body);
-  await prisma.appConfig.deleteMany({});
-  await prisma.appConfig.createMany({
-    data: appConfig,
-  });
+
+  await prisma.$transaction(
+    appConfig.map((item) => {
+      return prisma.appConfig.upsert({
+        where: {
+          key: item.key,
+        },
+        update: { value: item.value as AppConfigValue },
+        create: { key: item.key, value: item.value as AppConfigValue },
+      });
+    }),
+  );
+
   return res.json(appConfig);
 };

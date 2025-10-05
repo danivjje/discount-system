@@ -7,3 +7,7 @@ export type AppConfig = z.infer<typeof configScheme>;
 
 export type LoginForm = z.infer<typeof loginFormScheme>;
 export type EnrollBonusesForm = z.infer<typeof enrollBonusesFormScheme>;
+
+export interface InputError {
+  message: string;
+}

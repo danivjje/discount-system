@@ -7,7 +7,7 @@ const customerRouter = express.Router();
 
 customerRouter.get('/', getCustomers);
 customerRouter.get('/:phone', getCustomer);
-customerRouter.post('/:phone', upsertCustomer);
+customerRouter.post('/', upsertCustomer);
 customerRouter.patch('/:phone/reset-bonuses', resetCustomerBonuses);
 
 export default customerRouter;

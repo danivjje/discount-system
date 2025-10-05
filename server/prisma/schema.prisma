@@ -35,7 +35,7 @@ model Customer {
 model AppConfig {
   id Int @id @default(autoincrement())
   key String @unique
-  value String
+  value Json
 
   @@map("app_config")
 }
