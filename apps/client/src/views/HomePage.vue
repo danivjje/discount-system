@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
+import { userScheme } from '@packages/schemes';
 import CheckPhoneForm from '@/components/CheckPhoneForm.vue';
 import EnrollBonusesForm from '@/components/EnrollBonusesForm.vue';
+import { onMounted } from 'vue';
+
+onMounted(() => {
+  console.log(userScheme.parse({ id: 1, username: 'username' }));
+});
 </script>
 
 <template>

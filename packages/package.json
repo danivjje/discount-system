@@ -1,17 +1,16 @@
 {
-  "name": "discount-system",
+  "name": "packages",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.18.1"
+  "packageManager": "pnpm@10.18.1",
+  "dependencies": {
+    "zod": "^4.1.12"
+  }
 }
