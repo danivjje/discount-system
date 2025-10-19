@@ -1,14 +1,17 @@
 import { createApp } from 'vue';
-import './styles/index.css';
 import App from './App.vue';
 import { createPinia } from 'pinia';
 import router from '@/router';
-import Input from '@/components/ui/Input.vue';
-import Button from '@/components/ui/Button.vue';
+import PrimeVue from 'primevue/config';
+import Aura from '@primeuix/themes/aura';
+import './styles/index.css';
 
 const app = createApp(App);
-app.component('Input', Input);
-app.component('Button', Button);
 app.use(createPinia());
 app.use(router);
+app.use(PrimeVue, {
+  theme: {
+    preset: Aura,
+  },
+});
 app.mount('#app');

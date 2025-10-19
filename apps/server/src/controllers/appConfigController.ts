@@ -1,4 +1,4 @@
-import prisma from '@/client';
+import prisma from '@packages/database/client';
 import { AppConfigValue } from '@/types';
 import { AppConfig } from '@prisma/client';
 import { RequestHandler } from 'express';

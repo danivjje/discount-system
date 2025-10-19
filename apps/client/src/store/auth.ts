@@ -1,15 +1,14 @@
 import { authCheckUser, authLoginUser } from '@/api';
-import type { AuthUserForm, User } from '@/types';
+import type { LoginForm, SafeUser } from '@packages/types';
 import { defineStore } from 'pinia';
 import { type Ref, ref } from 'vue';
 
 export const useAuthStore = defineStore('auth', () => {
-  const authUser: Ref<User | null> = ref(null);
+  const authUser: Ref<SafeUser | null> = ref(null);
 
-  const authenticateUser = async (data: AuthUserForm): Promise<void> => {
+  const authenticateUser = async (data: LoginForm): Promise<void> => {
     try {
-      const user: User = await authLoginUser(data);
-      authUser.value = user;
+      await authLoginUser(data);
     } catch (err) {
       console.log(err);
     }
@@ -17,7 +16,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const checkAuth = async (): Promise<void> => {
     try {
-      const user: User = await authCheckUser();
+      const user: SafeUser = await authCheckUser();
       authUser.value = user;
     } catch (err) {
       console.log(err);

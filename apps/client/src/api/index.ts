@@ -1,15 +1,14 @@
 import {
-  customerScheme,
   getConfigScheme,
-  getCustomersScheme,
+  postConfigScheme,
+  getCustomerScheme,
+  upsertCustomerFormScheme,
   loginFormScheme,
   phoneScheme,
-  postConfigScheme,
-  postCustomerScheme,
   userScheme,
-} from '@/schemes';
-import type { AppConfig, LoginForm, Customer, User } from '@/types';
-import type { z, ZodSchema } from 'zod';
+} from '@packages/schemes';
+import type { AppConfig, Customer, LoginForm, SafeUser } from '@packages/types';
+import { z, type ZodSchema } from 'zod';
 
 const API_LINK: string = 'http://localhost:3000/api';
 
@@ -24,18 +23,18 @@ const parseData = <T extends ZodSchema>(scheme: T, data: unknown): z.infer<T> =>
 export const getCustomers = async (): Promise<Customer[]> => {
   const response = await fetch(`${API_LINK}/customers`);
   const data = await response.json();
-  return parseData(getCustomersScheme, data);
+  return parseData(z.array(getCustomerScheme), data);
 };
 
 export const getCustomer = async (phone: string): Promise<Customer> => {
   parseData(phoneScheme, phone);
   const response = await fetch(`${API_LINK}/customers/${phone}`);
   const data = await response.json();
-  return parseData(customerScheme, data);
+  return parseData(getCustomerScheme, data);
 };
 
 export const postCustomer = async (customerData: { phone: string; sum: number }): Promise<Customer> => {
-  parseData(postCustomerScheme, customerData);
+  parseData(upsertCustomerFormScheme, customerData);
   const response = await fetch(`${API_LINK}/customers/${customerData.phone}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -44,7 +43,7 @@ export const postCustomer = async (customerData: { phone: string; sum: number })
     body: JSON.stringify(customerData),
   });
   const data = await response.json();
-  return parseData(customerScheme, data);
+  return parseData(getCustomerScheme, data);
 };
 
 export const patchCustomerResetBonuses = async (phone: string): Promise<Customer> => {
@@ -56,7 +55,7 @@ export const patchCustomerResetBonuses = async (phone: string): Promise<Customer
     method: 'PATCH',
   });
   const data = await response.json();
-  return parseData(customerScheme, data);
+  return parseData(getCustomerScheme, data);
 };
 
 export const getConfig = async (): Promise<AppConfig[]> => {
@@ -78,7 +77,7 @@ export const postConfig = async (configData: AppConfig[]): Promise<AppConfig[]> 
   return parseData(getConfigScheme, data);
 };
 
-export const authLoginUser = async (loginData: LoginForm): Promise<void> => {
+export const authLoginUser = async (loginData: LoginForm): Promise<string | {}> => {
   parseData(loginFormScheme, loginData);
   const response = await fetch(`${API_LINK}/auth/login`, {
     headers: {
@@ -90,7 +89,7 @@ export const authLoginUser = async (loginData: LoginForm): Promise<void> => {
   return await response.json();
 };
 
-export const authCheckUser = async (): Promise<User> => {
+export const authCheckUser = async (): Promise<SafeUser> => {
   const response = await fetch(`${API_LINK}/auth/check`);
   const data = await response.json();
   return parseData(userScheme, data);

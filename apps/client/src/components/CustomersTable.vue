@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import type { Customer } from '@/types';
+import type { Customer } from '@packages/types';
 import { toRefs } from 'vue';
+
+import { DataTable, Column } from 'primevue';
 
 const props = defineProps<{
   customers: Customer[];
@@ -9,20 +11,9 @@ const { customers } = toRefs(props);
 </script>
 
 <template>
-  <table class="w-full">
-    <thead>
-      <tr>
-        <th>Номер телефона</th>
-        <th>Бонусы</th>
-        <th>Общая сумма</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="customer in customers" :key="customer.id">
-        <td>{{ customer.phone }}</td>
-        <td>{{ customer.bonuses }}</td>
-        <td>{{ customer.totalSum }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <data-table :value="customers" class="w-full">
+    <column field="phone" header="Номер телефона" />
+    <column field="bonuses" header="Бонусы" />
+    <column field="totalSum" header="Общая сумма" />
+  </data-table>
 </template>

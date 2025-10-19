@@ -5,7 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../src/database/generated/prisma"
 }
 
 datasource db {
@@ -24,8 +25,8 @@ model User {
 model Customer {
   id Int @id @default(autoincrement())
   phone String @unique
-  bonuses Decimal @default(0)
-  totalSum Decimal @default(0)
+  bonuses Decimal @db.Decimal(65, 2) @default(0)
+  totalSum Decimal @db.Decimal(65, 2) @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

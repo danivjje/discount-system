@@ -8,10 +8,10 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-
-apps/server/.env
-dist-ssr
+.env
 *.local
+
+packages/src/database/generated
 
 # Editor directories and files
 .vscode

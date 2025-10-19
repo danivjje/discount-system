@@ -1,5 +1,5 @@
 import { getConfig, postConfig } from '@/api';
-import type { AppConfig } from '@/types';
+import type { AppConfig } from '@packages/types';
 import { defineStore } from 'pinia';
 import { type Ref, ref } from 'vue';
 

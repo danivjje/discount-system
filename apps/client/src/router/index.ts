@@ -18,6 +18,11 @@ const router: Router = createRouter({
       path: '/settings',
       component: () => import('@/views/SettingsPage.vue'),
     },
+    {
+      name: 'auth',
+      path: '/auth',
+      component: () => import('@/views/AdminAuthorizationPage.vue'),
+    },
   ],
 });
 

@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/store';
-import type { AuthUserForm } from '@/types';
+import type { LoginForm } from '@packages/types';
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
+
+import { InputText, Button } from 'primevue';
 
 const router = useRouter();
 const authStore = useAuthStore();
 
-const authUserFormData: AuthUserForm = reactive({
+const authUserFormData: LoginForm = reactive({
   username: '',
   password: '',
 });
@@ -27,9 +29,9 @@ const handleSubmitLogin = async () => {
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmitLogin">
-    <Input v-model="authUserFormData.username" type="text" placeholder="Имя пользователя" class="mb-2" />
-    <Input v-model="authUserFormData.password" type="password" placeholder="Пароль" class="mb-2" />
+  <form @submit.prevent="handleSubmitLogin" class="flex flex-col justify-center items-center">
+    <InputText v-model="authUserFormData.username" type="text" placeholder="Имя пользователя" class="mb-2" />
+    <InputText v-model="authUserFormData.password" type="password" placeholder="Пароль" class="mb-2" />
     <Button type="submit">Войти</Button>
   </form>
 </template>

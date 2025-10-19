@@ -1,23 +1,13 @@
 import z from 'zod';
-import {
-  configScheme,
-  countBonusesFormScheme,
-  customerScheme,
-  fullConfigScheme,
-  getCustomersScheme,
-  loginFormScheme,
-  upsertCustomerFormScheme,
-  userScheme,
-} from './schemes';
+import type * as PrismaTypes from './database/generated/prisma/models';
+import { countBonusesFormScheme, loginFormScheme } from './schemes';
 
-export type User = z.infer<typeof userScheme>;
+// export type CountBonusesFormScheme = z.infer<typeof countBonusesFormScheme>;
 
-export type Customer = z.infer<typeof customerScheme>;
-export type GetCustomersResponse = z.infer<typeof getCustomersScheme>;
-export type UpsertCustomerFormScheme = z.infer<typeof upsertCustomerFormScheme>;
+export type User = PrismaTypes.UserModel;
+export type SafeUser = Omit<User, 'password'>;
+export type Customer = PrismaTypes.CustomerModel;
+export type AppConfig = PrismaTypes.AppConfigModel;
 
-export type Config = z.infer<typeof configScheme>;
-export type FullConfig = z.infer<typeof fullConfigScheme>;
-
-export type CountBonusesFormScheme = z.infer<typeof countBonusesFormScheme>;
-export type LoginFormScheme = z.infer<typeof loginFormScheme>;
+export type LoginForm = z.infer<typeof loginFormScheme>;
+export type CountBonusesForm = z.infer<typeof countBonusesFormScheme>;

@@ -1,5 +1,5 @@
 import { getCustomer, getCustomers, patchCustomerResetBonuses, postCustomer } from '@/api';
-import type { Customer } from '@/types';
+import type { Customer } from '@packages/types';
 import { defineStore } from 'pinia';
 import { ref, type Ref } from 'vue';
 
@@ -9,7 +9,9 @@ export const useCustomersStore = defineStore('customers', () => {
 
   const fetchCustomers = async (): Promise<void> => {
     try {
-      customers.value = await getCustomers();
+      const data = await getCustomers();
+      console.log(data);
+      customers.value = data;
     } catch (err) {
       console.log(err);
     }
@@ -25,7 +27,7 @@ export const useCustomersStore = defineStore('customers', () => {
 
   const upsertCustomer = async (phone: string, data: { sum: number }): Promise<void> => {
     try {
-      const updatedCustomer: Customer = await postCustomer(phone, data);
+      const updatedCustomer: Customer = await postCustomer({ phone, ...data });
       customers.value[customers.value.findIndex((customer) => customer.id === updatedCustomer.id)];
     } catch (err) {
       console.log(err);

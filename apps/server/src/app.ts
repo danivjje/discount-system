@@ -5,7 +5,7 @@ import cors from 'cors';
 import appConfigRouter from '@/routes/appConfig';
 import authRouter from '@/routes/auth';
 import customerRouter from '@/routes/customer';
-import authMiddleware from '@/middlewares/auth.middleware';
+// import authMiddleware from '@/middlewares/auth.middleware';
 
 const app = express();
 const port: number = 3000;
@@ -16,8 +16,10 @@ app.use(cookieParser());
 app.use(cors());
 
 apiRouter.use('/auth', authRouter);
-apiRouter.use('/customers', authMiddleware, customerRouter);
-apiRouter.use('/config', authMiddleware, appConfigRouter);
+// apiRouter.use('/customers', authMiddleware, customerRouter);
+// apiRouter.use('/config', authMiddleware, appConfigRouter);
+apiRouter.use('/customers', customerRouter);
+apiRouter.use('/config', appConfigRouter);
 
 app.use('/api', apiRouter);
 app.listen(port, () => {

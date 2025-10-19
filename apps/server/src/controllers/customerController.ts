@@ -1,11 +1,11 @@
-import prisma from '@/client';
+import prisma from '@packages/database/client';
 import { AppConfigValue } from '@/types';
 import { AppConfig, Customer } from '@prisma/client';
 import { RequestHandler } from 'express';
 
 export const getCustomers: RequestHandler = async (_req, res) => {
   const customers: Customer[] = await prisma.customer.findMany();
-  return res.json(customers);
+  return res.json(customers).status(200);
 };
 
 export const getCustomer: RequestHandler = async (req, res) => {

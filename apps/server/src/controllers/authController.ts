@@ -1,4 +1,4 @@
-import prisma from '@/client';
+import prisma from '@packages/database/client';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { User } from '@prisma/client';
 import { compareSync, hashSync } from 'bcrypt-ts';
