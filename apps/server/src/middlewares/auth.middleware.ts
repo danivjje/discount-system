@@ -1,16 +1,19 @@
+import { UnauthorizedError } from '@/errors';
 import { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 
 const authMiddleware: RequestHandler = async (req, res, next) => {
-  const token = req.cookies.authtoken;
-
-  if (!token) return res.status(400).json({ message: 'token is not valid' });
-
   try {
+    const token = req.cookies.authtoken;
+
+    if (!token) {
+      throw new UnauthorizedError('Для выполнения этого действия необходимо авторизоваться');
+    }
+
     jwt.verify(token, process.env.JWT_SECRET_KEY as string);
     next();
   } catch (err) {
-    return res.status(400).json({ message: "token wasn't validated" });
+    next(err);
   }
 };
 
