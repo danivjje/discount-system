@@ -1,9 +1,10 @@
-import prisma from '@packages/database/client';
+import { prisma } from '@packages/database/client';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { User } from '@prisma/client';
+import { User } from '@packages/types';
 import { compareSync, hashSync } from 'bcrypt-ts';
 import { RequestHandler } from 'express';
 import { NotFoundError, UnauthorizedError } from '@/errors';
+import { loginFormScheme } from '@packages/schemes';
 
 // dev request
 export const registerUser: RequestHandler = async (req, res) => {
@@ -22,7 +23,8 @@ export const registerUser: RequestHandler = async (req, res) => {
 
 export const authUser: RequestHandler = async (req, res, next) => {
   try {
-    const { username, password }: { username: string; password: string } = req.body;
+    const data: { username: string; password: string } = req.body;
+    const { username, password } = loginFormScheme.parse(data);
 
     const user: User | null = await prisma.user.findUnique({ where: { username } });
     if (!user) {

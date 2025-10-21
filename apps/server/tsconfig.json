@@ -1,9 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "es2020",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "target": "es2022",
+    "module": "es2022",
+    "moduleResolution": "bundler",
     "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,

@@ -1,10 +1,12 @@
+import jwt from 'jsonwebtoken';
+import type { ErrorRequestHandler } from 'express';
+import z, { ZodError } from 'zod';
 import { NotFoundError, ServerError, UnauthorizedError, ValidationError } from '@/errors';
 
-import type { ErrorRequestHandler } from 'express';
-import { JsonWebTokenError, NotBeforeError, TokenExpiredError } from 'jsonwebtoken';
-import z, { ZodError } from 'zod';
+const { JsonWebTokenError, NotBeforeError, TokenExpiredError } = jwt;
 
 const errorsHandlingMiddleware: ErrorRequestHandler = async (err, req, res, next) => {
+  console.log(err);
   if (err instanceof ZodError) {
     const errors = z.flattenError(err);
     return res.status(400).json(new ValidationError(z.flattenError(err)));

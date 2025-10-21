@@ -1,7 +1,7 @@
 import { NotFoundError } from '@/errors/NotFoundError';
-import prisma from '@packages/database/client';
-import { AppConfigValue } from '@packages/types';
-import { AppConfig, Customer } from '@prisma/client';
+import { prisma } from '@packages/database/client';
+import { countBonusesFormScheme, phoneScheme } from '@packages/schemes';
+import { AppConfigValue, AppConfig, Customer } from '@packages/types';
 import { RequestHandler } from 'express';
 
 export const getCustomers: RequestHandler = async (_req, res, next) => {
@@ -15,6 +15,7 @@ export const getCustomers: RequestHandler = async (_req, res, next) => {
 
 export const getCustomer: RequestHandler = async (req, res, next) => {
   try {
+    const phone: string = phoneScheme.parse(req.params.phone);
     const customer: Customer | null = await prisma.customer.findUnique({
       where: { phone: req.params.phone },
     });
@@ -28,7 +29,7 @@ export const getCustomer: RequestHandler = async (req, res, next) => {
 
 export const upsertCustomer: RequestHandler = async (req, res, next) => {
   try {
-    const { phone, sum: bodySum }: { phone: string; sum: number } = req.body;
+    const { phone, sum: bodySum } = countBonusesFormScheme.parse(req.body);
     const sum: number = Number(bodySum);
 
     const percentConfig: AppConfig | null = await prisma.appConfig.findUnique({ where: { key: 'bonusPercent' } });
@@ -62,7 +63,7 @@ export const upsertCustomer: RequestHandler = async (req, res, next) => {
 
 export const resetCustomerBonuses: RequestHandler = async (req, res, next) => {
   try {
-    const phone: string = req.params.phone;
+    const phone: string = phoneScheme.parse(req.params.phone);
 
     const updatedCustomer: Customer = await prisma.customer.update({
       where: { phone },

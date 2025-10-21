@@ -1,7 +1,8 @@
-import prisma from '@packages/database/client';
-import { AppConfigValue } from '@packages/types';
-import { AppConfig } from '@prisma/client';
+import { prisma } from '@packages/database/client';
+import { configScheme } from '@packages/schemes';
+import { AppConfigValue, AppConfig } from '@packages/types';
 import { RequestHandler } from 'express';
+import z from 'zod';
 
 export const getAppConfig: RequestHandler = async (_req, res, next) => {
   try {
@@ -14,7 +15,8 @@ export const getAppConfig: RequestHandler = async (_req, res, next) => {
 
 export const updateAppConfig: RequestHandler = async (req, res, next) => {
   try {
-    const appConfig: AppConfig[] = req.body;
+    const data: AppConfig[] = req.body;
+    const appConfig: AppConfig[] = z.array(configScheme).parse(data);
 
     await prisma.$transaction(
       appConfig.map((item) => {
