@@ -1,6 +1,4 @@
-import z, { config } from 'zod';
-import { Prisma } from './database/generated/prisma/client';
-
+import z from 'zod';
 export const phoneScheme = z.string().length(12);
 
 export const loginFormScheme = z.object({
@@ -13,16 +11,15 @@ export const userScheme = z.object({
   username: z.string().min(3).max(15),
 });
 
+export const checkUserScheme = z.object({
+  username: z.string().min(3).max(15),
+});
+
 export const customerScheme = z.object({
   id: z.number(),
   phone: phoneScheme,
-  bonuses: z.instanceof(Prisma.Decimal),
-  totalSum: z.instanceof(Prisma.Decimal),
-});
-
-export const getCustomerScheme = customerScheme.extend({
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  bonuses: z.number(),
+  totalSum: z.number(),
 });
 
 export const upsertCustomerFormScheme = z.object({
@@ -30,16 +27,14 @@ export const upsertCustomerFormScheme = z.object({
   sum: z.number(),
 });
 
-export const configScheme = z.object({
-  id: z.number(),
+export const postConfigScheme = z.object({
   key: z.string().nonempty(),
   value: z.union([z.string(), z.number(), z.boolean()]),
 });
 
-export const getConfigScheme = z.array(configScheme);
-
-export const postConfigScheme = z.array(configScheme);
-
+export const configScheme = postConfigScheme.extend({
+  id: z.number(),
+});
 export const countBonusesFormScheme = z.object({
   phone: z.string().length(12),
   sum: z.number(),

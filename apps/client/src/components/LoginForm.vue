@@ -15,6 +15,7 @@ const authUserFormData: LoginForm = reactive({
 });
 
 const handleSubmitLogin = async () => {
+  console.log(authUserFormData.username, authUserFormData.password);
   if ((authUserFormData.username.trim(), authUserFormData.password.trim())) {
     try {
       authStore.authenticateUser({ username: authUserFormData.username, password: authUserFormData.password });

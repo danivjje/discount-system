@@ -1,13 +1,14 @@
 import z from 'zod';
-import type * as PrismaTypes from './database/generated/prisma/models';
 import { countBonusesFormScheme, loginFormScheme } from './schemes';
+import { usersTable, customersTable, appConfigTable } from './db/schema';
 
-export type User = PrismaTypes.UserModel;
+export type User = typeof usersTable.$inferSelect;
 export type SafeUser = Omit<User, 'password'>;
 
-export type Customer = PrismaTypes.CustomerModel;
+export type Customer = typeof customersTable.$inferSelect;
 
-export type AppConfig = PrismaTypes.AppConfigModel;
+export type AppConfig = typeof appConfigTable.$inferSelect;
+export type CreateAppConfig = typeof appConfigTable.$inferInsert;
 export type AppConfigValue = string | number | boolean;
 
 export type LoginForm = z.infer<typeof loginFormScheme>;

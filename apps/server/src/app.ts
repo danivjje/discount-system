@@ -15,9 +15,14 @@ const app = express();
 const port: number = 3000;
 const apiRouter = express.Router();
 
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
 
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/customers', authMiddleware, customerRouter);
