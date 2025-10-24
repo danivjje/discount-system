@@ -2,6 +2,7 @@ import { getCustomer, getCustomers, patchCustomerResetBonuses, postCustomer } fr
 import type { Customer } from '@packages/types';
 import { defineStore } from 'pinia';
 import { ref, type Ref } from 'vue';
+import type { CountBonusesForm } from '@packages/types';
 
 export const useCustomersStore = defineStore('customers', () => {
   const customers: Ref<Customer[]> = ref([]);
@@ -25,9 +26,9 @@ export const useCustomersStore = defineStore('customers', () => {
     }
   };
 
-  const upsertCustomer = async (phone: string, data: { sum: number }): Promise<void> => {
+  const upsertCustomer = async (data: CountBonusesForm): Promise<void> => {
     try {
-      const updatedCustomer: Customer = await postCustomer({ phone, ...data });
+      const updatedCustomer: Customer = await postCustomer(data);
       customers.value[customers.value.findIndex((customer) => customer.id === updatedCustomer.id)];
     } catch (err) {
       console.log(err);

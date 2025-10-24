@@ -3,22 +3,26 @@ import { useCustomersStore } from '@/store';
 import { ref, type Ref } from 'vue';
 
 import { InputMask, IftaLabel, Button } from 'primevue';
+import { parsePhoneFromMask } from '@/helpers/parse-phone-from-mask';
 
 const customersStore = useCustomersStore();
 
 const phoneInputValue: Ref<string> = ref('');
 const isRequestSent: Ref<boolean> = ref(false);
-// const isCodeSent: Ref<boolean> = ref(false);
 
 const handleShowBalance = async (): Promise<void> => {
-  await customersStore.fetchCustomer(phoneInputValue.value);
-  isRequestSent.value = true;
+  try {
+    await customersStore.fetchCustomer(parsePhoneFromMask(phoneInputValue.value).phone);
+    isRequestSent.value = true;
+  } catch (err) {
+    console.log(err);
+  }
 };
 </script>
 
 <template>
-  <div class="mb-5 flex flex-col items-center">
-    <form @submit.prevent="handleShowBalance" class="mb-5 flex flex-col items-center">
+  <div class="mb-6 flex flex-col items-center">
+    <form @submit.prevent="handleShowBalance" class="mb-2 flex flex-col items-center">
       <IftaLabel>
         <InputMask
           id="phone-check"
@@ -30,16 +34,11 @@ const handleShowBalance = async (): Promise<void> => {
         />
         <label for="phone-check">Номер телефона</label>
       </IftaLabel>
-      <Button>Узнать баланс</Button>
+      <Button type="submit">Узнать баланс</Button>
     </form>
     <form v-if="isRequestSent" class="flex flex-col items-center">
-      <!-- <Input type="text" placeholder="Код" class="mb-2" /> -->
-      <strong class="mb-2">Бонусов: {{ customersStore.selectedCustomer?.bonuses }}</strong>
+      <strong class="mb-2 font-normal text-gray-800">Бонусов: {{ customersStore.selectedCustomer?.bonuses }}</strong>
       <Button>Списать бонусы</Button>
     </form>
-    <!-- <div v-if="isCodeSent">
-      <strong>Номер телефона:</strong>
-      <strong>Баланс: 0 бонусов</strong>
-    </div> -->
   </div>
 </template>

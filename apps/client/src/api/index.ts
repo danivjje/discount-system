@@ -45,10 +45,7 @@ export const getCustomer = async (phone: string): Promise<Customer> => {
 
 export const postCustomer = async (customerData: { phone: string; sum: number }): Promise<Customer> => {
   parseData(upsertCustomerFormScheme, customerData);
-  const response = await fetch(
-    `${API_LINK}/customers/${customerData.phone}`,
-    generateRequestOptions('post', true, customerData),
-  );
+  const response = await fetch(`${API_LINK}/customers`, generateRequestOptions('post', true, customerData));
   const data = await response.json();
   return parseData(customerScheme, data);
 };

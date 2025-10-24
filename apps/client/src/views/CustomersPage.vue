@@ -6,7 +6,9 @@ import { useCustomersStore } from '@/store';
 const customersStore = useCustomersStore();
 
 onMounted(() => {
-  customersStore.fetchCustomers();
+  if (customersStore.customers.length === 0) {
+    customersStore.fetchCustomers();
+  }
 });
 </script>
 

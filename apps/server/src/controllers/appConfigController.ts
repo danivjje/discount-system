@@ -29,7 +29,8 @@ export const updateAppConfig: RequestHandler = async (req, res, next) => {
       }
     });
 
-    return res.status(200).json(appConfig);
+    const newConfig: AppConfig[] = await db.select().from(appConfigTable);
+    return res.status(200).json(newConfig);
   } catch (err) {
     next(err);
   }

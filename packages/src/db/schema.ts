@@ -1,4 +1,4 @@
-import { decimal, int, json, mysqlTable, text, varchar } from 'drizzle-orm/mysql-core';
+import { char, decimal, int, json, mysqlTable, text, varchar } from 'drizzle-orm/mysql-core';
 
 export const usersTable = mysqlTable('users', {
   id: int().primaryKey().autoincrement(),
@@ -8,7 +8,7 @@ export const usersTable = mysqlTable('users', {
 
 export const customersTable = mysqlTable('customers', {
   id: int().primaryKey().autoincrement(),
-  phone: varchar('phone', { length: 12 }).notNull().unique(),
+  phone: char('phone', { length: 12 }).notNull().unique(),
   totalSum: decimal('total_sum', { precision: 10, scale: 2, mode: 'number' }).default(0).notNull(),
   bonuses: decimal('bonuses', { precision: 10, scale: 2, mode: 'number' }).default(0).notNull(),
 });

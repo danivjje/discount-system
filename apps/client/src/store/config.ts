@@ -14,9 +14,9 @@ export const useConfigStore = defineStore('config', () => {
     }
   };
 
-  const updateConfig = async (): Promise<void> => {
+  const updateConfig = async (): Promise<AppConfig[] | void> => {
     try {
-      await postConfig(config.value);
+      return await postConfig(config.value);
     } catch (err) {
       console.log(err);
     }
