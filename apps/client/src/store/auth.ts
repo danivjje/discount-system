@@ -16,8 +16,8 @@ export const useAuthStore = defineStore('auth', () => {
 
   const checkAuth = async (): Promise<void> => {
     try {
-      const user: SafeUser = await authCheckUser();
-      authUser.value = user;
+      const user: SafeUser | void = await authCheckUser();
+      if (user) authUser.value = user;
     } catch (err) {
       console.log(err);
     }

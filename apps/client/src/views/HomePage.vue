@@ -8,10 +8,10 @@ import EnrollBonusesForm from '@/components/EnrollBonusesForm.vue';
   <div class="page flex flex-col items-center">
     <ul class="mb-[100px] flex">
       <li class="mr-4">
-        <RouterLink to="/customers" class="text-gray-800 text-lg font-medium">Список клиентов</RouterLink>
+        <RouterLink to="/customers" class="text-gray-800 text-base">Список клиентов</RouterLink>
       </li>
       <li>
-        <RouterLink to="/settings" class="text-gray-800 text-lg font-medium">Настройки</RouterLink>
+        <RouterLink to="/settings" class="text-gray-800 text-base">Настройки</RouterLink>
       </li>
     </ul>
     <CheckPhoneForm />

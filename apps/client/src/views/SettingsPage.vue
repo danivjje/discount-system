@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useConfigStore } from '@/store';
 import { onMounted } from 'vue';
+import { useConfigStore } from '@/store';
+import { configBonusPercentValueScheme } from '@packages/schemes';
 
 import ConfigFormNumberTemplate from '@/components/ConfigFormNumberTemplate.vue';
 
@@ -15,7 +16,11 @@ onMounted(() => {
 
 <template>
   <div class="page flex flex-col items-center">
-    <RouterLink to="/" class="mb-10">Вернуться назад</RouterLink>
-    <ConfigFormNumberTemplate config-key="bonusPercent" title="Процент бонуса" />
+    <RouterLink to="/" class="mb-10 text-gray-800 text-base">Вернуться назад</RouterLink>
+    <ConfigFormNumberTemplate
+      config-key="bonusPercent"
+      title="Процент бонуса"
+      :zod-scheme="configBonusPercentValueScheme"
+    />
   </div>
 </template>

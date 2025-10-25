@@ -21,3 +21,7 @@ export interface ApiError<T> {
   message: string;
   details?: T;
 }
+
+export type CurrentAppConfig = {
+  bonusPercent: number;
+};

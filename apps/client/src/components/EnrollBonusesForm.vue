@@ -1,13 +1,18 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref, type Ref } from 'vue';
 import type { CountBonusesForm } from '@packages/types';
 import { useCustomersStore } from '@/store';
+import { parsePhoneFromMask } from '@/helpers/parse-phone-from-mask';
+import type { $ZodFlattenedError } from 'zod/v4/core';
+import z, { ZodError } from 'zod';
 
 import { InputMask, InputNumber, Button, IftaLabel } from 'primevue';
-import { parsePhoneFromMask } from '@/helpers/parse-phone-from-mask';
+import InputErrors from '@/components/InputErrors.vue';
+import { countBonusesFormScheme } from '@packages/schemes';
 
 const customersStore = useCustomersStore();
 
+const inputErrors: Ref<$ZodFlattenedError<CountBonusesForm> | null> = ref(null);
 const countBonusesData: CountBonusesForm = reactive({
   phone: '',
   sum: 0,
@@ -15,33 +20,52 @@ const countBonusesData: CountBonusesForm = reactive({
 
 const handleEnrollBonuses = async (): Promise<void> => {
   try {
-    await customersStore.upsertCustomer({
+    inputErrors.value = null;
+
+    const data = countBonusesFormScheme.parse({
       phone: parsePhoneFromMask(countBonusesData.phone).phone,
       sum: countBonusesData.sum,
     });
+    await customersStore.upsertCustomer(data);
+    countBonusesData.phone = '';
+    countBonusesData.sum = 0;
   } catch (err) {
-    console.log(err);
+    if (err instanceof ZodError) {
+      inputErrors.value = z.flattenError(err);
+    }
   }
 };
 </script>
 
 <template>
-  <form @submit.prevent="handleEnrollBonuses" class="flex flex-col items-center">
-    <IftaLabel>
-      <InputMask
-        id="phone-enroll"
-        v-model="countBonusesData.phone"
-        type="tel"
-        mask="+38 (099) 999-99-99"
-        placeholder="+38 (099) 999-99-99"
-        class="mb-2"
-      />
-      <label for="phone-enroll">Номер телефона</label>
-    </IftaLabel>
-    <IftaLabel>
-      <InputNumber id="sum" v-model="countBonusesData.sum" class="mb-2" />
-      <label for="sum">Сумма</label>
-    </IftaLabel>
-    <Button type="submit">Зачислить бонусы</Button>
+  <form @submit.prevent="handleEnrollBonuses" class="flex flex-col items-stretch">
+    <div class="mb-3">
+      <IftaLabel>
+        <InputMask
+          id="phone-enroll"
+          v-model="countBonusesData.phone"
+          type="tel"
+          mask="+38 (099) 999-99-99"
+          placeholder="+38 (099) 999-99-99"
+          :invalid="!!inputErrors?.fieldErrors?.phone?.length"
+          class="w-full"
+        />
+        <label for="phone-enroll">Номер телефона</label>
+      </IftaLabel>
+      <InputErrors :errors="inputErrors?.fieldErrors.phone" />
+    </div>
+    <div class="mb-3">
+      <IftaLabel>
+        <InputNumber
+          id="sum"
+          v-model="countBonusesData.sum"
+          :invalid="!!inputErrors?.fieldErrors?.sum?.length"
+          class="w-full"
+        />
+        <label for="sum">Сумма</label>
+        <InputErrors :errors="inputErrors?.fieldErrors.sum" />
+      </IftaLabel>
+    </div>
+    <Button type="submit" class="align-center">Зачислить бонусы</Button>
   </form>
 </template>

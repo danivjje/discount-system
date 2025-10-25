@@ -1,26 +1,34 @@
 <script setup lang="ts">
+import { ref, watch, type Ref } from 'vue';
 import { useConfigStore } from '@/store';
 import type { AppConfig } from '@packages/types';
+import z, { ZodError, type ZodSchema } from 'zod';
+import type { $ZodFlattenedError } from 'zod/v4/core';
 
-import { InputNumber, Button } from 'primevue';
-import { ref, watch, type Ref } from 'vue';
+import { InputNumber, Button, IftaLabel } from 'primevue';
+import InputErrors from '@/components/InputErrors.vue';
 
-const { configKey, title } = defineProps<{
+const { configKey, title, zodScheme } = defineProps<{
   configKey: string;
   title: string;
+  zodScheme: ZodSchema;
 }>();
 
 const configStore = useConfigStore();
 
+const inputErrors: Ref<$ZodFlattenedError<unknown> | null> = ref(null);
 const inputValue: Ref<number> = ref(0);
 
 const submitConfigKeyUpdate = async (): Promise<void> => {
   try {
+    inputErrors.value = null;
+    const value = zodScheme.parse(inputValue.value);
+
     const thisConfigKeyIndex: number = configStore.config.findIndex((elem) => elem.key === configKey);
     if (thisConfigKeyIndex > -1) {
-      (configStore.config[thisConfigKeyIndex] as AppConfig).value = inputValue.value;
+      (configStore.config[thisConfigKeyIndex] as AppConfig).value = value;
     } else {
-      configStore.config.push({ key: configKey, value: inputValue.value } as AppConfig);
+      configStore.config.push({ key: configKey, value: value } as AppConfig);
     }
 
     const newConfig: AppConfig[] | void = await configStore.updateConfig();
@@ -28,7 +36,9 @@ const submitConfigKeyUpdate = async (): Promise<void> => {
       configStore.config = newConfig;
     }
   } catch (err) {
-    console.log(err);
+    if (err instanceof ZodError) {
+      inputErrors.value = z.flattenError(err);
+    }
   }
 };
 
@@ -42,9 +52,14 @@ watch(
 </script>
 
 <template>
-  <form @submit.prevent="submitConfigKeyUpdate" class="flex flex-col items-center justify-center">
-    <strong class="mb-2 font-normal">{{ title }}</strong>
-    <InputNumber v-model="inputValue" class="mb-2" />
-    <Button>Изменить</Button>
+  <form @submit.prevent="submitConfigKeyUpdate" class="flex flex-col items-stretch">
+    <div class="mb-3">
+      <IftaLabel>
+        <InputNumber v-model="inputValue" :invalid="!!inputErrors?.formErrors?.length" class="w-full" />
+        <label :for="configKey">{{ title }}</label>
+      </IftaLabel>
+      <InputErrors :errors="inputErrors?.formErrors" />
+    </div>
+    <Button type="submit">Изменить</Button>
   </form>
 </template>

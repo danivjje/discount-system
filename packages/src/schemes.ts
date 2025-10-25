@@ -1,55 +1,50 @@
 import z from 'zod';
 
-import { createSelectSchema, createInsertSchema } from 'drizzle-zod';
-import { customersTable, usersTable, appConfigTable } from './db/schema';
+const string = z.string('Поле должно быть текстовым значением');
+const number = z.number('Поле должно быть числом');
 
-export const phoneScheme = z.string().length(12);
+const userUsername = string
+  .min(3, 'Поле должно содержать 3+ символов')
+  .max(16, 'Поле не должно содержать больше 16 символов');
+
+export const phoneScheme = string.length(12, 'Номер должен содержать 12 символов');
 
 export const loginFormScheme = z.object({
-  username: z.string().min(3).max(16),
-  password: z.string().min(6).max(30),
+  username: userUsername,
+  password: string.min(6, 'Поле должно содержать 6+ символов').max(30, 'Поле не должно содержать больше 30 символов'),
 });
 
-export const userScheme = createSelectSchema(usersTable).omit({ password: true });
+export const userScheme = z.object({
+  id: number,
+  username: userUsername,
+});
 
 export const checkUserScheme = userScheme.omit({ id: true });
 
-export const customerScheme = createSelectSchema(customersTable);
+export const customerScheme = z.object({
+  id: number,
+  phone: phoneScheme,
+  bonuses: number,
+  totalSum: number,
+});
 
 export const upsertCustomerFormScheme = z.object({
   phone: phoneScheme,
-  sum: z.number(),
+  sum: number,
 });
 
-export const configScheme = createSelectSchema(appConfigTable);
-export const postConfigScheme = createInsertSchema(appConfigTable);
+export const postConfigScheme = z.object({
+  key: string.nonempty('Поле не должно быть пустым'),
+  value: z.union([string, number, z.boolean()]),
+});
+
+export const configScheme = postConfigScheme.extend({
+  id: number,
+});
 
 export const countBonusesFormScheme = z.object({
-  phone: z.string().length(12),
-  sum: z.number(),
+  phone: phoneScheme,
+  sum: number,
 });
 
-// export const userScheme = z.object({
-//   id: z.number(),
-//   username: z.string().min(3).max(15),
-// });
-
-// export const checkUserScheme = z.object({
-//   username: z.string().min(3).max(15),
-// });
-
-// export const customerScheme = z.object({
-//   id: z.number(),
-//   phone: phoneScheme,
-//   bonuses: z.number(),
-//   totalSum: z.number(),
-// });
-
-// export const postConfigScheme = z.object({
-//   key: z.string().nonempty(),
-//   value: z.union([z.string(), z.number(), z.boolean()]),
-// });
-
-// export const configScheme = postConfigScheme.extend({
-//   id: z.number(),
-// });
+export const configBonusPercentValueScheme = number.min(0, 'Число должно быть не меньше нуля');
