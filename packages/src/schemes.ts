@@ -44,7 +44,7 @@ export const configScheme = postConfigScheme.extend({
 
 export const countBonusesFormScheme = z.object({
   phone: phoneScheme,
-  sum: number,
+  sum: number.min(1, 'Число должно быть больше нуля'),
 });
 
 export const configBonusPercentValueScheme = number.min(0, 'Число должно быть не меньше нуля');

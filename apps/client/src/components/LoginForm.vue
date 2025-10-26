@@ -7,9 +7,10 @@ import { reactive, ref, type Ref } from 'vue';
 import { loginFormScheme } from '@packages/schemes';
 import type { $ZodFlattenedError } from 'zod/v4/core';
 
-import { InputText, Button } from 'primevue';
+import { InputText, Button, useToast } from 'primevue';
 import InputErrors from '@/components/InputErrors.vue';
 
+const toast = useToast();
 const router = useRouter();
 const authStore = useAuthStore();
 
@@ -27,6 +28,12 @@ const handleSubmitLogin = async () => {
     await authStore.authenticateUser(data);
     authUserFormData.username = '';
     authUserFormData.password = '';
+
+    toast.add({
+      severity: 'success',
+      summary: 'Вы успешно авторизовались.',
+      life: 3000,
+    });
     router.push({ name: 'home' });
   } catch (err) {
     if (err instanceof ZodError) {

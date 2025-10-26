@@ -5,11 +5,12 @@ import { useCustomersStore } from '@/store';
 import { parsePhoneFromMask } from '@/helpers/parse-phone-from-mask';
 import type { $ZodFlattenedError } from 'zod/v4/core';
 import z, { ZodError } from 'zod';
-
-import { InputMask, InputNumber, Button, IftaLabel } from 'primevue';
-import InputErrors from '@/components/InputErrors.vue';
 import { countBonusesFormScheme } from '@packages/schemes';
 
+import InputErrors from '@/components/InputErrors.vue';
+import { InputMask, InputNumber, Button, IftaLabel, useToast } from 'primevue';
+
+const toast = useToast();
 const customersStore = useCustomersStore();
 
 const inputErrors: Ref<$ZodFlattenedError<CountBonusesForm> | null> = ref(null);
@@ -29,6 +30,11 @@ const handleEnrollBonuses = async (): Promise<void> => {
     await customersStore.upsertCustomer(data);
     countBonusesData.phone = '';
     countBonusesData.sum = 0;
+    toast.add({
+      severity: 'success',
+      summary: 'Бонусы успешно зачислены.',
+      life: 3000,
+    });
   } catch (err) {
     if (err instanceof ZodError) {
       inputErrors.value = z.flattenError(err);
