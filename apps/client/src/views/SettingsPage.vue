@@ -1,16 +1,25 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useConfigStore } from '@/store';
+import { useConfigStore, useToastsStore } from '@/store';
 import { configBonusPercentValueScheme } from '@packages/schemes';
+import { handleHttpError } from '@/helpers/handle-http-error';
 
 import ConfigFormNumberTemplate from '@/components/ConfigFormNumberTemplate.vue';
 
+const toastsStore = useToastsStore();
 const configStore = useConfigStore();
 
-onMounted(() => {
+const fetchConfig = async (): Promise<void> => {
   if (configStore.config.length === 0) {
-    configStore.fetchConfig();
+    try {
+      configStore.fetchConfig();
+    } catch (err) {
+      await handleHttpError(err, toastsStore);
+    }
   }
+};
+onMounted(() => {
+  fetchConfig();
 });
 </script>
 

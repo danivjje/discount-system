@@ -3,8 +3,11 @@ import type { Customer } from '@packages/types';
 import { defineStore } from 'pinia';
 import { ref, type Ref } from 'vue';
 import type { CountBonusesForm } from '@packages/types';
+import { useToastsStore } from './toasts';
+import { handleHttpError } from '@/helpers/handle-http-error';
 
 export const useCustomersStore = defineStore('customers', () => {
+  const toastsStore = useToastsStore();
   const customers: Ref<Customer[]> = ref([]);
   const selectedCustomer: Ref<Customer | null> = ref(null);
 
@@ -14,7 +17,7 @@ export const useCustomersStore = defineStore('customers', () => {
       console.log(data);
       customers.value = data;
     } catch (err) {
-      console.log(err);
+      await handleHttpError(err, toastsStore);
     }
   };
 
@@ -22,25 +25,38 @@ export const useCustomersStore = defineStore('customers', () => {
     try {
       selectedCustomer.value = await getCustomer(phone);
     } catch (err) {
-      console.log(err);
+      await handleHttpError(err, toastsStore);
     }
   };
 
   const upsertCustomer = async (data: CountBonusesForm): Promise<void> => {
     try {
       const updatedCustomer: Customer = await postCustomer(data);
-      customers.value[customers.value.findIndex((customer) => customer.id === updatedCustomer.id)];
+      const customerIndex: number = customers.value.findIndex((customer) => customer.id === updatedCustomer.id);
+      if (customerIndex > -1) {
+        (customers.value[customerIndex] as Customer) = updatedCustomer;
+        if (selectedCustomer.value && selectedCustomer.value.id === updatedCustomer.id) {
+          selectedCustomer.value = updatedCustomer;
+        }
+      }
     } catch (err) {
-      console.log(err);
+      await handleHttpError(err, toastsStore);
     }
   };
 
   const resetCustomerBonuses = async (phone: string): Promise<void> => {
     try {
-      const updatedCustomer: Customer = await patchCustomerResetBonuses(phone);
-      customers.value[customers.value.findIndex((customer) => customer.id === updatedCustomer.id)];
+      const updatedCustomerPhone: { phone: string } = await patchCustomerResetBonuses(phone);
+      const customerIndex: number = customers.value.findIndex((customer) => {
+        return customer.phone === updatedCustomerPhone.phone;
+      });
+      if (customerIndex > -1) {
+        if (selectedCustomer.value && selectedCustomer.value.phone === updatedCustomerPhone.phone) {
+          selectedCustomer.value = { ...selectedCustomer.value, bonuses: 0 };
+        }
+      }
     } catch (err) {
-      console.log(err);
+      await handleHttpError(err, toastsStore);
     }
   };
 

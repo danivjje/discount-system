@@ -5,8 +5,9 @@ import type { AppConfig } from '@packages/types';
 import z, { ZodError, type ZodSchema } from 'zod';
 import type { $ZodFlattenedError } from 'zod/v4/core';
 
-import { InputNumber, Button, IftaLabel, useToast } from 'primevue';
+import { InputNumber, Button, IftaLabel } from 'primevue';
 import InputErrors from '@/components/InputErrors.vue';
+import { useToastsStore } from '@/store';
 
 const { configKey, title, zodScheme } = defineProps<{
   configKey: string;
@@ -14,7 +15,7 @@ const { configKey, title, zodScheme } = defineProps<{
   zodScheme: ZodSchema;
 }>();
 
-const toast = useToast();
+const toastsStore = useToastsStore();
 const configStore = useConfigStore();
 
 const inputErrors: Ref<$ZodFlattenedError<unknown> | null> = ref(null);
@@ -36,11 +37,7 @@ const submitConfigKeyUpdate = async (): Promise<void> => {
     if (newConfig) {
       configStore.config = newConfig;
     }
-    toast.add({
-      severity: 'success',
-      summary: 'Успешно обновлено',
-      life: 3000,
-    });
+    toastsStore.showSuccessToast('Успешно обновлено');
   } catch (err) {
     if (err instanceof ZodError) {
       inputErrors.value = z.flattenError(err);

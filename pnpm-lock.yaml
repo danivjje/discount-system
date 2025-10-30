@@ -13,6 +13,9 @@ importers:
       '@primeuix/themes':
         specifier: ^1.2.5
         version: 1.2.5
+      ky:
+        specifier: ^1.13.0
+        version: 1.13.0
       pinia:
         specifier: ^3.0.3
         version: 3.0.3(typescript@5.9.3)(vue@3.5.22(typescript@5.9.3))
@@ -112,9 +115,6 @@ importers:
       drizzle-orm:
         specifier: ^0.44.6
         version: 0.44.6(mysql2@3.15.3)
-      drizzle-zod:
-        specifier: ^0.8.3
-        version: 0.8.3(drizzle-orm@0.44.6(mysql2@3.15.3))(zod@4.1.12)
       mysql2:
         specifier: ^3.15.3
         version: 3.15.3
@@ -1018,12 +1018,6 @@ packages:
       sqlite3:
         optional: true
 
-  drizzle-zod@0.8.3:
-    resolution: {integrity: sha512-66yVOuvGhKJnTdiqj1/Xaaz9/qzOdRJADpDa68enqS6g3t0kpNkwNYjUuaeXgZfO/UWuIM9HIhSlJ6C5ZraMww==}
-    peerDependencies:
-      drizzle-orm: '>=0.36.0'
-      zod: ^3.25.0 || ^4.0.0
-
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
     engines: {node: '>= 0.4'}
@@ -1190,6 +1184,10 @@ packages:
 
   jws@3.2.2:
     resolution: {integrity: sha512-YHlZCB6lMTllWDtSPHz/ZXTsi8S00usEV6v1tjq8tOUZzw7DpSDWVXjXDre6ed1w/pd495ODpHZYSdkRTsa0HA==}
+
+  ky@1.13.0:
+    resolution: {integrity: sha512-JeNNGs44hVUp2XxO3FY9WV28ymG7LgO4wju4HL/dCq1A8eKDcFgVrdCn1ssn+3Q/5OQilv5aYsL0DMt5mmAV9w==}
+    engines: {node: '>=18'}
 
   lightningcss-android-arm64@1.30.2:
     resolution: {integrity: sha512-BH9sEdOCahSgmkVhBLeU7Hc9DWeZ1Eb6wNS6Da8igvUwAe0sqROHddIlvU06q3WyXVEOYDZ6ykBZQnjTbmo4+A==}
@@ -2233,11 +2231,6 @@ snapshots:
     optionalDependencies:
       mysql2: 3.15.3
 
-  drizzle-zod@0.8.3(drizzle-orm@0.44.6(mysql2@3.15.3))(zod@4.1.12):
-    dependencies:
-      drizzle-orm: 0.44.6(mysql2@3.15.3)
-      zod: 4.1.12
-
   dunder-proto@1.0.1:
     dependencies:
       call-bind-apply-helpers: 1.0.2
@@ -2479,6 +2472,8 @@ snapshots:
     dependencies:
       jwa: 1.4.2
       safe-buffer: 5.2.1
+
+  ky@1.13.0: {}
 
   lightningcss-android-arm64@1.30.2:
     optional: true

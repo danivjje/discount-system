@@ -1,4 +1,4 @@
-import { NotFoundError } from '@/errors/NotFoundError';
+import { NotFoundError } from '@/errors';
 import db from '@packages/db';
 import { appConfigTable, customersTable } from '@packages/db/schema';
 import { countBonusesFormScheme, phoneScheme } from '@packages/schemes';
@@ -49,7 +49,7 @@ export const upsertCustomer: RequestHandler = async (req, res, next) => {
     const customerResult: Customer[] = await db.select().from(customersTable).where(eq(customersTable.phone, phone));
     const foundCustomer: Customer | null = customerResult[0] || null;
 
-    const customer: { id: number }[] = await db
+    await db
       .insert(customersTable)
       .values({ phone, bonuses, totalSum: sum })
       .onDuplicateKeyUpdate({
@@ -57,8 +57,9 @@ export const upsertCustomer: RequestHandler = async (req, res, next) => {
           bonuses: foundCustomer ? foundCustomer.bonuses + bonuses : 0,
           totalSum: foundCustomer ? foundCustomer.totalSum + sum : 0,
         },
-      })
-      .$returningId();
+      });
+
+    const customer: Customer[] = await db.select().from(customersTable).where(eq(customersTable.phone, phone)).limit(1);
 
     return res.status(200).json(customer[0]);
   } catch (err) {

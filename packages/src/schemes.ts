@@ -28,11 +28,6 @@ export const customerScheme = z.object({
   totalSum: number,
 });
 
-export const upsertCustomerFormScheme = z.object({
-  phone: phoneScheme,
-  sum: number,
-});
-
 export const postConfigScheme = z.object({
   key: string.nonempty('Поле не должно быть пустым'),
   value: z.union([string, number, z.boolean()]),

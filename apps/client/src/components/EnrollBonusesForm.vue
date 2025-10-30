@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { reactive, ref, type Ref } from 'vue';
+import { reactive, ref, toRaw, type Ref } from 'vue';
 import type { CountBonusesForm } from '@packages/types';
-import { useCustomersStore } from '@/store';
+import { useCustomersStore, useToastsStore } from '@/store';
 import { parsePhoneFromMask } from '@/helpers/parse-phone-from-mask';
 import type { $ZodFlattenedError } from 'zod/v4/core';
 import z, { ZodError } from 'zod';
 import { countBonusesFormScheme } from '@packages/schemes';
 
 import InputErrors from '@/components/InputErrors.vue';
-import { InputMask, InputNumber, Button, IftaLabel, useToast } from 'primevue';
+import { InputMask, InputNumber, Button, IftaLabel } from 'primevue';
 
-const toast = useToast();
+const toastsStore = useToastsStore();
 const customersStore = useCustomersStore();
 
 const inputErrors: Ref<$ZodFlattenedError<CountBonusesForm> | null> = ref(null);
@@ -23,20 +23,16 @@ const handleEnrollBonuses = async (): Promise<void> => {
   try {
     inputErrors.value = null;
 
-    const data = countBonusesFormScheme.parse({
-      phone: parsePhoneFromMask(countBonusesData.phone).phone,
-      sum: countBonusesData.sum,
-    });
-    await customersStore.upsertCustomer(data);
+    const data = { phone: parsePhoneFromMask(countBonusesData.phone).phone, sum: countBonusesData.sum };
+    const parsedData = countBonusesFormScheme.parse(toRaw(data));
+
+    await customersStore.upsertCustomer(parsedData);
     countBonusesData.phone = '';
     countBonusesData.sum = 0;
-    toast.add({
-      severity: 'success',
-      summary: 'Бонусы успешно зачислены.',
-      life: 3000,
-    });
+    toastsStore.showSuccessToast('Бонусы успешно зачислены');
   } catch (err) {
     if (err instanceof ZodError) {
+      console.log(err);
       inputErrors.value = z.flattenError(err);
     }
   }

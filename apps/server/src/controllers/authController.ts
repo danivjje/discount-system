@@ -1,4 +1,3 @@
-// import { prisma } from '@packages/database/client';
 import db from '@packages/db';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { User } from '@packages/types';

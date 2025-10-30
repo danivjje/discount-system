@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import z, { ZodError } from 'zod';
-import { useAuthStore } from '@/store';
+import { useAuthStore, useToastsStore } from '@/store';
 import { useRouter } from 'vue-router';
 import type { LoginForm } from '@packages/types';
 import { reactive, ref, type Ref } from 'vue';
 import { loginFormScheme } from '@packages/schemes';
 import type { $ZodFlattenedError } from 'zod/v4/core';
 
-import { InputText, Button, useToast } from 'primevue';
+import { InputText, Button } from 'primevue';
 import InputErrors from '@/components/InputErrors.vue';
 
-const toast = useToast();
 const router = useRouter();
 const authStore = useAuthStore();
+const toastsStore = useToastsStore();
 
 const inputErrors: Ref<$ZodFlattenedError<LoginForm> | null> = ref(null);
 const authUserFormData: LoginForm = reactive({
@@ -29,15 +29,10 @@ const handleSubmitLogin = async () => {
     authUserFormData.username = '';
     authUserFormData.password = '';
 
-    toast.add({
-      severity: 'success',
-      summary: 'Вы успешно авторизовались.',
-      life: 3000,
-    });
+    toastsStore.showSuccessToast('Вы успешно авторизовались');
     router.push({ name: 'home' });
   } catch (err) {
     if (err instanceof ZodError) {
-      console.log(z.flattenError(err));
       inputErrors.value = z.flattenError(err);
     }
   }

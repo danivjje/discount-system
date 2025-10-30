@@ -1,18 +1,24 @@
-import type { RequestOptions } from '@/types';
-import { userScheme, configScheme, customerScheme } from '@packages/schemes';
+import ky from 'ky';
+import { type ZodSchema, z } from 'zod';
+import { userScheme, configScheme, customerScheme, phoneScheme } from '@packages/schemes';
 import type { AppConfig, Customer, LoginForm, SafeUser } from '@packages/types';
-import { z, type ZodSchema } from 'zod';
 
-const API_LINK: string = 'http://localhost:3000/api';
-
-const generateRequestOptions = (method: 'get' | 'post' | 'patch', json: boolean, data?: unknown): RequestOptions => {
-  const options: RequestOptions = { method, credentials: 'include' };
-
-  if (json) options.headers = { 'Content-Type': 'application/json' };
-  if (data) options.body = JSON.stringify(data);
-
-  return options;
-};
+const api = ky.create({
+  prefixUrl: 'http://localhost:3000/api/',
+  credentials: 'include',
+  retry: {
+    limit: 2,
+    methods: ['get', 'post', 'put', 'delete', 'patch', 'options', 'head', 'connect', 'trace'],
+    statusCodes: [500, 501, 502, 503, 504, 505, 506, 507, 508],
+  },
+  hooks: {
+    beforeError: [
+      async (error, _state) => {
+        return error;
+      },
+    ],
+  },
+});
 
 const parseData = <T extends ZodSchema>(scheme: T, data: unknown): z.infer<T> => {
   try {
@@ -23,48 +29,44 @@ const parseData = <T extends ZodSchema>(scheme: T, data: unknown): z.infer<T> =>
 };
 
 export const getCustomers = async (): Promise<Customer[]> => {
-  const response = await fetch(`${API_LINK}/customers`, generateRequestOptions('get', false));
-  const data = await response.json();
+  const data = await api.get('customers').json();
   return parseData(z.array(customerScheme), data);
 };
 
 export const getCustomer = async (phone: string): Promise<Customer> => {
-  const response = await fetch(`${API_LINK}/customers/${phone}`, generateRequestOptions('get', false));
-  const data = await response.json();
+  const data = await api.get('customers/' + phone).json();
   return parseData(customerScheme, data);
 };
 
 export const postCustomer = async (customerData: { phone: string; sum: number }): Promise<Customer> => {
-  const response = await fetch(`${API_LINK}/customers`, generateRequestOptions('post', true, customerData));
-  const data = await response.json();
+  const data = await api
+    .post('customers', {
+      json: customerData,
+    })
+    .json();
   return parseData(customerScheme, data);
 };
 
-export const patchCustomerResetBonuses = async (phone: string): Promise<Customer> => {
-  const response = await fetch(`${API_LINK}/customers/${phone}/reset-bonuses`, generateRequestOptions('patch', true));
-  const data = await response.json();
-  return parseData(customerScheme, data);
+export const patchCustomerResetBonuses = async (phone: string): Promise<{ phone: string }> => {
+  const data = await api.patch('customers/' + phone + '/reset-bonuses').json();
+  return parseData(z.object({ phone: phoneScheme }), data);
 };
 
 export const getConfig = async (): Promise<AppConfig[]> => {
-  const response = await fetch(`${API_LINK}/config`, generateRequestOptions('get', false));
-  const data = await response.json();
+  const data = await api.get('config').json();
   return parseData(z.array(configScheme), data);
 };
 
 export const postConfig = async (configData: AppConfig[]): Promise<AppConfig[]> => {
-  const response = await fetch(`${API_LINK}/config`, generateRequestOptions('post', true, configData));
-  const data = await response.json();
+  const data = await api.post('config', { json: configData }).json();
   return parseData(z.array(configScheme), data);
 };
 
 export const authLoginUser = async (loginData: LoginForm): Promise<boolean> => {
-  const response = await fetch(`${API_LINK}/auth/login`, generateRequestOptions('post', true, loginData));
-  return response.ok;
+  return (await api.post('auth/login', { json: loginData })).ok;
 };
 
 export const authCheckUser = async (): Promise<SafeUser | void> => {
-  const response = await fetch(`${API_LINK}/auth/check`, generateRequestOptions('get', false));
-  const data = await response.json();
-  if (response.ok) return parseData(userScheme, data);
+  const data = await api.get('auth/check');
+  if (data.ok) return parseData(userScheme, await data.json());
 };
