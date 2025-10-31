@@ -3,12 +3,12 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-import appConfigRouter from '@/routes/appConfig';
-import authRouter from '@/routes/auth';
-import customerRouter from '@/routes/customer';
+import appConfigRouter from '@/routes/appConfig.routes';
+import authRouter from '@/routes/auth.routes';
+import customerRouter from '@/routes/customer.routes';
 
 import authMiddleware from '@/middlewares/auth.middleware';
-import errorsHandlingMiddleware from '@/middlewares/errors-handling.middleware';
+import errorsHandlingMiddleware from '@/middlewares/errorHandling.middleware';
 
 dotenv.config();
 const app = express();

@@ -1,10 +1,9 @@
-import { authUser, checkAuth, registerUser } from '@/controllers/authController';
+import { authUser, checkAuth } from '@/controllers/auth.controller';
 import express from 'express';
 
 const authRouter = express.Router();
 
 authRouter.post('/login', authUser);
 authRouter.get('/check', checkAuth);
-authRouter.post('/register', registerUser);
 
 export default authRouter;

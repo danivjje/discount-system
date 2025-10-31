@@ -1,6 +1,6 @@
 import express from 'express';
-import { getAppConfig } from '@/controllers/appConfigController';
-import { updateAppConfig } from '@/controllers/appConfigController';
+import { getAppConfig } from '@/controllers/appConfig.controller';
+import { updateAppConfig } from '@/controllers/appConfig.controller';
 
 const appConfigRouter = express.Router();
 
