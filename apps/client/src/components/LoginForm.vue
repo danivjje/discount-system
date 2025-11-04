@@ -29,6 +29,7 @@ const handleSubmitLogin = async () => {
     authUserFormData.username = '';
     authUserFormData.password = '';
 
+    authStore.isChecked = false;
     toastsStore.showSuccessToast('Вы успешно авторизовались');
     router.push({ name: 'home' });
   } catch (err) {

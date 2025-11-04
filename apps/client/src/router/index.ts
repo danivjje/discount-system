@@ -1,5 +1,4 @@
-import { handleHttpError } from '@/helpers/handle-http-error';
-import { useAuthStore, useToastsStore } from '@/store';
+import { useAuthStore } from '@/store';
 import { createRouter, createWebHistory, type Router } from 'vue-router';
 
 const router: Router = createRouter({
@@ -42,14 +41,10 @@ const router: Router = createRouter({
 
 router.beforeEach(async (to, _from, next) => {
   const authStore = useAuthStore();
-  const toastsStore = useToastsStore();
 
-  if (!authStore.authUser) {
-    try {
-      await authStore.checkAuth();
-    } catch (err) {
-      await handleHttpError(err, toastsStore, false);
-    }
+  if (!authStore.isChecked) {
+    authStore.isChecked = true;
+    await authStore.checkAuth();
   }
 
   if (to.meta.requiresAuth && !authStore.authUser) {

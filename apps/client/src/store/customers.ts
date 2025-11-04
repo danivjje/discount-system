@@ -14,7 +14,6 @@ export const useCustomersStore = defineStore('customers', () => {
   const fetchCustomers = async (): Promise<void> => {
     try {
       const data = await getCustomers();
-      console.log(data);
       customers.value = data;
     } catch (err) {
       await handleHttpError(err, toastsStore);

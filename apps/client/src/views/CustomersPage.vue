@@ -1,25 +1,14 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useCustomersStore, useToastsStore } from '@/store';
-import { handleHttpError } from '@/helpers/handle-http-error';
-
+import { useCustomersStore } from '@/store';
 import CustomersTable from '@/components/CustomersTable.vue';
 
-const toastsStore = useToastsStore();
 const customersStore = useCustomersStore();
 
-const fetchCustomers = async () => {
-  if (customersStore.customers.length === 0) {
-    try {
-      customersStore.fetchCustomers();
-    } catch (err) {
-      await handleHttpError(err, toastsStore);
-    }
-  }
-};
-
 onMounted(() => {
-  fetchCustomers();
+  if (customersStore.customers.length === 0) {
+    customersStore.fetchCustomers();
+  }
 });
 </script>
 

@@ -32,7 +32,6 @@ const handleEnrollBonuses = async (): Promise<void> => {
     toastsStore.showSuccessToast('Бонусы успешно зачислены');
   } catch (err) {
     if (err instanceof ZodError) {
-      console.log(err);
       inputErrors.value = z.flattenError(err);
     }
   }

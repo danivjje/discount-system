@@ -6,8 +6,10 @@ import { useToastsStore } from './toasts';
 import { handleHttpError } from '@/helpers/handle-http-error';
 
 export const useAuthStore = defineStore('auth', () => {
-  const authUser: Ref<SafeUser | null> = ref(null);
   const toastsStore = useToastsStore();
+
+  const isChecked: Ref<boolean> = ref(false);
+  const authUser: Ref<SafeUser | null> = ref(null);
 
   const authenticateUser = async (data: LoginForm): Promise<void> => {
     try {
@@ -28,6 +30,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   return {
     authUser,
+    isChecked,
     authenticateUser,
     checkAuth,
   };
