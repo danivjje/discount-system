@@ -34,9 +34,15 @@ export const refreshToken = async (token: string | undefined): Promise<string> =
   const tokenItem: RefreshToken | null = result[0] || null;
 
   if (tokenItem) {
-    const refreshPayload = jwt.verify(tokenItem.token, process.env.JWT_REFRESH_SECRET_KEY as string);
-    if (typeof refreshPayload !== 'string' && 'username' in refreshPayload)
-      return jwt.sign({ ...refreshPayload }, process.env.JWT_SECRET_KEY as string);
+    try {
+      const refreshPayload = jwt.verify(tokenItem.token, process.env.JWT_REFRESH_SECRET_KEY as string);
+      if (typeof refreshPayload !== 'string' && 'username' in refreshPayload) {
+        return jwt.sign({ ...refreshPayload }, process.env.JWT_SECRET_KEY as string);
+      }
+    } catch (err) {
+      await db.update(refreshTokensTable).set({ revoked: true }).where(eq(refreshTokensTable.token, token)).limit(1);
+      throw err;
+    }
   }
 
   throw new UnauthorizedError('Токен авторизации истёк');

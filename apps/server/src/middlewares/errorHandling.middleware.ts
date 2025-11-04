@@ -11,8 +11,7 @@ const errorHandlingMiddleware: ErrorRequestHandler = async (err, _req, res, _nex
   }
 
   if (err instanceof TokenExpiredError || err instanceof JsonWebTokenError || err instanceof NotBeforeError) {
-    console.log('jwt');
-    return res.status(401).json(new UnauthorizedError('Для выполнения этого действия необходима авторизация.'));
+    return res.status(401).json(new UnauthorizedError('Токен авторизации истёк.'));
   }
 
   if (err instanceof UnauthorizedError) {
