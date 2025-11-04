@@ -5,7 +5,7 @@ import { NotFoundError, ServerError, UnauthorizedError, ValidationError } from '
 
 const { JsonWebTokenError, NotBeforeError, TokenExpiredError } = jwt;
 
-const errorsHandlingMiddleware: ErrorRequestHandler = async (err, _req, res, _next) => {
+const errorHandlingMiddleware: ErrorRequestHandler = async (err, _req, res, _next) => {
   if (err instanceof ZodError) {
     return res.status(400).json(new ValidationError(z.flattenError(err)));
   }
@@ -26,4 +26,4 @@ const errorsHandlingMiddleware: ErrorRequestHandler = async (err, _req, res, _ne
   return res.status(500).json(new ServerError());
 };
 
-export default errorsHandlingMiddleware;
+export default errorHandlingMiddleware;

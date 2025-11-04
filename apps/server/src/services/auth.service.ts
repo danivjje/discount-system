@@ -1,12 +1,13 @@
-import { NotFoundError, UnauthorizedError } from '@/errors';
 import db from '@packages/db';
-import { usersTable } from '@packages/db/schema';
-import { LoginForm, User } from '@packages/types';
-import { compareSync } from 'bcrypt-ts';
 import { eq } from 'drizzle-orm';
+import { compareSync } from 'bcrypt-ts';
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import { usersTable } from '@packages/db/schema';
+import { NotFoundError, UnauthorizedError } from '@/errors';
+import { LoginForm, LoginResponse, User } from '@packages/types';
+import * as refreshTokenService from '@/services/refreshToken.service';
 
-export const login = async (data: LoginForm): Promise<string> => {
+export const login = async (data: LoginForm): Promise<LoginResponse> => {
   const { username, password } = data;
 
   const result = await db.select().from(usersTable).where(eq(usersTable.username, username)).limit(1);
@@ -20,12 +21,17 @@ export const login = async (data: LoginForm): Promise<string> => {
     throw new UnauthorizedError('Неверный пароль');
   }
 
-  const token: string = jwt.sign({ id: user.id, username }, process.env.JWT_SECRET_KEY as string, {
+  const sessionToken: string = jwt.sign({ id: user.id, username }, process.env.JWT_SECRET_KEY as string, {
     algorithm: 'HS256',
     expiresIn: '1h',
   });
 
-  return token;
+  const refreshToken: string = await refreshTokenService.create({ id: user.id, username });
+
+  return {
+    sessionToken,
+    refreshToken,
+  };
 };
 
 export const check = (token: string | undefined): JwtPayload | string => {

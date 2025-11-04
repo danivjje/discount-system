@@ -2,7 +2,7 @@ import { UnauthorizedError } from '@/errors';
 import { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 
-const authMiddleware: RequestHandler = async (req, res, next) => {
+const authMiddleware: RequestHandler = async (req, _res, next) => {
   try {
     const token = req.cookies.authtoken;
 

@@ -8,7 +8,7 @@ import authRouter from '@/routes/auth.routes';
 import customerRouter from '@/routes/customer.routes';
 
 import authMiddleware from '@/middlewares/auth.middleware';
-import errorsHandlingMiddleware from '@/middlewares/errorHandling.middleware';
+import errorHandlingMiddleware from '@/middlewares/errorHandling.middleware';
 
 dotenv.config();
 const app = express();
@@ -29,7 +29,7 @@ apiRouter.use('/customers', authMiddleware, customerRouter);
 apiRouter.use('/config', authMiddleware, appConfigRouter);
 
 app.use('/api', apiRouter);
-app.use(errorsHandlingMiddleware);
+app.use(errorHandlingMiddleware);
 
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
