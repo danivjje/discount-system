@@ -1,13 +1,54 @@
 # Discount System
 
-### Save your customers with discount (bonus) system
+A simple discount (bonus) management system. 📕  
+Built with **Express.js + Vue.js**,
 
-### How to start project:
+## 💽 Technical Stack
+
+- **Backend:** Express.js, MySQL, Drizzle ORM.
+- **Frontend:** Vue.js, PrimeVue, Pinia, Vue Router, ky.
+- **Common:** TypeScript, Zod
+
+## 🪶 Features
+
+- 🔐 JWT-based authentication
+- 👥 Manage and view your customers
+- 💰 Add (enroll) bonuses to customers
+- 📱 Reset customer bonuses with SMS code verification _(coming soon)_
+- ⚙️ Change system settings
+
+## 🚀 Getting Started
+
+Clone the repository and install dependencies:
 
 ```bash
+git clone https://github.com/danivjje/discount-system.git
+cd discount-system
 pnpm install
-cd discount-system/packages && pnpm prisma generate
-pnpm prisma migrate dev
-pnpm client:dev
-pnpm server:dev
 ```
+
+Fill in the environment files:
+
+(You can use the provided .env.example files in those directories as templates.)
+
+- apps/server/.env
+- packages/.env
+
+Database Setup:
+
+```bash
+cd packages
+pnpm drizzle-kit migrate
+```
+
+Run the project:
+
+```bash
+pnpm server:dev
+pnpm client:dev
+```
+
+## ☑️ Todo
+
+- [ ] Unit & E2E Tests
+- [ ] SMS verification
