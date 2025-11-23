@@ -11,7 +11,7 @@ import authMiddleware from '@/middlewares/auth.middleware';
 import errorHandlingMiddleware from '@/middlewares/errorHandling.middleware';
 
 dotenv.config();
-const app = express();
+export const app = express();
 const port: number = 3000;
 const apiRouter = express.Router();
 

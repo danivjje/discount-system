@@ -16,7 +16,7 @@ export const getAppConfig: RequestHandler = async (_req, res, next) => {
 export const updateAppConfig: RequestHandler = async (req, res, next) => {
   try {
     const data: AppConfig[] = req.body;
-    const appConfig: CreateAppConfig[] = z.array(postConfigScheme).parse(data);
+    const appConfig: CreateAppConfig[] = z.array(postConfigScheme).nonempty().parse(data);
 
     const newConfig: AppConfig[] = await configService.update(appConfig);
 
