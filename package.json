@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "client:test": "pnpm --filter=\"client\" test",
+    "server:test": "pnpm --filter=\"server\" test",
     "client:dev": "pnpm --filter=\"client\" dev",
-    "server:dev": "pnpm --filter=\"server\" serve"
+    "server:dev": "pnpm --filter=\"server\" serve",
+    "test": "pnpm client:test && pnpm server:test"
   },
   "workspaces": [
     "apps/*",
@@ -15,5 +17,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.19.0"
+  "packageManager": "pnpm@10.23.0"
 }

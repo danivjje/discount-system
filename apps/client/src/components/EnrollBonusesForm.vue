@@ -43,6 +43,7 @@ const handleEnrollBonuses = async (): Promise<void> => {
     <div class="mb-3">
       <IftaLabel>
         <InputMask
+          data-test="enroll-phone"
           id="phone-enroll"
           v-model="countBonusesData.phone"
           type="tel"
@@ -58,6 +59,7 @@ const handleEnrollBonuses = async (): Promise<void> => {
     <div class="mb-3">
       <IftaLabel>
         <InputNumber
+          data-test="enroll-sum"
           id="sum"
           v-model="countBonusesData.sum"
           :invalid="!!inputErrors?.fieldErrors?.sum?.length"
@@ -67,6 +69,6 @@ const handleEnrollBonuses = async (): Promise<void> => {
         <InputErrors :errors="inputErrors?.fieldErrors.sum" />
       </IftaLabel>
     </div>
-    <Button type="submit" class="align-center">Зачислить бонусы</Button>
+    <Button data-test="enroll-submit" type="submit" class="align-center">Зачислить бонусы</Button>
   </form>
 </template>

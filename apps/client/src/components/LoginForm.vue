@@ -7,7 +7,7 @@ import { reactive, ref, type Ref } from 'vue';
 import { loginFormScheme } from '@packages/schemes';
 import type { $ZodFlattenedError } from 'zod/v4/core';
 
-import { InputText, Button } from 'primevue';
+import { InputText, Button, IftaLabel } from 'primevue';
 import InputErrors from '@/components/InputErrors.vue';
 
 const router = useRouter();
@@ -43,25 +43,35 @@ const handleSubmitLogin = async () => {
 <template>
   <form @submit.prevent="handleSubmitLogin" class="flex flex-col justify-center items-center">
     <div class="mb-3">
-      <InputText
-        v-model="authUserFormData.username"
-        type="text"
-        placeholder="Имя пользователя"
-        class="w-full"
-        :invalid="!!inputErrors?.fieldErrors?.username?.length"
-      />
+      <IftaLabel>
+        <InputText
+          data-test="auth-username"
+          id="auth-username"
+          v-model="authUserFormData.username"
+          type="text"
+          placeholder="username"
+          class="w-full"
+          :invalid="!!inputErrors?.fieldErrors?.username?.length"
+        />
+        <label for="auth-username">Имя пользователя</label>
+      </IftaLabel>
       <InputErrors :errors="inputErrors?.fieldErrors.username" />
     </div>
     <div class="mb-3">
-      <InputText
-        v-model="authUserFormData.password"
-        type="password"
-        placeholder="Пароль"
-        class="w-full"
-        :invalid="!!inputErrors?.fieldErrors?.password?.length"
-      />
+      <IftaLabel>
+        <InputText
+          data-test="auth-password"
+          id="auth-password"
+          v-model="authUserFormData.password"
+          type="password"
+          placeholder="Пароль"
+          class="w-full"
+          :invalid="!!inputErrors?.fieldErrors?.password?.length"
+        />
+        <label for="auth-password">Пароль</label>
+      </IftaLabel>
       <InputErrors :errors="inputErrors?.fieldErrors.password" />
     </div>
-    <Button type="submit">Войти</Button>
+    <Button data-test="auth-submit" type="submit">Войти</Button>
   </form>
 </template>

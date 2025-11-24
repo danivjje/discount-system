@@ -58,11 +58,16 @@ watch(
   <form @submit.prevent="submitConfigKeyUpdate" class="flex flex-col items-stretch">
     <div class="mb-3">
       <IftaLabel>
-        <InputNumber v-model="inputValue" :invalid="!!inputErrors?.formErrors?.length" class="w-full" />
+        <InputNumber
+          data-test="config-number"
+          v-model="inputValue"
+          :invalid="!!inputErrors?.formErrors?.length"
+          class="w-full"
+        />
         <label :for="configKey">{{ title }}</label>
       </IftaLabel>
       <InputErrors :errors="inputErrors?.formErrors" />
     </div>
-    <Button type="submit">Изменить</Button>
+    <Button data-test="config-submit" type="submit">Изменить</Button>
   </form>
 </template>

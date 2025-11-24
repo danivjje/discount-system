@@ -1,3 +1,5 @@
+/// <reference types="vitest/config" />
+
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
@@ -11,5 +13,10 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
       '@packages': path.resolve(__dirname, '../../packages/src'),
     },
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['src/tests/setupTests.ts'],
   },
 });

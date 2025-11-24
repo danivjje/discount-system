@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { useToast } from 'primevue';
+import { useToast } from 'primevue/usetoast';
 
 const TOAST_LIFE_MS: number = 3000;
 

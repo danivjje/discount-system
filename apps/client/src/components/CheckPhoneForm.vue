@@ -49,7 +49,8 @@ const handleResetBonuses = async (): Promise<void> => {
       <div class="mb-3">
         <IftaLabel>
           <InputMask
-            id="phone-check"
+            data-test="check-phone"
+            id="check-phone"
             v-model="phoneInputValue"
             type="tel"
             mask="+38 (099) 999-99-99"
@@ -57,15 +58,15 @@ const handleResetBonuses = async (): Promise<void> => {
             :invalid="!!inputErrors?.formErrors?.length"
             class="w-full"
           />
-          <label for="phone-check">Номер телефона</label>
+          <label for="check-phone">Номер телефона</label>
         </IftaLabel>
         <InputErrors :errors="inputErrors?.formErrors" />
       </div>
-      <Button type="submit">Узнать баланс</Button>
+      <Button data-test="check-submit" type="submit">Узнать баланс</Button>
     </form>
     <form v-if="isRequestSent" @submit.prevent="handleResetBonuses" class="flex flex-col items-center">
       <strong class="mb-2 font-normal text-gray-800">Бонусов: {{ customersStore.selectedCustomer?.bonuses }}</strong>
-      <Button type="submit">Списать бонусы</Button>
+      <Button data-test="reset-submit" type="submit">Списать бонусы</Button>
     </form>
   </div>
 </template>
