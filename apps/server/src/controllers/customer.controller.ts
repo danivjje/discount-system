@@ -3,11 +3,23 @@ import { NotFoundError } from '@/errors';
 import { countBonusesFormScheme, phoneScheme } from '@packages/schemes';
 import { Customer } from '@packages/types';
 import { RequestHandler } from 'express';
+import { GetCustomersQuery, GetCustomersResponse, NormalizedGetCustomersQuery } from '@/types';
 
-export const getCustomers: RequestHandler = async (_req, res, next) => {
+export const getCustomers: RequestHandler = async (req, res, next) => {
+  function normalizeQuery(query: GetCustomersQuery): NormalizedGetCustomersQuery {
+    return {
+      page: query.page ? Number(query.page) : 1,
+      phone: query.phone,
+      sort: query.sort,
+      order: query.order,
+    };
+  }
+
   try {
-    const customers: Customer[] = await customerService.fetchAll();
-    return res.status(200).json(customers);
+    const { page, phone, sort, order }: NormalizedGetCustomersQuery = normalizeQuery(req.query);
+
+    const response: GetCustomersResponse = await customerService.fetchAll(page, phone, sort, order);
+    return res.status(200).json(response);
   } catch (err) {
     next(err);
   }

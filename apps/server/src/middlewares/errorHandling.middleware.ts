@@ -6,6 +6,7 @@ import { NotFoundError, ServerError, UnauthorizedError, ValidationError } from '
 const { JsonWebTokenError, NotBeforeError, TokenExpiredError } = jwt;
 
 const errorHandlingMiddleware: ErrorRequestHandler = async (err, _req, res, _next) => {
+  console.log(err);
   if (err instanceof ZodError) {
     return res.status(400).json(new ValidationError(z.flattenError(err)));
   }

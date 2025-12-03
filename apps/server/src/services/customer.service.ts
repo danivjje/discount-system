@@ -1,11 +1,43 @@
 import { NotFoundError } from '@/errors';
+import { GetCustomersResponse, SortField, SortOrder } from '@/types';
 import db from '@packages/db';
 import { appConfigTable, customersTable } from '@packages/db/schema';
 import { AppConfig, AppConfigValue, CountBonusesForm, Customer } from '@packages/types';
-import { eq } from 'drizzle-orm';
+import { asc, count, desc, eq, like } from 'drizzle-orm';
 
-export const fetchAll = async (): Promise<Customer[]> => {
-  return await db.select().from(customersTable);
+export const fetchAll = async (
+  page: number,
+  searchPhone: string | undefined,
+  sortField: SortField | undefined,
+  sortOrder: SortOrder | undefined,
+): Promise<GetCustomersResponse> => {
+  const limit: number = 10;
+  const offset: number = (page - 1) * limit;
+  const filter = searchPhone ? like(customersTable.phone, searchPhone + '%') : undefined;
+
+  const generateOrder = () => {
+    if (sortField && sortOrder) {
+      if (sortOrder === 'asc') return asc(customersTable[sortField]);
+      if (sortOrder === 'desc') return desc(customersTable[sortField]);
+    }
+
+    return asc(customersTable.id);
+  };
+
+  const customers = await db
+    .select()
+    .from(customersTable)
+    .where(filter)
+    .orderBy(generateOrder())
+    .limit(limit)
+    .offset(offset);
+  const total = await db.select({ count: count() }).from(customersTable).where(filter);
+
+  return {
+    customers: customers,
+    total: total[0].count,
+    page,
+  };
 };
 
 export const fetchByPhone = async (phone: string): Promise<Customer | null> => {

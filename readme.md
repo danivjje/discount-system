@@ -47,8 +47,3 @@ Run the project:
 pnpm server:dev
 pnpm client:dev
 ```
-
-## ☑️ Todo
-
-- [ ] Unit & E2E Tests
-- [ ] SMS verification

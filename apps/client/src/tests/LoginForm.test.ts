@@ -1,11 +1,9 @@
 import { describe, it } from 'vitest';
 import { mount } from '@vue/test-utils';
 import LoginForm from '@/components/LoginForm.vue';
-// import { createPinia, setActivePinia } from 'pinia';
 import PrimeVue from 'primevue/config';
 
 describe('LoginForm component', () => {
-  // setActivePinia(createPinia());
   it('renders component', () => {
     const wrapper = mount(LoginForm, {
       global: {
