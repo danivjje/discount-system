@@ -1,7 +1,7 @@
 import ky from 'ky';
 import { type ZodSchema, z } from 'zod';
-import { userScheme, configScheme, customerScheme, phoneScheme } from '@packages/schemes';
-import type { AppConfig, Customer, LoginForm, SafeUser } from '@packages/types';
+import { userScheme, configScheme, customerScheme, phoneScheme, getCustomersScheme } from '@packages/schemes';
+import type { AppConfig, Customer, GetCustomersResponse, LoginForm, SafeUser, SortParam } from '@packages/types';
 
 const api = ky.create({
   prefixUrl: 'http://localhost:3000/api/',
@@ -28,9 +28,17 @@ const parseData = <T extends ZodSchema>(scheme: T, data: unknown): z.infer<T> =>
   }
 };
 
-export const getCustomers = async (): Promise<Customer[]> => {
-  const data = await api.get('customers').json();
-  return parseData(z.array(customerScheme), data);
+export const getCustomers = async (
+  page: number,
+  searchPhone?: string,
+  sort?: SortParam,
+): Promise<GetCustomersResponse> => {
+  let url: string = `customers?page=${page}`;
+  if (searchPhone) url += `&phone=${searchPhone}`;
+  if (sort) url += `&sort=${sort.sort}&order=${sort.order}`;
+
+  const data = await api.get(url).json();
+  return parseData(getCustomersScheme, data);
 };
 
 export const getCustomer = async (phone: string): Promise<Customer> => {

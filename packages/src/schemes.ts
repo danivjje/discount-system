@@ -28,6 +28,12 @@ export const customerScheme = z.object({
   totalSum: number,
 });
 
+export const getCustomersScheme = z.object({
+  total: number,
+  page: number,
+  customers: z.array(customerScheme),
+});
+
 export const postConfigScheme = z.object({
   key: string.nonempty('Поле не должно быть пустым'),
   value: z.union([string, number, z.boolean()]),

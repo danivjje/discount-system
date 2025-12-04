@@ -1,5 +1,5 @@
 import { NotFoundError } from '@/errors';
-import { GetCustomersResponse, SortField, SortOrder } from '@/types';
+import type { SortField, SortOrder, GetCustomersResponse } from '@packages/types';
 import db from '@packages/db';
 import { appConfigTable, customersTable } from '@packages/db/schema';
 import { AppConfig, AppConfigValue, CountBonusesForm, Customer } from '@packages/types';

@@ -1,5 +1,5 @@
 import { getCustomer, getCustomers, patchCustomerResetBonuses, postCustomer } from '@/api';
-import type { Customer } from '@packages/types';
+import type { Customer, GetCustomersResponse, SortParam } from '@packages/types';
 import { defineStore } from 'pinia';
 import { ref, type Ref } from 'vue';
 import type { CountBonusesForm } from '@packages/types';
@@ -8,13 +8,17 @@ import { handleHttpError } from '@/helpers/handle-http-error';
 
 export const useCustomersStore = defineStore('customers', () => {
   const toastsStore = useToastsStore();
-  const customers: Ref<Customer[]> = ref([]);
+  const customersData: Ref<GetCustomersResponse> = ref({
+    page: 1,
+    total: 0,
+    customers: [],
+  });
   const selectedCustomer: Ref<Customer | null> = ref(null);
 
-  const fetchCustomers = async (): Promise<void> => {
+  const fetchCustomers = async (page: number, searchPhone?: string, sort?: SortParam): Promise<void> => {
     try {
-      const data = await getCustomers();
-      customers.value = data;
+      const data: GetCustomersResponse = await getCustomers(page, searchPhone, sort);
+      customersData.value = data;
     } catch (err) {
       await handleHttpError(err, toastsStore);
     }
@@ -31,9 +35,11 @@ export const useCustomersStore = defineStore('customers', () => {
   const upsertCustomer = async (data: CountBonusesForm): Promise<void> => {
     try {
       const updatedCustomer: Customer = await postCustomer(data);
-      const customerIndex: number = customers.value.findIndex((customer) => customer.id === updatedCustomer.id);
+      const customerIndex: number = customersData.value.customers.findIndex(
+        (customer) => customer.id === updatedCustomer.id,
+      );
       if (customerIndex > -1) {
-        (customers.value[customerIndex] as Customer) = updatedCustomer;
+        (customersData.value.customers[customerIndex] as Customer) = updatedCustomer;
         if (selectedCustomer.value && selectedCustomer.value.id === updatedCustomer.id) {
           selectedCustomer.value = updatedCustomer;
         }
@@ -46,7 +52,7 @@ export const useCustomersStore = defineStore('customers', () => {
   const resetCustomerBonuses = async (phone: string): Promise<void> => {
     try {
       const updatedCustomerPhone: { phone: string } = await patchCustomerResetBonuses(phone);
-      const customerIndex: number = customers.value.findIndex((customer) => {
+      const customerIndex: number = customersData.value.customers.findIndex((customer) => {
         return customer.phone === updatedCustomerPhone.phone;
       });
       if (customerIndex > -1) {
@@ -60,7 +66,7 @@ export const useCustomersStore = defineStore('customers', () => {
   };
 
   return {
-    customers,
+    customersData,
     selectedCustomer,
     fetchCustomers,
     fetchCustomer,

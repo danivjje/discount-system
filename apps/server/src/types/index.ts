@@ -1,7 +1,4 @@
-import { Customer } from '@packages/types';
-
-export type SortOrder = 'asc' | 'desc';
-export type SortField = 'bonuses' | 'totalSum';
+import { SortField, SortOrder } from '@packages/types';
 
 export interface GetCustomersQuery {
   page?: string;
@@ -15,10 +12,4 @@ export interface NormalizedGetCustomersQuery {
   phone?: string;
   sort?: SortField;
   order?: SortOrder;
-}
-
-export interface GetCustomersResponse {
-  customers: Customer[];
-  total: number;
-  page: number;
 }

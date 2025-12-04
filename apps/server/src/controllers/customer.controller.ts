@@ -1,9 +1,9 @@
 import * as customerService from '@/services/customer.service';
 import { NotFoundError } from '@/errors';
 import { countBonusesFormScheme, phoneScheme } from '@packages/schemes';
-import { Customer } from '@packages/types';
+import { Customer, GetCustomersResponse } from '@packages/types';
 import { RequestHandler } from 'express';
-import { GetCustomersQuery, GetCustomersResponse, NormalizedGetCustomersQuery } from '@/types';
+import { GetCustomersQuery, NormalizedGetCustomersQuery } from '@/types';
 
 export const getCustomers: RequestHandler = async (req, res, next) => {
   function normalizeQuery(query: GetCustomersQuery): NormalizedGetCustomersQuery {
