@@ -1,42 +1,25 @@
 <script setup lang="ts">
-import { Paginator, InputText, Button } from 'primevue';
+import { Paginator } from 'primevue';
 import { useCustomersStore } from '@/store';
 import { reactive, ref, type Ref } from 'vue';
-import SortIcon from '@/components/icons/SortIcon.vue';
 import type { SortField, SortParam } from '@packages/types';
+import type { SortTableOption } from '@/types';
+
+import SortIcon from '@/components/icons/SortIcon.vue';
+import CustomersSearchForm from '@/components/CustomersSearchForm.vue';
 
 const customersStore = useCustomersStore();
 
 const firstElem: Ref<number> = ref(1);
-const searchInput: Ref<string> = ref('');
-const activeSearchValue: Ref<string> = ref('');
 const sort: { [P in keyof SortParam]: SortParam[P] | null } = reactive({
   sort: null,
   order: null,
 });
 
-const handleSearchCustomers = (): void => {
-  try {
-    if (searchInput.value.trim()) {
-      activeSearchValue.value = searchInput.value;
-      firstElem.value = 1;
-      customersStore.fetchCustomers(1, activeSearchValue.value);
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const handleResetSearch = (): void => {
-  try {
-    activeSearchValue.value = '';
-    searchInput.value = '';
-    firstElem.value = 1;
-    customersStore.fetchCustomers(1);
-  } catch (err) {
-    console.log(err);
-  }
-};
+const sortTableOptions: SortTableOption[] = [
+  { title: 'Бонусы', label: 'bonuses' },
+  { title: 'Общая сумма', label: 'totalSum' },
+];
 
 const handleSort = async (field: SortField): Promise<void> => {
   try {
@@ -49,51 +32,39 @@ const handleSort = async (field: SortField): Promise<void> => {
       sort.order = 'desc';
     }
 
-    await customersStore.fetchCustomers(1, activeSearchValue.value ?? undefined, { ...sort } as SortParam);
+    await customersStore.fetchCustomers(1, { ...sort } as SortParam);
     firstElem.value = 1;
   } catch (err) {
     console.log(err);
   }
 };
 
-const handlePaginate = (page: number) => {
-  const searchValue: string | undefined = activeSearchValue.value.trim() ?? undefined;
+const handlePaginate = (page: number): void => {
   const sortValue: SortParam | undefined = sort.sort && sort.order ? ({ ...sort } as SortParam) : undefined;
-  customersStore.fetchCustomers(page, searchValue, sortValue);
+  customersStore.fetchCustomers(page, sortValue);
+};
+
+const handleResetPagination = (): void => {
+  firstElem.value = 1;
 };
 </script>
 
 <template>
-  <form @submit.prevent="handleSearchCustomers" class="flex items-center mb-3 self-baseline">
-    <input-text v-model="searchInput" placeholder="Часть телефона" class="mr-2" />
-    <Button type="submit">Поиск</Button>
-    <Button v-if="activeSearchValue.trim()" class="ml-2" @click="handleResetSearch">Сбросить</Button>
-  </form>
+  <CustomersSearchForm @resetPagination="handleResetPagination" />
   <table class="w-full mb-3">
     <thead>
       <tr>
         <th class="font-semibold text-gray-700 border border-solid border-gray-200 p-2">Номер телефона</th>
         <th
+          v-for="option in sortTableOptions"
           class="font-semibold text-gray-700 border border-solid border-gray-200 p-2"
-          :class="{ 'bg-gray-200': sort.sort === 'bonuses' }"
+          :class="{ 'bg-gray-200': sort.sort === option.label }"
         >
-          <button class="flex items-center w-full justify-center" @click="handleSort('bonuses')">
-            <span class="mr-2">Бонусы</span>
+          <button class="flex items-center w-full justify-center" @click="handleSort(option.label)">
+            <span class="mr-2">{{ option.title }}</span>
             <SortIcon
               class="w-6 h-6 text-gray-700 translate-y-0.5"
-              :class="{ '-scale-100': sort.sort === 'bonuses' && sort.order === 'asc' }"
-            />
-          </button>
-        </th>
-        <th
-          class="font-semibold text-gray-700 border border-solid border-gray-200 p-2"
-          :class="{ 'bg-gray-200': sort.sort === 'totalSum' }"
-        >
-          <button class="flex items-center w-full justify-center" @click="handleSort('totalSum')">
-            <span class="mr-2">Общая сумма</span>
-            <SortIcon
-              class="w-6 h-6 text-gray-700 translate-y-0.5"
-              :class="{ '-scale-100': sort.sort === 'totalSum' && sort.order === 'asc' }"
+              :class="{ '-scale-100': sort.sort === option.label && sort.order === 'asc' }"
             />
           </button>
         </th>

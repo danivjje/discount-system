@@ -8,16 +8,18 @@ import { handleHttpError } from '@/helpers/handle-http-error';
 
 export const useCustomersStore = defineStore('customers', () => {
   const toastsStore = useToastsStore();
+
   const customersData: Ref<GetCustomersResponse> = ref({
     page: 1,
     total: 0,
     customers: [],
   });
+  const searchValue: Ref<string> = ref('');
   const selectedCustomer: Ref<Customer | null> = ref(null);
 
-  const fetchCustomers = async (page: number, searchPhone?: string, sort?: SortParam): Promise<void> => {
+  const fetchCustomers = async (page: number, sort?: SortParam): Promise<void> => {
     try {
-      const data: GetCustomersResponse = await getCustomers(page, searchPhone, sort);
+      const data: GetCustomersResponse = await getCustomers(page, searchValue.value ?? undefined, sort);
       customersData.value = data;
     } catch (err) {
       await handleHttpError(err, toastsStore);
@@ -68,6 +70,7 @@ export const useCustomersStore = defineStore('customers', () => {
   return {
     customersData,
     selectedCustomer,
+    searchValue,
     fetchCustomers,
     fetchCustomer,
     upsertCustomer,
