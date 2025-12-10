@@ -1,6 +1,6 @@
 import z from 'zod';
 import { countBonusesFormScheme, getCustomersScheme, loginFormScheme } from './schemes';
-import { usersTable, customersTable, appConfigTable, refreshTokensTable } from './db/schema';
+import { usersTable, customersTable, appConfigTable, refreshTokensTable, verificationCodesTable } from './db/schema';
 
 export type User = typeof usersTable.$inferSelect;
 export type SafeUser = Omit<User, 'password'>;
@@ -16,6 +16,8 @@ export type LoginForm = z.infer<typeof loginFormScheme>;
 export type CountBonusesForm = z.infer<typeof countBonusesFormScheme>;
 
 export type RefreshToken = typeof refreshTokensTable.$inferSelect;
+
+export type VerificationCode = typeof verificationCodesTable.$inferInsert;
 
 export interface LoginResponse {
   refreshToken: string;

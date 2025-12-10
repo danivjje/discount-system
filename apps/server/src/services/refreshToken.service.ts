@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken';
 export const create = async (data: SafeUser): Promise<string> => {
   const { id, username } = data;
 
-  const token: string = jwt.sign({ id, username }, process.env.JWT_REFRESH_SECRET_KEY as string, {
+  const token: string = jwt.sign({ id, username }, process.env.JWT_REFRESH_SECRET_KEY, {
     expiresIn: '30d',
   });
 
@@ -35,9 +35,9 @@ export const refreshToken = async (token: string | undefined): Promise<string> =
 
   if (tokenItem) {
     try {
-      const refreshPayload = jwt.verify(tokenItem.token, process.env.JWT_REFRESH_SECRET_KEY as string);
+      const refreshPayload = jwt.verify(tokenItem.token, process.env.JWT_REFRESH_SECRET_KEY);
       if (typeof refreshPayload !== 'string' && 'username' in refreshPayload) {
-        return jwt.sign({ ...refreshPayload }, process.env.JWT_SECRET_KEY as string);
+        return jwt.sign({ ...refreshPayload }, process.env.JWT_SECRET_KEY);
       }
     } catch (err) {
       await db.update(refreshTokensTable).set({ revoked: true }).where(eq(refreshTokensTable.token, token)).limit(1);

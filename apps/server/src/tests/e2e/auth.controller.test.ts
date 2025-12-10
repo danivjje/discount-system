@@ -5,22 +5,18 @@ import jwt from 'jsonwebtoken';
 
 describe('auth controller', () => {
   it('POST /api/auth/login', async () => {
-    const response = await request(app)
-      .post('/api/auth/login')
-      .send({
-        username: process.env.ADMIN_USERNAME as string,
-        password: process.env.ADMIN_PASSWORD as string,
-      });
+    const response = await request(app).post('/api/auth/login').send({
+      username: process.env.ADMIN_USERNAME,
+      password: process.env.ADMIN_PASSWORD,
+    });
     expect(response.statusCode).toBe(200);
   });
 
   it('POST /api/auth/login (incorrect password)', async () => {
-    const response = await request(app)
-      .post('/api/auth/login')
-      .send({
-        username: process.env.ADMIN_USERNAME as string,
-        password: '943223',
-      });
+    const response = await request(app).post('/api/auth/login').send({
+      username: process.env.ADMIN_USERNAME,
+      password: '943223',
+    });
     expect(response.statusCode).toBe(401);
   });
 
@@ -33,7 +29,7 @@ describe('auth controller', () => {
   });
 
   it('GET /api/auth/check', async () => {
-    const token = jwt.sign({ username: 'admin' }, process.env.JWT_SECRET_KEY as string, { expiresIn: '10m' });
+    const token = jwt.sign({ username: 'admin' }, process.env.JWT_SECRET_KEY, { expiresIn: '10m' });
     const response = await request(app)
       .get('/api/auth/check')
       .set('Cookie', [`authtoken=${token}`]);

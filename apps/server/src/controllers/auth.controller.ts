@@ -31,7 +31,7 @@ export const checkAuth: RequestHandler = async (req, res, next) => {
     } catch (err) {
       const refreshToken: string | undefined = req.cookies.refreshtoken;
       const newSessionToken: string = await refreshTokenService.refreshToken(refreshToken);
-      const verifiedToken = jwt.verify(newSessionToken, process.env.JWT_SECRET_KEY as string);
+      const verifiedToken = jwt.verify(newSessionToken, process.env.JWT_SECRET_KEY);
 
       res.cookie('authtoken', newSessionToken, { httpOnly: true, secure: false });
       return res.status(200).json(verifiedToken);

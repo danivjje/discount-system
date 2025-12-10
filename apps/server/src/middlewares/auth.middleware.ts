@@ -10,7 +10,7 @@ const authMiddleware: RequestHandler = async (req, _res, next) => {
       throw new UnauthorizedError('Для выполнения этого действия необходимо авторизоваться');
     }
 
-    jwt.verify(token, process.env.JWT_SECRET_KEY as string);
+    jwt.verify(token, process.env.JWT_SECRET_KEY);
     next();
   } catch (err) {
     next(err);

@@ -1,4 +1,3 @@
-import { relations } from 'drizzle-orm';
 import { boolean, char, decimal, int, json, mysqlTable, text, timestamp, varchar } from 'drizzle-orm/mysql-core';
 
 export const usersTable = mysqlTable('users', {
@@ -31,13 +30,10 @@ export const refreshTokensTable = mysqlTable('refresh_tokens', {
   createdAt: timestamp().defaultNow().notNull(),
 });
 
-export const usersRelations = relations(usersTable, ({ many }) => ({
-  tokens: many(refreshTokensTable),
-}));
-
-export const refreshTokensRelations = relations(refreshTokensTable, ({ one }) => ({
-  user: one(usersTable, {
-    fields: [refreshTokensTable.userId],
-    references: [usersTable.id],
-  }),
-}));
+export const verificationCodesTable = mysqlTable('verification_codes', {
+  id: int().primaryKey().autoincrement(),
+  phone: char('phone', { length: 12 }).notNull(),
+  code: text().notNull(),
+  expiresAt: timestamp().notNull(),
+  createdAt: timestamp().defaultNow().notNull(),
+});

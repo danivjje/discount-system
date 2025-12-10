@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 
 describe('customers controller', () => {
   let phone: string = '';
-  const token = jwt.sign({ username: 'admin' }, process.env.JWT_SECRET_KEY as string, { expiresIn: '10m' });
+  const token = jwt.sign({ username: 'admin' }, process.env.JWT_SECRET_KEY, { expiresIn: '10m' });
 
   it('GET /api/customers', async () => {
     const response = await request(app)

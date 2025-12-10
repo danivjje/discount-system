@@ -13,12 +13,12 @@
   "packageManager": "pnpm@10.18.1",
   "dependencies": {
     "dotenv": "^17.2.3",
-    "drizzle-orm": "^0.44.6",
+    "drizzle-orm": "^0.44.7",
     "mysql2": "^3.15.3",
-    "zod": "^4.1.12"
+    "zod": "^4.1.13"
   },
   "devDependencies": {
-    "@types/node": "^24.9.1",
-    "drizzle-kit": "^0.31.5"
+    "@types/node": "^24.10.2",
+    "drizzle-kit": "^0.31.8"
   }
 }

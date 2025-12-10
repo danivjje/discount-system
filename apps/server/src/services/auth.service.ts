@@ -21,7 +21,7 @@ export const login = async (data: LoginForm): Promise<LoginResponse> => {
     throw new UnauthorizedError('Неверный пароль');
   }
 
-  const sessionToken: string = jwt.sign({ id: user.id, username }, process.env.JWT_SECRET_KEY as string, {
+  const sessionToken: string = jwt.sign({ id: user.id, username }, process.env.JWT_SECRET_KEY, {
     algorithm: 'HS256',
     expiresIn: '1h',
   });
@@ -39,6 +39,6 @@ export const check = (token: string | undefined): JwtPayload | string => {
     throw new UnauthorizedError('Вы не авторизованы');
   }
 
-  const verifiedToken: JwtPayload | string = jwt.verify(token, process.env.JWT_SECRET_KEY as string);
+  const verifiedToken: JwtPayload | string = jwt.verify(token, process.env.JWT_SECRET_KEY);
   return verifiedToken;
 };

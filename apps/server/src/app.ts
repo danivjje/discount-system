@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import appConfigRouter from '@/routes/appConfig.routes';
 import authRouter from '@/routes/auth.routes';
 import customerRouter from '@/routes/customer.routes';
+import verificationCodeRouter from '@/routes/verificationCode.routes';
 
 import authMiddleware from '@/middlewares/auth.middleware';
 import errorHandlingMiddleware from '@/middlewares/errorHandling.middleware';
@@ -27,6 +28,7 @@ app.use(cookieParser());
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/customers', authMiddleware, customerRouter);
 apiRouter.use('/config', authMiddleware, appConfigRouter);
+apiRouter.use('/code', authMiddleware, verificationCodeRouter);
 
 app.use('/api', apiRouter);
 app.use(errorHandlingMiddleware);
