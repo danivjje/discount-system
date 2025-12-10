@@ -4,3 +4,8 @@ export interface SortTableOption {
   title: string;
   label: SortField;
 }
+
+export interface NavigationOption {
+  title: string;
+  path: string;
+}
