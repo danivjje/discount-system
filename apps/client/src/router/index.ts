@@ -5,18 +5,26 @@ const router: Router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      name: 'home',
+      name: 'bonuses',
       path: '/',
       meta: {
         requiresAuth: true,
+        nav: {
+          showInNav: true,
+          navTitle: 'Бонусы',
+        },
       },
-      component: () => import('@/views/HomePage.vue'),
+      component: () => import('@/views/BonusesPage.vue'),
     },
     {
       name: 'customers',
       path: '/customers',
       meta: {
         requiresAuth: true,
+        nav: {
+          showInNav: true,
+          navTitle: 'Список клиентов',
+        },
       },
       component: () => import('@/views/CustomersPage.vue'),
     },
@@ -25,6 +33,10 @@ const router: Router = createRouter({
       path: '/settings',
       meta: {
         requiresAuth: true,
+        nav: {
+          showInNav: true,
+          navTitle: 'Настройки',
+        },
       },
       component: () => import('@/views/SettingsPage.vue'),
     },
@@ -52,7 +64,7 @@ router.beforeEach(async (to, _from, next) => {
   }
 
   if (to.name === 'auth' && authStore.authUser) {
-    return next({ name: 'home' });
+    return next({ name: 'bonuses' });
   }
 
   next();

@@ -31,7 +31,7 @@ const handleSubmitLogin = async () => {
 
     authStore.isChecked = false;
     toastsStore.showSuccessToast('Вы успешно авторизовались');
-    router.push({ name: 'home' });
+    router.push({ name: 'bonuses' });
   } catch (err) {
     if (err instanceof ZodError) {
       inputErrors.value = z.flattenError(err);
@@ -41,8 +41,8 @@ const handleSubmitLogin = async () => {
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmitLogin" class="flex flex-col justify-center items-center">
-    <div class="mb-3">
+  <form @submit.prevent="handleSubmitLogin" class="flex flex-col justify-center items-center w-full sm:w-fit">
+    <div class="mb-3 w-full">
       <IftaLabel>
         <InputText
           data-test="auth-username"
@@ -57,7 +57,7 @@ const handleSubmitLogin = async () => {
       </IftaLabel>
       <InputErrors :errors="inputErrors?.fieldErrors.username" />
     </div>
-    <div class="mb-3">
+    <div class="mb-3 w-full">
       <IftaLabel>
         <InputText
           data-test="auth-password"

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import LoginForm from '@/components/LoginForm.vue';
+import EmptyPageTemplate from '@/components/EmptyPageTemplate.vue';
 </script>
 
 <template>
-  <div class="page flex flex-col items-center justify-center">
+  <EmptyPageTemplate>
     <LoginForm />
-  </div>
+  </EmptyPageTemplate>
 </template>
