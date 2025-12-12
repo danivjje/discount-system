@@ -8,8 +8,15 @@ import { VerificationCode } from '@packages/types';
 export const create = async (phone: string): Promise<void> => {
   const expiresAt: Date = new Date();
   expiresAt.setMinutes(expiresAt.getMinutes() + 5);
-  const code: string = String(crypto.randomInt(9999));
-  console.log(code);
+
+  let code: string = String(crypto.randomInt(9999));
+
+  if (code.length < 4) {
+    code = '0'.repeat(4 - code.length) + code;
+  }
+
+  console.log(code); // remove
+
   const codeHash: string = hashSync(code, 10);
 
   await db.delete(verificationCodesTable).where(eq(verificationCodesTable.phone, phone));
