@@ -5,7 +5,7 @@ import router from '@/router';
 
 import PrimeVue from 'primevue/config';
 import ToastService from 'primevue/toastservice';
-import Aura from '@primeuix/themes/aura';
+import Lara from '@primeuix/themes/lara';
 import './styles/index.css';
 
 const app = createApp(App);
@@ -13,7 +13,7 @@ app.use(createPinia());
 app.use(router);
 app.use(PrimeVue, {
   theme: {
-    preset: Aura,
+    preset: Lara,
   },
 });
 app.use(ToastService);
