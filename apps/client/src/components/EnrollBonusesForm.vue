@@ -7,7 +7,7 @@ import type { $ZodFlattenedError } from 'zod/v4/core';
 import z, { ZodError } from 'zod';
 import { countBonusesFormScheme } from '@packages/schemes';
 
-import InputErrors from '@/components/InputErrors.vue';
+import InputErrors from '@/components/ui/InputErrors.vue';
 import { InputMask, InputNumber, Button, IftaLabel } from 'primevue';
 
 const toastsStore = useToastsStore();

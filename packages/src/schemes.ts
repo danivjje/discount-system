@@ -52,5 +52,5 @@ export const configBonusPercentValueScheme = number.min(0, 'Число долж�
 
 export const verifyCodeScheme = z.object({
   phone: phoneScheme,
-  code: z.string().length(4, 'Код должен содержать 6 символов'),
+  code: z.string().length(4, 'Код должен содержать 4 символа'),
 });

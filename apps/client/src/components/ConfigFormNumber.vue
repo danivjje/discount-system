@@ -6,7 +6,7 @@ import z, { ZodError, type ZodSchema } from 'zod';
 import type { $ZodFlattenedError } from 'zod/v4/core';
 
 import { InputNumber, Button, IftaLabel } from 'primevue';
-import InputErrors from '@/components/InputErrors.vue';
+import InputErrors from '@/components/ui/InputErrors.vue';
 import { useToastsStore } from '@/store';
 
 const { configKey, title, zodScheme } = defineProps<{

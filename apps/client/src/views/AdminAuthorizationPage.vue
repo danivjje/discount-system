@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import LoginForm from '@/components/LoginForm.vue';
-import EmptyPageTemplate from '@/components/EmptyPageTemplate.vue';
+import EmptyPageTemplate from '@/components/ui/EmptyPageTemplate.vue';
 </script>
 
 <template>
-  <EmptyPageTemplate>
+  <EmptyPageTemplate class="justify-center">
     <LoginForm />
   </EmptyPageTemplate>
 </template>

@@ -7,8 +7,8 @@ import { reactive, ref, type Ref } from 'vue';
 import { loginFormScheme } from '@packages/schemes';
 import type { $ZodFlattenedError } from 'zod/v4/core';
 
-import { InputText, Button, IftaLabel } from 'primevue';
-import InputErrors from '@/components/InputErrors.vue';
+import { InputText, Button, FloatLabel } from 'primevue';
+import InputErrors from '@/components/ui/InputErrors.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -43,33 +43,31 @@ const handleSubmitLogin = async () => {
 <template>
   <form @submit.prevent="handleSubmitLogin" class="flex flex-col justify-center items-center w-full sm:w-fit">
     <div class="mb-3 w-full">
-      <IftaLabel>
+      <FloatLabel variant="on">
         <InputText
           data-test="auth-username"
           id="auth-username"
           v-model="authUserFormData.username"
           type="text"
-          placeholder="username"
           class="w-full"
           :invalid="!!inputErrors?.fieldErrors?.username?.length"
         />
         <label for="auth-username">Имя пользователя</label>
-      </IftaLabel>
+      </FloatLabel>
       <InputErrors :errors="inputErrors?.fieldErrors.username" />
     </div>
     <div class="mb-3 w-full">
-      <IftaLabel>
+      <FloatLabel variant="on">
         <InputText
           data-test="auth-password"
           id="auth-password"
           v-model="authUserFormData.password"
           type="password"
-          placeholder="Пароль"
           class="w-full"
           :invalid="!!inputErrors?.fieldErrors?.password?.length"
         />
         <label for="auth-password">Пароль</label>
-      </IftaLabel>
+      </FloatLabel>
       <InputErrors :errors="inputErrors?.fieldErrors.password" />
     </div>
     <Button data-test="auth-submit" type="submit">Войти</Button>

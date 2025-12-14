@@ -78,3 +78,11 @@ export const authCheckUser = async (): Promise<SafeUser | void> => {
   const data = await api.get('auth/check');
   if (data.ok) return parseData(userScheme, await data.json());
 };
+
+export const sendVerificationCode = async (phone: string): Promise<void> => {
+  await api.post('code/send', { json: { phone } });
+};
+
+export const verifyVerificationCode = async (phone: string, code: string): Promise<void> => {
+  await api.post('code/verify', { json: { phone, code } });
+};

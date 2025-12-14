@@ -3,8 +3,8 @@ import { onMounted } from 'vue';
 import { useConfigStore } from '@/store';
 import { configBonusPercentValueScheme } from '@packages/schemes';
 
-import NavigationPageTemplate from '@/components/NavigationPageTemplate.vue';
-import ConfigFormNumberTemplate from '@/components/ConfigFormNumberTemplate.vue';
+import NavigationPageTemplate from '@/components/ui/NavigationPageTemplate.vue';
+import ConfigFormNumber from '@/components/ConfigFormNumber.vue';
 
 const configStore = useConfigStore();
 
@@ -17,10 +17,6 @@ onMounted(() => {
 
 <template>
   <NavigationPageTemplate>
-    <ConfigFormNumberTemplate
-      config-key="bonusPercent"
-      title="Процент бонуса"
-      :zod-scheme="configBonusPercentValueScheme"
-    />
+    <ConfigFormNumber config-key="bonusPercent" title="Процент бонуса" :zod-scheme="configBonusPercentValueScheme" />
   </NavigationPageTemplate>
 </template>

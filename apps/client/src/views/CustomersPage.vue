@@ -3,7 +3,7 @@ import { onMounted } from 'vue';
 import { useCustomersStore } from '@/store';
 
 import CustomersTable from '@/components/CustomersTable.vue';
-import NavigationPageTemplate from '@/components/NavigationPageTemplate.vue';
+import NavigationPageTemplate from '@/components/ui/NavigationPageTemplate.vue';
 
 const customersStore = useCustomersStore();
 
