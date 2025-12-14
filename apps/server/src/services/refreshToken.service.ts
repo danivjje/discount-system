@@ -9,6 +9,7 @@ export const create = async (data: SafeUser): Promise<string> => {
   const { id, username } = data;
 
   const token: string = jwt.sign({ id, username }, process.env.JWT_REFRESH_SECRET_KEY, {
+    algorithm: 'HS256',
     expiresIn: '30d',
   });
 
@@ -36,8 +37,13 @@ export const refreshToken = async (token: string | undefined): Promise<string> =
   if (tokenItem) {
     try {
       const refreshPayload = jwt.verify(tokenItem.token, process.env.JWT_REFRESH_SECRET_KEY);
-      if (typeof refreshPayload !== 'string' && 'username' in refreshPayload) {
-        return jwt.sign({ ...refreshPayload }, process.env.JWT_SECRET_KEY);
+      console.log('refresh payload');
+      console.log(refreshPayload);
+      if (typeof refreshPayload === 'object' && 'username' in refreshPayload) {
+        return jwt.sign({ id: refreshPayload.id, username: refreshPayload.username }, process.env.JWT_SECRET_KEY, {
+          algorithm: 'HS256',
+          expiresIn: '30s',
+        });
       }
     } catch (err) {
       await db.update(refreshTokensTable).set({ revoked: true }).where(eq(refreshTokensTable.token, token)).limit(1);

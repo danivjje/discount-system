@@ -23,7 +23,7 @@ export const login = async (data: LoginForm): Promise<LoginResponse> => {
 
   const sessionToken: string = jwt.sign({ id: user.id, username }, process.env.JWT_SECRET_KEY, {
     algorithm: 'HS256',
-    expiresIn: '1h',
+    expiresIn: '30s',
   });
 
   const refreshToken: string = await refreshTokenService.create({ id: user.id, username });
@@ -34,11 +34,23 @@ export const login = async (data: LoginForm): Promise<LoginResponse> => {
   };
 };
 
-export const check = (token: string | undefined): JwtPayload | string => {
-  if (!token) {
-    throw new UnauthorizedError('Вы не авторизованы');
+export const check = async (
+  sessionToken: string | undefined,
+  refreshToken: string | undefined,
+): Promise<(JwtPayload | string) | { token: string; payload: JwtPayload | string }> => {
+  if (!sessionToken && !refreshToken) {
+    throw new UnauthorizedError('Токен авторизации истёк.');
   }
 
-  const verifiedToken: JwtPayload | string = jwt.verify(token, process.env.JWT_SECRET_KEY);
-  return verifiedToken;
+  try {
+    const sessionPayload: JwtPayload | string = jwt.verify(sessionToken as string, process.env.JWT_SECRET_KEY);
+    console.log('session payload');
+    console.log(sessionPayload);
+    return sessionPayload;
+  } catch (err) {
+    const newSessionToken: string = await refreshTokenService.refreshToken(refreshToken);
+    const newSessionPayload: JwtPayload | string = jwt.verify(newSessionToken, process.env.JWT_SECRET_KEY);
+
+    return { token: newSessionToken, payload: newSessionPayload };
+  }
 };

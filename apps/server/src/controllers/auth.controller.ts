@@ -24,18 +24,15 @@ export const authUser: RequestHandler = async (req, res, next) => {
 export const checkAuth: RequestHandler = async (req, res, next) => {
   try {
     const sessionToken: string | undefined = req.cookies.authtoken;
+    const refreshToken: string | undefined = req.cookies.refreshtoken;
 
-    try {
-      const verifiedToken = authService.check(sessionToken);
-      return res.status(200).json(verifiedToken);
-    } catch (err) {
-      const refreshToken: string | undefined = req.cookies.refreshtoken;
-      const newSessionToken: string = await refreshTokenService.refreshToken(refreshToken);
-      const verifiedToken = jwt.verify(newSessionToken, process.env.JWT_SECRET_KEY);
-
-      res.cookie('authtoken', newSessionToken, { httpOnly: true, secure: false });
-      return res.status(200).json(verifiedToken);
+    const response: Awaited<ReturnType<typeof authService.check>> = await authService.check(sessionToken, refreshToken);
+    if (typeof response === 'object' && 'token' in response) {
+      res.cookie('authtoken', response.token, { httpOnly: true, secure: false });
+      return res.status(200).json(response.payload);
     }
+
+    return res.status(200).json(response);
   } catch (err) {
     next(err);
   }

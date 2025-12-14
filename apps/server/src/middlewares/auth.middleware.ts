@@ -1,16 +1,20 @@
-import { UnauthorizedError } from '@/errors';
 import { RequestHandler } from 'express';
-import jwt from 'jsonwebtoken';
+import * as authService from '@/services/auth.service';
 
-const authMiddleware: RequestHandler = async (req, _res, next) => {
+const authMiddleware: RequestHandler = async (req, res, next) => {
+  const sessionToken: string | undefined = req.cookies.authtoken;
+  const refreshToken: string | undefined = req.cookies.refreshtoken;
+
   try {
-    const token = req.cookies.authtoken;
+    const sessionPayload: Awaited<ReturnType<typeof authService.check>> = await authService.check(
+      sessionToken,
+      refreshToken,
+    );
 
-    if (!token) {
-      throw new UnauthorizedError('Для выполнения этого действия необходимо авторизоваться');
+    if (typeof sessionPayload === 'object' && 'token' in sessionPayload) {
+      res.cookie('authtoken', sessionPayload.token);
     }
 
-    jwt.verify(token, process.env.JWT_SECRET_KEY);
     next();
   } catch (err) {
     next(err);
