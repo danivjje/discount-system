@@ -41,7 +41,7 @@ const handleSubmitLogin = async () => {
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmitLogin" class="flex flex-col justify-center items-center w-full sm:w-fit">
+  <form @submit.prevent="handleSubmitLogin" class="flex w-full flex-col items-center justify-center sm:w-fit">
     <div class="mb-3 w-full">
       <FloatLabel variant="on">
         <InputText

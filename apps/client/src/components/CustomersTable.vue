@@ -51,19 +51,19 @@ const handleResetPagination = (): void => {
 
 <template>
   <CustomersSearchForm @resetPagination="handleResetPagination" />
-  <table class="w-full mb-3">
+  <table class="mb-3 w-full">
     <thead>
       <tr>
-        <th class="font-semibold text-gray-700 border border-solid border-gray-200 p-2">Номер телефона</th>
+        <th class="border border-solid border-gray-200 p-2 font-semibold text-gray-700">Номер телефона</th>
         <th
           v-for="option in sortTableOptions"
-          class="font-semibold text-gray-700 border border-solid border-gray-200 p-2"
+          class="border border-solid border-gray-200 p-2 font-semibold text-gray-700"
           :class="{ 'bg-gray-200': sort.sort === option.label }"
         >
-          <button class="flex items-center w-full justify-center" @click="handleSort(option.label)">
+          <button class="flex w-full items-center justify-center" @click="handleSort(option.label)">
             <span class="mr-2">{{ option.title }}</span>
             <SortIcon
-              class="w-6 h-6 text-gray-700 translate-y-0.5"
+              class="h-6 w-6 translate-y-0.5 text-gray-700"
               :class="{ '-scale-100': sort.sort === option.label && sort.order === 'asc' }"
             />
           </button>
@@ -72,9 +72,9 @@ const handleResetPagination = (): void => {
     </thead>
     <tbody>
       <tr v-for="customer in customersStore.customersData.customers" :key="customer.id">
-        <td class="font-medium text-gray-700 border border-solid border-gray-200 p-2">{{ customer.phone }}</td>
-        <td class="font-medium text-gray-700 border border-solid border-gray-200 p-2">{{ customer.bonuses }}</td>
-        <td class="font-medium text-gray-700 border border-solid border-gray-200 p-2">{{ customer.totalSum }}</td>
+        <td class="border border-solid border-gray-200 p-2 font-medium text-gray-700">{{ customer.phone }}</td>
+        <td class="border border-solid border-gray-200 p-2 font-medium text-gray-700">{{ customer.bonuses }}</td>
+        <td class="border border-solid border-gray-200 p-2 font-medium text-gray-700">{{ customer.totalSum }}</td>
       </tr>
     </tbody>
   </table>

@@ -55,7 +55,7 @@ const handleShowBalance = async (): Promise<void> => {
       </div>
       <Button data-test="check-submit" type="submit">Узнать баланс</Button>
     </form>
-    <Dialog v-model:visible="isModalVisible" modal :draggable="false" class="max-w-[450px] w-full">
+    <Dialog v-model:visible="isModalVisible" modal :draggable="false" class="w-full max-w-[450px]">
       <template #container="{ closeCallback }">
         <CustomerInfo
           v-if="customersStore.selectedCustomer"

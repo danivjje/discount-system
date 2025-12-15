@@ -49,26 +49,26 @@ const handleResetBonuses = async (): Promise<void> => {
 </script>
 
 <template>
-  <div class="flex flex-col relative p-6">
+  <div class="relative flex flex-col p-6">
     <header class="mb-4">
       <h4 class="font-bold">Клиент</h4>
-      <strong class="font-medium text-sm text-surface-500">{{ renderPhone(customer.phone) }}</strong>
+      <strong class="text-surface-500 text-sm font-medium">{{ renderPhone(customer.phone) }}</strong>
     </header>
-    <button class="w-5 h-5 absolute top-4 right-4" @click="() => emit('close')">
+    <button class="absolute top-4 right-4 h-5 w-5" @click="() => emit('close')">
       <CloseIcon />
     </button>
     <div class="flex flex-col items-baseline">
-      <strong class="font-medium mb-5 py-3 px-4 rounded-border bg-surface-100 w-full flex items-center gap-1">
+      <strong class="rounded-border bg-surface-100 mb-5 flex w-full items-center gap-1 px-4 py-3 font-medium">
         Баланс:
-        <span class="bg-surface-200 text-surface-700 px-2 py-0.5 rounded-border">{{ customer.bonuses }}</span>
+        <span class="bg-surface-200 text-surface-700 rounded-border px-2 py-0.5">{{ customer.bonuses }}</span>
         бонусов
       </strong>
-      <form v-if="isCodeSent" @submit.prevent="handleResetBonuses" class="w-full flex flex-col items-center">
-        <strong class="font-medium mb-3">Введите код подтверждения</strong>
+      <form v-if="isCodeSent" @submit.prevent="handleResetBonuses" class="flex w-full flex-col items-center">
+        <strong class="mb-3 font-medium">Введите код подтверждения</strong>
         <InputOtp v-model="codeInputValue" class="mb-2" size="small" integer-only />
         <button
           @click.prevent
-          class="text-[16px] text-surface-500 hover:opacity-80 active:text-surface-600 transition-opacity duration-300 mb-3"
+          class="text-surface-500 active:text-surface-600 mb-3 text-[16px] transition-opacity duration-300 hover:opacity-80"
         >
           Отправить код повторно (через n секунд)
         </button>

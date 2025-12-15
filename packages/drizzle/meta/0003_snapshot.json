@@ -34,17 +34,13 @@
       "compositePrimaryKeys": {
         "app_config_id": {
           "name": "app_config_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "app_config_key_unique": {
           "name": "app_config_key_unique",
-          "columns": [
-            "key"
-          ]
+          "columns": ["key"]
         }
       },
       "checkConstraint": {}
@@ -88,17 +84,13 @@
       "compositePrimaryKeys": {
         "customers_id": {
           "name": "customers_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "customers_phone_unique": {
           "name": "customers_phone_unique",
-          "columns": [
-            "phone"
-          ]
+          "columns": ["phone"]
         }
       },
       "checkConstraint": {}
@@ -157,12 +149,8 @@
           "name": "refresh_tokens_userId_users_id_fk",
           "tableFrom": "refresh_tokens",
           "tableTo": "users",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -170,17 +158,13 @@
       "compositePrimaryKeys": {
         "refresh_tokens_id": {
           "name": "refresh_tokens_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "refresh_tokens_token_unique": {
           "name": "refresh_tokens_token_unique",
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "checkConstraint": {}
@@ -215,9 +199,7 @@
       "compositePrimaryKeys": {
         "users_id": {
           "name": "users_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},

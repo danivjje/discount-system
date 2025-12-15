@@ -1,9 +1,7 @@
 import { RequestHandler } from 'express';
 import { loginFormScheme } from '@packages/schemes';
 import * as authService from '@/services/auth.service';
-import * as refreshTokenService from '@/services/refreshToken.service';
 import { LoginResponse } from '@packages/types';
-import jwt from 'jsonwebtoken';
 
 export const authUser: RequestHandler = async (req, res, next) => {
   try {

@@ -34,17 +34,13 @@
       "compositePrimaryKeys": {
         "app_config_id": {
           "name": "app_config_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "app_config_key_unique": {
           "name": "app_config_key_unique",
-          "columns": [
-            "key"
-          ]
+          "columns": ["key"]
         }
       },
       "checkConstraint": {}
@@ -88,17 +84,13 @@
       "compositePrimaryKeys": {
         "customers_id": {
           "name": "customers_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "customers_phone_unique": {
           "name": "customers_phone_unique",
-          "columns": [
-            "phone"
-          ]
+          "columns": ["phone"]
         }
       },
       "checkConstraint": {}
@@ -133,9 +125,7 @@
       "compositePrimaryKeys": {
         "users_id": {
           "name": "users_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},

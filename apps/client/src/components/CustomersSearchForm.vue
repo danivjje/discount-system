@@ -35,7 +35,7 @@ const handleResetSearch = (): void => {
 </script>
 
 <template>
-  <form @submit.prevent="handleSearchCustomers" class="flex items-center mb-3 self-baseline">
+  <form @submit.prevent="handleSearchCustomers" class="mb-3 flex items-center self-baseline">
     <InputText v-model="searchInput" placeholder="Часть телефона" class="mr-2" />
     <Button type="submit">Поиск</Button>
     <Button v-if="customersStore.searchValue.trim()" class="ml-2" @click="handleResetSearch">Сбросить</Button>

@@ -1,14 +1,10 @@
 {
- "compilerOptions": {
+  "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@packages/*": ["packages/src/*"]
     }
   },
   "files": [],
-  "references": [
-    { "path": "packages" },
-    { "path": "apps/client" },
-    { "path": "apps/server" }
-  ]
+  "references": [{ "path": "packages" }, { "path": "apps/client" }, { "path": "apps/server" }]
 }
