@@ -13,9 +13,6 @@ button {
 
 @layer main {
   .page {
-    @apply max-w-[1100px];
-    @apply mx-auto;
-    @apply min-h-dvh;
-    @apply p-5;
+    @apply mx-auto min-h-dvh max-w-[1100px] p-3 sm:p-5;
   }
 }
