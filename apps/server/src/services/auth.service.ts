@@ -44,8 +44,6 @@ export const check = async (
 
   try {
     const sessionPayload: JwtPayload | string = jwt.verify(sessionToken as string, process.env.JWT_SECRET_KEY);
-    console.log('session payload');
-    console.log(sessionPayload);
     return sessionPayload;
   } catch (err) {
     const newSessionToken: string = await refreshTokenService.refreshToken(refreshToken);

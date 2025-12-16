@@ -5,5 +5,6 @@ declare namespace NodeJS {
     JWT_REFRESH_SECRET_KEY: string;
     ADMIN_USERNAME: string;
     ADMIN_PASSWORD: string;
+    ALLOWED_ORIGINS: string;
   }
 }

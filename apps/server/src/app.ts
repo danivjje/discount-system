@@ -16,9 +16,19 @@ export const app = express();
 const port: number = 3000;
 const apiRouter = express.Router();
 
+const allowedOrigins: string[] = process.env.ALLOWED_ORIGINS.split(',');
+
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: (origin, cb) => {
+      if (!origin) return cb(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return cb(null, true);
+      }
+
+      cb(new Error('Not allowed by CORS'));
+    },
     credentials: true,
   }),
 );
@@ -33,6 +43,6 @@ apiRouter.use('/code', authMiddleware, verificationCodeRouter);
 app.use('/api', apiRouter);
 app.use(errorHandlingMiddleware);
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`App is listening on port ${port}`);
 });
