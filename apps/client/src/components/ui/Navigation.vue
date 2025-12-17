@@ -32,6 +32,7 @@ const handleOpenDrawer = (): void => {
   <Tabs
     v-if="width >= 640"
     :value="commonStore.activeNavOption?.route ?? '/'"
+    class="mb-20"
     @update:value="(value) => handleChangeRoute(value as string)"
   >
     <TabList>
