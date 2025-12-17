@@ -12,14 +12,14 @@ export const useCommonStore = defineStore('common', () => {
       .getRoutes()
       .filter((item) => item.meta.nav?.showInNav)
       .map((item) => {
-        return { title: item.meta.nav!.navTitle as string, path: item.path };
+        return { title: item.meta.nav!.navTitle as string, route: item.path };
       });
   });
   const activeNavOption: Ref<NavigationOption | null> = ref(null);
 
   watchEffect(() => {
     if (route.meta.nav?.showInNav) {
-      activeNavOption.value = { title: route.meta.nav.navTitle, path: route.path };
+      activeNavOption.value = { title: route.meta.nav.navTitle, route: route.path };
     }
   });
 

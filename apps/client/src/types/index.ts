@@ -7,5 +7,5 @@ export interface SortTableOption {
 
 export interface NavigationOption {
   title: string;
-  path: string;
+  route: string;
 }

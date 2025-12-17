@@ -4,7 +4,8 @@ import { userScheme, configScheme, customerScheme, phoneScheme, getCustomersSche
 import type { AppConfig, Customer, GetCustomersResponse, LoginForm, SafeUser, SortParam } from '@packages/types';
 
 const api = ky.create({
-  prefixUrl: 'http://localhost:3000/api/',
+  // prefixUrl: 'http://localhost:3000/api/',
+  prefixUrl: 'http://192.168.0.105:3000/api/',
   credentials: 'include',
   retry: {
     limit: 2,

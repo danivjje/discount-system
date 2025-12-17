@@ -37,8 +37,7 @@ export const refreshToken = async (token: string | undefined): Promise<string> =
   if (tokenItem) {
     try {
       const refreshPayload = jwt.verify(tokenItem.token, process.env.JWT_REFRESH_SECRET_KEY);
-      console.log('refresh payload');
-      console.log(refreshPayload);
+
       if (typeof refreshPayload === 'object' && 'username' in refreshPayload) {
         return jwt.sign({ id: refreshPayload.id, username: refreshPayload.username }, process.env.JWT_SECRET_KEY, {
           algorithm: 'HS256',
