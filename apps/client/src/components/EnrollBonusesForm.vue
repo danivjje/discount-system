@@ -39,7 +39,7 @@ const handleEnrollBonuses = async (): Promise<void> => {
 </script>
 
 <template>
-  <form @submit.prevent="handleEnrollBonuses" class="flex flex-col items-stretch">
+  <form @submit.prevent="handleEnrollBonuses" class="flex w-full flex-col items-stretch sm:w-fit">
     <div class="mb-3">
       <IftaLabel>
         <InputMask

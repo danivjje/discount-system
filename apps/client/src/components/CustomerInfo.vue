@@ -49,7 +49,7 @@ const handleResetBonuses = async (): Promise<void> => {
 </script>
 
 <template>
-  <div class="relative flex flex-col p-6">
+  <div class="relative flex flex-col p-4.5 sm:p-6">
     <header class="mb-4">
       <h4 class="font-bold">Клиент</h4>
       <strong class="text-surface-500 text-sm font-medium">{{ renderPhone(customer.phone) }}</strong>
@@ -58,13 +58,15 @@ const handleResetBonuses = async (): Promise<void> => {
       <CloseIcon />
     </button>
     <div class="flex flex-col items-baseline">
-      <strong class="rounded-border bg-surface-100 mb-5 flex w-full items-center gap-1 px-4 py-3 font-medium">
+      <strong
+        class="rounded-border bg-surface-100 mb-5 flex w-full items-center gap-1 px-3.5 py-2.5 font-medium sm:px-4 sm:py-3"
+      >
         Баланс:
         <span class="bg-surface-200 text-surface-700 rounded-border px-2 py-0.5">{{ customer.bonuses }}</span>
         бонусов
       </strong>
       <form v-if="isCodeSent" @submit.prevent="handleResetBonuses" class="flex w-full flex-col items-center">
-        <strong class="mb-3 font-medium">Введите код подтверждения</strong>
+        <strong class="mb-3 text-center font-medium">Введите код подтверждения</strong>
         <InputOtp v-model="codeInputValue" class="mb-2" size="small" integer-only />
         <button
           @click.prevent

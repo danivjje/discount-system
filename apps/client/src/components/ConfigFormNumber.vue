@@ -55,7 +55,7 @@ watch(
 </script>
 
 <template>
-  <form @submit.prevent="submitConfigKeyUpdate" class="flex flex-col items-stretch">
+  <form @submit.prevent="submitConfigKeyUpdate" class="flex w-full flex-col items-stretch sm:w-fit">
     <div class="mb-3">
       <IftaLabel>
         <InputNumber

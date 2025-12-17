@@ -35,34 +35,32 @@ const handleShowBalance = async (): Promise<void> => {
 </script>
 
 <template>
-  <div class="mb-6 flex flex-col items-center">
-    <form @submit.prevent="handleShowBalance" class="mb-2 flex flex-col items-stretch">
-      <div class="mb-3">
-        <IftaLabel>
-          <InputMask
-            data-test="check-phone"
-            id="check-phone"
-            v-model="phoneInputValue"
-            type="tel"
-            mask="+38 (099) 999-99-99"
-            placeholder="+38 (099) 999-99-99"
-            :invalid="!!inputErrors?.formErrors?.length"
-            class="w-full"
-          />
-          <label for="check-phone">Номер телефона</label>
-        </IftaLabel>
-        <InputErrors :errors="inputErrors?.formErrors" />
-      </div>
-      <Button data-test="check-submit" type="submit">Узнать баланс</Button>
-    </form>
-    <Dialog v-model:visible="isModalVisible" modal :draggable="false" class="w-full max-w-[450px]">
-      <template #container="{ closeCallback }">
-        <CustomerInfo
-          v-if="customersStore.selectedCustomer"
-          :customer="customersStore.selectedCustomer"
-          @close="closeCallback"
+  <form @submit.prevent="handleShowBalance" class="mb-6 flex w-full flex-col items-stretch sm:w-fit">
+    <div class="mb-3">
+      <IftaLabel>
+        <InputMask
+          data-test="check-phone"
+          id="check-phone"
+          v-model="phoneInputValue"
+          type="tel"
+          mask="+38 (099) 999-99-99"
+          placeholder="+38 (099) 999-99-99"
+          :invalid="!!inputErrors?.formErrors?.length"
+          class="w-full"
         />
-      </template>
-    </Dialog>
-  </div>
+        <label for="check-phone">Номер телефона</label>
+      </IftaLabel>
+      <InputErrors :errors="inputErrors?.formErrors" />
+    </div>
+    <Button data-test="check-submit" type="submit">Узнать баланс</Button>
+  </form>
+  <Dialog v-model:visible="isModalVisible" modal :draggable="false" class="w-full max-w-[450px]">
+    <template #container="{ closeCallback }">
+      <CustomerInfo
+        v-if="customersStore.selectedCustomer"
+        :customer="customersStore.selectedCustomer"
+        @close="closeCallback"
+      />
+    </template>
+  </Dialog>
 </template>
