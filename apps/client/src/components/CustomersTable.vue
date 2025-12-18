@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { Paginator } from 'primevue';
 import { useCustomersStore } from '@/store';
 import { reactive, ref, type Ref } from 'vue';
-import type { SortField, SortParam } from '@packages/types';
 import type { SortTableOption } from '@/types';
+import type { SortField, SortParam } from '@packages/types';
 
+import { Paginator } from 'primevue';
 import SortIcon from '@/components/icons/SortIcon.vue';
 import CustomersSearchForm from '@/components/CustomersSearchForm.vue';
 
@@ -51,34 +51,49 @@ const handleResetPagination = (): void => {
 
 <template>
   <CustomersSearchForm @resetPagination="handleResetPagination" />
-  <table class="mb-3 w-full">
-    <thead>
-      <tr>
-        <th class="border border-solid border-gray-200 p-2 font-semibold text-gray-700">Номер телефона</th>
-        <th
-          v-for="option in sortTableOptions"
-          class="border border-solid border-gray-200 p-2 font-semibold text-gray-700"
-          :class="{ 'bg-gray-200': sort.sort === option.label }"
-        >
-          <button class="flex w-full items-center justify-center" @click="handleSort(option.label)">
-            <span class="mr-2">{{ option.title }}</span>
-            <SortIcon
-              class="h-6 w-6 translate-y-0.5 text-gray-700"
-              :class="{ '-scale-100': sort.sort === option.label && sort.order === 'asc' }"
-            />
-          </button>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="customer in customersStore.customersData.customers" :key="customer.id">
-        <td class="border border-solid border-gray-200 p-2 font-medium text-gray-700">{{ customer.phone }}</td>
-        <td class="border border-solid border-gray-200 p-2 font-medium text-gray-700">{{ customer.bonuses }}</td>
-        <td class="border border-solid border-gray-200 p-2 font-medium text-gray-700">{{ customer.totalSum }}</td>
-      </tr>
-    </tbody>
-  </table>
-  <paginator
+  <div class="w-full overflow-x-auto">
+    <table class="mb-3 w-full min-w-125 overflow-x-scroll">
+      <thead>
+        <tr>
+          <th class="border border-solid border-gray-200 p-2 font-semibold text-gray-700">Номер телефона</th>
+          <th
+            v-for="option in sortTableOptions"
+            :key="option.label"
+            class="border border-solid border-gray-200 p-2 font-semibold text-gray-700"
+            :class="{ 'bg-gray-200': sort.sort === option.label }"
+          >
+            <button class="flex w-full items-center justify-center" @click="handleSort(option.label)">
+              <span class="mr-2">{{ option.title }}</span>
+              <SortIcon
+                class="h-6 w-6 translate-y-0.5 text-gray-700"
+                :class="{ '-scale-100': sort.sort === option.label && sort.order === 'asc' }"
+              />
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="customer in customersStore.customersData.customers" :key="customer.id">
+          <td class="border border-solid border-gray-200 p-2 font-medium text-gray-700">
+            {{ customer.phone }}
+          </td>
+          <td class="border border-solid border-gray-200 p-2 font-medium text-gray-700">
+            {{ customer.bonuses }}
+          </td>
+          <td class="border border-solid border-gray-200 p-2 font-medium text-gray-700">
+            {{ customer.totalSum }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <Paginator
+    :template="{
+      '640px': 'PrevPageLink CurrentPageReport NextPageLink',
+      default: 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink',
+    }"
+    currentPageReportTemplate="{currentPage} из {totalPages}"
     v-model:first="firstElem"
     :rows="10"
     :totalRecords="customersStore.customersData.total"

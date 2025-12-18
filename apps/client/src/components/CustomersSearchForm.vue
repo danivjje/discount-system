@@ -35,9 +35,13 @@ const handleResetSearch = (): void => {
 </script>
 
 <template>
-  <form @submit.prevent="handleSearchCustomers" class="mb-3 flex items-center self-baseline">
-    <InputText v-model="searchInput" placeholder="Часть телефона" class="mr-2" />
-    <Button type="submit">Поиск</Button>
-    <Button v-if="customersStore.searchValue.trim()" class="ml-2" @click="handleResetSearch">Сбросить</Button>
+  <form @submit.prevent="handleSearchCustomers" class="mb-3 flex w-full flex-col items-center sm:flex-row">
+    <InputText v-model="searchInput" placeholder="Часть телефона" class="mb-2 w-full sm:mr-2 sm:mb-0 sm:w-fit" />
+    <div class="flex w-full">
+      <Button type="submit" class="w-full sm:w-fit">Поиск</Button>
+      <Button v-if="customersStore.searchValue.trim()" class="ml-2 w-full sm:w-fit" @click="handleResetSearch"
+        >Сбросить</Button
+      >
+    </div>
   </form>
 </template>
