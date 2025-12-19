@@ -6,5 +6,6 @@ declare namespace NodeJS {
     ADMIN_USERNAME: string;
     ADMIN_PASSWORD: string;
     ALLOWED_ORIGINS: string;
+    PORT: number;
   }
 }
