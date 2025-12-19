@@ -5,7 +5,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "db:seed:dev": "tsx src/db/seeds/dev.seed.ts",
+    "db:seed:base": "tsx src/db/seeds/base.seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -14,11 +15,13 @@
   "dependencies": {
     "dotenv": "^17.2.3",
     "drizzle-orm": "^0.44.7",
+    "drizzle-seed": "^0.3.1",
     "mysql2": "^3.15.3",
     "zod": "^4.1.13"
   },
   "devDependencies": {
     "@types/node": "^24.10.2",
-    "drizzle-kit": "^0.31.8"
+    "drizzle-kit": "^0.31.8",
+    "tsx": "^4.21.0"
   }
 }
