@@ -11,7 +11,7 @@ const authMiddleware: RequestHandler = async (req, res, next) => {
       refreshToken,
     );
 
-    if (typeof sessionPayload === 'object' && 'token' in sessionPayload) {
+    if ('token' in sessionPayload) {
       res.cookie('authtoken', sessionPayload.token);
     }
 

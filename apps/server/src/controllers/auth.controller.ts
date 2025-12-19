@@ -25,7 +25,7 @@ export const checkAuth: RequestHandler = async (req, res, next) => {
     const refreshToken: string | undefined = req.cookies.refreshtoken;
 
     const response: Awaited<ReturnType<typeof authService.check>> = await authService.check(sessionToken, refreshToken);
-    if (typeof response === 'object' && 'token' in response) {
+    if ('token' in response) {
       res.cookie('authtoken', response.token, { httpOnly: true, secure: false });
       return res.status(200).json(response.payload);
     }
