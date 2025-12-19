@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1761183982009,
-      "tag": "0000_sharp_young_avengers",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1761233193960,
-      "tag": "0001_worthless_loners",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1761998204369,
-      "tag": "0002_friendly_korath",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1761998433848,
-      "tag": "0003_furry_micromacro",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1765226552729,
-      "tag": "0004_amused_spiral",
+      "when": 1766167383663,
+      "tag": "0000_init",
       "breakpoints": true
     }
   ]
