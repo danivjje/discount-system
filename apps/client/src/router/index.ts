@@ -14,7 +14,6 @@ router.beforeEach(async (to, _from, next) => {
     try {
       await authStore.checkAuth();
     } catch (err) {
-      console.log(err);
     } finally {
       authStore.isChecked = true;
     }

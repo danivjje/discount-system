@@ -27,7 +27,7 @@ const handleSubmitLogin = async () => {
 
     await authStore.authenticateUser(data);
 
-    authStore.isChecked = true;
+    authStore.isChecked = false;
     await router.push({ name: 'bonuses' });
     toastsStore.showSuccessToast('Вы успешно авторизовались');
   } catch (err) {
