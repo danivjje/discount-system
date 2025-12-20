@@ -1,7 +1,7 @@
 import { describe, it } from 'vitest';
 import { mount } from '@vue/test-utils';
 import PrimeVue from 'primevue/config';
-import ConfigFormNumberTemplate from '@/components/ConfigFormNumberTemplate.vue';
+import ConfigFormNumberTemplate from '@/components/ConfigFormNumber.vue';
 
 describe('ConfigFormNumberTemplate', () => {
   it('renders component', () => {
