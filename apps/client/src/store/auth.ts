@@ -16,6 +16,7 @@ export const useAuthStore = defineStore('auth', () => {
       await authLoginUser(data);
     } catch (err) {
       await handleHttpError(err, toastsStore);
+      throw err;
     }
   };
 
@@ -25,6 +26,7 @@ export const useAuthStore = defineStore('auth', () => {
       if (user) authUser.value = user;
     } catch (err) {
       await handleHttpError(err, toastsStore);
+      throw err;
     }
   };
 

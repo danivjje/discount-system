@@ -23,6 +23,7 @@ export const useCustomersStore = defineStore('customers', () => {
       customersData.value = data;
     } catch (err) {
       await handleHttpError(err, toastsStore);
+      throw err;
     }
   };
 
@@ -31,6 +32,7 @@ export const useCustomersStore = defineStore('customers', () => {
       selectedCustomer.value = await getCustomer(phone);
     } catch (err) {
       await handleHttpError(err, toastsStore);
+      throw err;
     }
   };
 
@@ -48,6 +50,7 @@ export const useCustomersStore = defineStore('customers', () => {
       }
     } catch (err) {
       await handleHttpError(err, toastsStore);
+      throw err;
     }
   };
 
@@ -64,6 +67,7 @@ export const useCustomersStore = defineStore('customers', () => {
       }
     } catch (err) {
       await handleHttpError(err, toastsStore);
+      throw err;
     }
   };
 

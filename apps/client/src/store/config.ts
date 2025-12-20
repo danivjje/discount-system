@@ -14,6 +14,7 @@ export const useConfigStore = defineStore('config', () => {
       config.value = await getConfig();
     } catch (err) {
       await handleHttpError(err, toastsStore);
+      throw err;
     }
   };
 
@@ -22,6 +23,7 @@ export const useConfigStore = defineStore('config', () => {
       return await postConfig(config.value);
     } catch (err) {
       await handleHttpError(err, toastsStore);
+      throw err;
     }
   };
 
