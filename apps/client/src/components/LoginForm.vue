@@ -26,16 +26,17 @@ const handleSubmitLogin = async () => {
     const data = loginFormScheme.parse(authUserFormData);
 
     await authStore.authenticateUser(data);
-    authUserFormData.username = '';
-    authUserFormData.password = '';
 
-    authStore.isChecked = false;
+    authStore.isChecked = true;
+    await router.push({ name: 'bonuses' });
     toastsStore.showSuccessToast('Вы успешно авторизовались');
-    router.push({ name: 'bonuses' });
   } catch (err) {
     if (err instanceof ZodError) {
       inputErrors.value = z.flattenError(err);
     }
+  } finally {
+    authUserFormData.username = '';
+    authUserFormData.password = '';
   }
 };
 </script>

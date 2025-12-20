@@ -34,14 +34,14 @@ const handleSort = async (field: SortField): Promise<void> => {
 
     await customersStore.fetchCustomers(1, { ...sort } as SortParam);
     firstElem.value = 1;
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 };
 
 const handlePaginate = (page: number): void => {
-  const sortValue: SortParam | undefined = sort.sort && sort.order ? ({ ...sort } as SortParam) : undefined;
-  customersStore.fetchCustomers(page, sortValue);
+  try {
+    const sortValue: SortParam | undefined = sort.sort && sort.order ? ({ ...sort } as SortParam) : undefined;
+    customersStore.fetchCustomers(page, sortValue);
+  } catch (err) {}
 };
 
 const handleResetPagination = (): void => {
@@ -74,13 +74,13 @@ const handleResetPagination = (): void => {
       </thead>
       <tbody>
         <tr v-for="customer in customersStore.customersData.customers" :key="customer.id">
-          <td class="border border-solid border-gray-200 p-2 font-medium text-gray-700">
+          <td class="border border-solid border-gray-200 p-2 text-center font-medium text-gray-700">
             {{ customer.phone }}
           </td>
-          <td class="border border-solid border-gray-200 p-2 font-medium text-gray-700">
+          <td class="border border-solid border-gray-200 p-2 text-center font-medium text-gray-700">
             {{ customer.bonuses }}
           </td>
-          <td class="border border-solid border-gray-200 p-2 font-medium text-gray-700">
+          <td class="border border-solid border-gray-200 p-2 text-center font-medium text-gray-700">
             {{ customer.totalSum }}
           </td>
         </tr>

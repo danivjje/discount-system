@@ -24,8 +24,8 @@ const codeInputValue: Ref<string> = ref('');
 
 const handleSendCode = async (): Promise<void> => {
   try {
-    isCodeSent.value = true;
     await sendVerificationCode(customer.phone);
+    isCodeSent.value = true;
   } catch (err) {
     await handleHttpError(err, toastsStore);
   }
@@ -33,7 +33,6 @@ const handleSendCode = async (): Promise<void> => {
 
 const handleResetBonuses = async (): Promise<void> => {
   try {
-    // confirm code
     await verifyVerificationCode(customer.phone, codeInputValue.value);
     await customersStore.resetCustomerBonuses(customer.phone);
     toastsStore.showSuccessToast('Бонусы успешно сброшены');

@@ -27,13 +27,15 @@ const handleEnrollBonuses = async (): Promise<void> => {
     const parsedData = countBonusesFormScheme.parse(toRaw(data));
 
     await customersStore.upsertCustomer(parsedData);
-    countBonusesData.phone = '';
-    countBonusesData.sum = 0;
+
     toastsStore.showSuccessToast('Бонусы успешно зачислены');
   } catch (err) {
     if (err instanceof ZodError) {
       inputErrors.value = z.flattenError(err);
     }
+  } finally {
+    countBonusesData.phone = '';
+    countBonusesData.sum = 0;
   }
 };
 </script>

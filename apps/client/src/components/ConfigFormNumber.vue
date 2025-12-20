@@ -37,6 +37,7 @@ const submitConfigKeyUpdate = async (): Promise<void> => {
     if (newConfig) {
       configStore.config = newConfig;
     }
+
     toastsStore.showSuccessToast('Успешно обновлено');
   } catch (err) {
     if (err instanceof ZodError) {

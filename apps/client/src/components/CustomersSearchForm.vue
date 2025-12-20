@@ -10,27 +10,25 @@ const customersStore = useCustomersStore();
 
 const searchInput: Ref<string> = ref('');
 
-const handleSearchCustomers = (): void => {
+const handleSearchCustomers = async (): Promise<void> => {
   try {
     if (searchInput.value.trim()) {
+      await customersStore.fetchCustomers(1);
+
       customersStore.searchValue = searchInput.value;
       emit('resetPagination');
-      customersStore.fetchCustomers(1);
     }
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 };
 
-const handleResetSearch = (): void => {
+const handleResetSearch = async (): Promise<void> => {
   try {
+    await customersStore.fetchCustomers(1);
+
     customersStore.searchValue = '';
     searchInput.value = '';
     emit('resetPagination');
-    customersStore.fetchCustomers(1);
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 };
 </script>
 

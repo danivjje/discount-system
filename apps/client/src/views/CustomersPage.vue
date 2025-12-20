@@ -8,8 +8,10 @@ import NavigationPageTemplate from '@/components/ui/NavigationPageTemplate.vue';
 const customersStore = useCustomersStore();
 
 onMounted(() => {
-  if (customersStore.customersData.customers.length === 0) {
-    customersStore.fetchCustomers(1);
+  if (!customersStore.customersData.customers.length) {
+    try {
+      customersStore.fetchCustomers(1);
+    } catch (err) {}
   }
 });
 </script>

@@ -22,10 +22,8 @@ const handleShowBalance = async (): Promise<void> => {
     const phone: string = phoneScheme.parse(parsePhoneFromMask(phoneInputValue.value).phone);
 
     await customersStore.fetchCustomer(phone);
-    // delete if
-    if (customersStore.selectedCustomer) {
-      isModalVisible.value = true;
-    }
+
+    isModalVisible.value = true;
   } catch (err) {
     if (err instanceof ZodError) {
       inputErrors.value = z.flattenError(err);

@@ -9,8 +9,10 @@ import ConfigFormNumber from '@/components/ConfigFormNumber.vue';
 const configStore = useConfigStore();
 
 onMounted(() => {
-  if (configStore.config.length === 0) {
-    configStore.fetchConfig();
+  if (!configStore.config.length) {
+    try {
+      configStore.fetchConfig();
+    } catch (err) {}
   }
 });
 </script>

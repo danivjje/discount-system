@@ -7,7 +7,7 @@ export const handleHttpError = async (err: unknown, toastsStore: ToastsStore) =>
       const response = await err.response.clone().json();
       toastsStore.showError(response.message);
     } catch (err) {
-      toastsStore.showError('Не удалось обработать ошибку с сервера');
+      toastsStore.showError('Не удалось обработать ошибку с сервера. Перезагрузите страницу или попробуйте позже.');
     }
   }
 };
