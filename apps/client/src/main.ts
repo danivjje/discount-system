@@ -14,6 +14,9 @@ app.use(router);
 app.use(PrimeVue, {
   theme: {
     preset: Lara,
+    options: {
+      darkModeSelector: false,
+    },
   },
 });
 app.use(ToastService);
