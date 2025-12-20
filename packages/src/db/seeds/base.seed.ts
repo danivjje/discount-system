@@ -1,6 +1,7 @@
 import db from '../index';
 import { seed } from 'drizzle-seed';
 import { usersTable, appConfigTable } from '../schema';
+import { hashSync } from 'bcrypt-ts';
 
 async function main() {
   try {
@@ -8,7 +9,7 @@ async function main() {
       users: {
         columns: {
           username: f.default({ defaultValue: process.env.ADMIN_USERNAME }),
-          password: f.default({ defaultValue: process.env.ADMIN_PASSWORD }),
+          password: f.default({ defaultValue: hashSync(process.env.ADMIN_PASSWORD, 10) }),
         },
         count: 1,
       },
