@@ -1,5 +1,11 @@
 import z from 'zod';
-import { countBonusesFormScheme, getCustomersScheme, loginFormScheme } from './schemes';
+import {
+  configScheme,
+  countBonusesFormScheme,
+  createConfigScheme,
+  getCustomersScheme,
+  loginFormScheme,
+} from './schemes';
 import { usersTable, customersTable, appConfigTable, refreshTokensTable, verificationCodesTable } from './db/schema';
 
 export type User = typeof usersTable.$inferSelect;
@@ -9,8 +15,10 @@ export type Customer = typeof customersTable.$inferSelect;
 export type GetCustomersResponse = z.infer<typeof getCustomersScheme>;
 
 export type AppConfig = typeof appConfigTable.$inferSelect;
-export type CreateAppConfig = typeof appConfigTable.$inferInsert;
-export type AppConfigValue = string | number | boolean;
+// export type CreateAppConfig = typeof appConfigTable.$inferInsert;
+// export type AppConfigValue = string | number | boolean;
+export type CurrentAppConfig = z.infer<typeof configScheme>;
+export type CreateCurrentAppConfig = z.infer<typeof createConfigScheme>;
 
 export type LoginForm = z.infer<typeof loginFormScheme>;
 export type CountBonusesForm = z.infer<typeof countBonusesFormScheme>;
@@ -31,10 +39,6 @@ export interface ApiError<T> {
   message: string;
   details?: T;
 }
-
-export type CurrentAppConfig = {
-  bonusPercent: number;
-};
 
 export type SortOrder = 'asc' | 'desc';
 export type SortField = 'bonuses' | 'totalSum';

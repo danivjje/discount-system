@@ -9,8 +9,8 @@ export const usersTable = mysqlTable('users', {
 export const customersTable = mysqlTable('customers', {
   id: int().primaryKey().autoincrement(),
   phone: char('phone', { length: 12 }).notNull().unique(),
-  totalSum: decimal('total_sum', { precision: 10, scale: 2, mode: 'number' }).default(0).notNull(),
-  bonuses: decimal('bonuses', { precision: 10, scale: 2, mode: 'number' }).default(0).notNull(),
+  totalSum: decimal('total_sum', { precision: 12, scale: 2, mode: 'number' }).default(0).notNull(),
+  bonuses: decimal('bonuses', { precision: 12, scale: 2, mode: 'number' }).default(0).notNull(),
 });
 
 export const appConfigTable = mysqlTable('app_config', {
