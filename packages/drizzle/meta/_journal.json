@@ -8,6 +8,13 @@
       "when": 1766167383663,
       "tag": "0000_init",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1766269992586,
+      "tag": "0001_smiling_stryfe",
+      "breakpoints": true
     }
   ]
 }
