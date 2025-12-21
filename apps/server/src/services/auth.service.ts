@@ -24,7 +24,7 @@ export const login = async (data: LoginForm): Promise<LoginResponse> => {
 
   const sessionToken: string = jwt.sign({ id: user.id, username }, process.env.JWT_SECRET_KEY, {
     algorithm: 'HS256',
-    expiresIn: '30m',
+    expiresIn: '10m',
   });
 
   const refreshToken: string = await refreshTokenService.create({ id: user.id, username });

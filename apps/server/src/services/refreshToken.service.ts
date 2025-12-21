@@ -42,7 +42,7 @@ export const refreshToken = async (token: string | undefined): Promise<string> =
 
       return jwt.sign({ id: refreshPayload.id, username: refreshPayload.username }, process.env.JWT_SECRET_KEY, {
         algorithm: 'HS256',
-        expiresIn: '30m',
+        expiresIn: '10m',
       });
     } catch (err) {
       await db.update(refreshTokensTable).set({ revoked: true }).where(eq(refreshTokensTable.token, token));
