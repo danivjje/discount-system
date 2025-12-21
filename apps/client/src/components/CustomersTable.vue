@@ -2,6 +2,8 @@
 import { useCustomersStore } from '@/store';
 import { reactive, ref, type Ref } from 'vue';
 import type { SortTableOption } from '@/types';
+import { renderPhone } from '@/helpers/render-phone';
+import { renderNumber } from '@/helpers/render-number';
 import type { SortField, SortParam } from '@packages/types';
 
 import { Paginator } from 'primevue';
@@ -75,13 +77,13 @@ const handleResetPagination = (): void => {
       <tbody>
         <tr v-for="customer in customersStore.customersData.customers" :key="customer.id">
           <td class="border border-solid border-gray-200 p-2 text-center font-medium text-gray-700">
-            {{ customer.phone }}
+            {{ renderPhone(customer.phone) }}
           </td>
           <td class="border border-solid border-gray-200 p-2 text-center font-medium text-gray-700">
-            {{ customer.bonuses }}
+            {{ renderNumber(customer.bonuses, false) }}
           </td>
           <td class="border border-solid border-gray-200 p-2 text-center font-medium text-gray-700">
-            {{ customer.totalSum }}
+            {{ renderNumber(customer.totalSum, true) }}
           </td>
         </tr>
       </tbody>

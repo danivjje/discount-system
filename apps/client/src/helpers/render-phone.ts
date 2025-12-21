@@ -1,6 +1,9 @@
 export const renderPhone = (phone: string): string => {
-  return `+${phone.substring(0, 2)} (${phone.substring(2, 5)}) ${phone.substring(5, 8)}-${phone.substring(
-    8,
-    10,
-  )}-${phone.substring(10)}`;
+  const match = phone.match(/^380(\d{2})(\d{3})(\d{2})(\d{2})$/);
+
+  if (!match) return phone;
+
+  const [, operator, part1, part2, part3] = match;
+
+  return `+38 (0${operator}) ${part1}-${part2}-${part3}`;
 };
