@@ -1,8 +1,8 @@
 import { NotFoundError } from '@/errors';
-import type { SortField, SortOrder, GetCustomersResponse } from '@packages/types';
+import type { SortField, SortOrder, GetCustomersResponse, BonusPercentConfig } from '@packages/types';
 import db from '@packages/db';
 import { appConfigTable, customersTable } from '@packages/db/schema';
-import { AppConfig, AppConfigValue, CountBonusesForm, Customer } from '@packages/types';
+import { AppConfig, CountBonusesForm, Customer } from '@packages/types';
 import { asc, count, desc, eq, like } from 'drizzle-orm';
 
 export const fetchAll = async (
@@ -13,7 +13,7 @@ export const fetchAll = async (
 ): Promise<GetCustomersResponse> => {
   const limit: number = 10;
   const offset: number = (page - 1) * limit;
-  const filter = searchPhone ? like(customersTable.phone, searchPhone + '%') : undefined;
+  const filter = searchPhone ? like(customersTable.phone, `%${searchPhone}%`) : undefined;
 
   const generateOrder = () => {
     if (sortField && sortOrder) {
@@ -54,12 +54,12 @@ export const upsert = async (data: CountBonusesForm): Promise<Customer> => {
     .from(appConfigTable)
     .where(eq(appConfigTable.key, 'bonusPercent'))
     .limit(1);
-  const percentConfig: AppConfig | null = configResult[0] || null;
+  const percentConfig: BonusPercentConfig | null = (configResult[0] as BonusPercentConfig) ?? null;
   if (!percentConfig) {
     throw new NotFoundError('Не установлен процент бонуса в настройках.');
   }
 
-  const bonusPercent: number = percentConfig.value as AppConfigValue as number;
+  const bonusPercent: number = percentConfig.value;
   const bonuses: number = sum / (100 / bonusPercent);
 
   const customerResult: Customer[] = await db.select().from(customersTable).where(eq(customersTable.phone, phone));

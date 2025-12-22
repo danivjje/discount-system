@@ -1,5 +1,6 @@
 import z from 'zod';
 import {
+  configBonusPercentScheme,
   configScheme,
   countBonusesFormScheme,
   createConfigScheme,
@@ -15,10 +16,10 @@ export type Customer = typeof customersTable.$inferSelect;
 export type GetCustomersResponse = z.infer<typeof getCustomersScheme>;
 
 export type AppConfig = typeof appConfigTable.$inferSelect;
-// export type CreateAppConfig = typeof appConfigTable.$inferInsert;
-// export type AppConfigValue = string | number | boolean;
 export type CurrentAppConfig = z.infer<typeof configScheme>;
 export type CreateCurrentAppConfig = z.infer<typeof createConfigScheme>;
+
+export type BonusPercentConfig = z.infer<typeof configBonusPercentScheme>;
 
 export type LoginForm = z.infer<typeof loginFormScheme>;
 export type CountBonusesForm = z.infer<typeof countBonusesFormScheme>;

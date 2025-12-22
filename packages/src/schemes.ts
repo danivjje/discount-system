@@ -59,10 +59,18 @@ export const configBonusPercentScheme = z.object({
   value: configBonusPercentValueScheme,
 });
 
-export const configScheme = z.union([configBonusPercentScheme.extend({ id: number })]);
+export const configExampleScheme = z.object({
+  key: z.literal('example'),
+  value: z.boolean(),
+});
+
+export const configScheme = z.union([
+  configBonusPercentScheme.extend({ id: number }),
+  configExampleScheme.extend({ id: number }),
+]);
 
 export const getConfigScheme = z.array(configScheme).nonempty();
 
-export const createConfigScheme = z.union([configBonusPercentScheme]);
+export const createConfigScheme = z.union([configBonusPercentScheme, configExampleScheme]);
 
 export const postConfigScheme = z.array(createConfigScheme).nonempty();
