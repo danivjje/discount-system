@@ -3,6 +3,7 @@ import { onMounted } from 'vue';
 import { useCustomersStore } from '@/store';
 
 import CustomersTable from '@/components/CustomersTable.vue';
+import CustomersSearchForm from '@/components/CustomersSearchForm.vue';
 import NavigationPageTemplate from '@/components/ui/NavigationPageTemplate.vue';
 
 const customersStore = useCustomersStore();
@@ -18,6 +19,7 @@ onMounted(() => {
 
 <template>
   <NavigationPageTemplate>
+    <CustomersSearchForm />
     <CustomersTable />
   </NavigationPageTemplate>
 </template>

@@ -14,6 +14,10 @@ export const useCustomersStore = defineStore('customers', () => {
     total: 0,
     customers: [],
   });
+
+  // for reset pagination from components of customers page
+  const paginationFirstElement: Ref<number> = ref(0);
+
   const searchValue: Ref<string> = ref('');
   const selectedCustomer: Ref<Customer | null> = ref(null);
 
@@ -74,6 +78,7 @@ export const useCustomersStore = defineStore('customers', () => {
   return {
     customersData,
     selectedCustomer,
+    paginationFirstElement,
     searchValue,
     fetchCustomers,
     fetchCustomer,
