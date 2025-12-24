@@ -3,7 +3,8 @@ import type { SortField, SortOrder, GetCustomersResponse, BonusPercentConfig } f
 import db from '@packages/db';
 import { appConfigTable, customersTable } from '@packages/db/schema';
 import { AppConfig, CountBonusesForm, Customer } from '@packages/types';
-import { asc, count, desc, eq, like } from 'drizzle-orm';
+import { asc, count, desc, DrizzleQueryError, eq, like, sql } from 'drizzle-orm';
+import { ApiError } from '@/errors/ApiError';
 
 export const fetchAll = async (
   page: number,
@@ -59,24 +60,32 @@ export const upsert = async (data: CountBonusesForm): Promise<Customer> => {
     throw new NotFoundError('Не установлен процент бонуса в настройках.');
   }
 
-  const bonusPercent: number = percentConfig.value;
-  const bonuses: number = sum / (100 / bonusPercent);
+  const bonuses: number = sum / (100 / percentConfig.value);
 
-  const customerResult: Customer[] = await db.select().from(customersTable).where(eq(customersTable.phone, phone));
-  const foundCustomer: Customer | null = customerResult[0] || null;
+  try {
+    await db
+      .insert(customersTable)
+      .values({ phone, bonuses, totalSum: sum })
+      .onDuplicateKeyUpdate({
+        set: {
+          bonuses: sql`${customersTable.bonuses} + ${bonuses}`,
+          totalSum: sql`${customersTable.totalSum} + ${sum}`,
+        },
+      });
+  } catch (err) {
+    if (err instanceof DrizzleQueryError) {
+      if (err.cause && 'code' in err.cause) {
+        if (err.cause.code === 'ER_WARN_DATA_OUT_OF_RANGE') {
+          throw new ApiError(422, 'unprocessableContent', 'Значение общей суммы или бонусов слишком большое.');
+        }
+      }
+    }
 
-  await db
-    .insert(customersTable)
-    .values({ phone, bonuses, totalSum: sum })
-    .onDuplicateKeyUpdate({
-      set: {
-        bonuses: foundCustomer ? foundCustomer.bonuses + bonuses : 0,
-        totalSum: foundCustomer ? foundCustomer.totalSum + sum : 0,
-      },
-    });
+    throw err;
+  }
 
-  const customer: Customer[] = await db.select().from(customersTable).where(eq(customersTable.phone, phone)).limit(1);
-  return customer[0];
+  const [customer]: Customer[] = await db.select().from(customersTable).where(eq(customersTable.phone, phone)).limit(1);
+  return customer;
 };
 
 export const resetBonuses = async (phone: string): Promise<void> => {
