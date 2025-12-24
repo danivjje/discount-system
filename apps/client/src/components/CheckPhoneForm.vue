@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useCustomersStore } from '@/store';
-import { ref, type Ref } from 'vue';
-import { parsePhoneFromMask } from '@/helpers/parse-phone-from-mask';
+import { nextTick, ref, type Ref } from 'vue';
 import type { $ZodFlattenedError } from 'zod/v4/core';
 import { phoneScheme } from '@packages/schemes';
 import z, { ZodError } from 'zod';
@@ -14,12 +13,13 @@ const customersStore = useCustomersStore();
 
 const inputErrors: Ref<$ZodFlattenedError<unknown> | null> = ref(null);
 const phoneInputValue: Ref<string> = ref('');
+const isPhoneInputVisible: Ref<boolean> = ref(true);
 const isModalVisible: Ref<boolean> = ref(false);
 
 const handleShowBalance = async (): Promise<void> => {
   try {
     inputErrors.value = null;
-    const phone: string = phoneScheme.parse(parsePhoneFromMask(phoneInputValue.value).phone);
+    const phone: string = phoneScheme.parse(`380${phoneInputValue.value}`);
 
     await customersStore.fetchCustomer(phone);
 
@@ -30,6 +30,16 @@ const handleShowBalance = async (): Promise<void> => {
     }
   }
 };
+
+const handleCloseModal = (): void => {
+  isModalVisible.value = false;
+
+  phoneInputValue.value = '';
+  isPhoneInputVisible.value = false; // without this trick primevue can't fully reset input value
+  nextTick(() => {
+    isPhoneInputVisible.value = true;
+  });
+};
 </script>
 
 <template>
@@ -37,6 +47,8 @@ const handleShowBalance = async (): Promise<void> => {
     <div class="mb-3">
       <IftaLabel>
         <InputMask
+          v-if="isPhoneInputVisible"
+          unmask
           data-test="check-phone"
           id="check-phone"
           v-model="phoneInputValue"
@@ -53,11 +65,11 @@ const handleShowBalance = async (): Promise<void> => {
     <Button data-test="check-submit" type="submit">Узнать баланс</Button>
   </form>
   <Dialog v-model:visible="isModalVisible" modal :draggable="false" class="w-full max-w-[450px]">
-    <template #container="{ closeCallback }">
+    <template #container>
       <CustomerInfo
         v-if="customersStore.selectedCustomer"
         :customer="customersStore.selectedCustomer"
-        @close="closeCallback"
+        @close="handleCloseModal"
       />
     </template>
   </Dialog>

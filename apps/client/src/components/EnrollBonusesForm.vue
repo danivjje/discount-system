@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { reactive, ref, toRaw, type Ref } from 'vue';
+import { nextTick, reactive, ref, toRaw, type Ref } from 'vue';
 import type { CountBonusesForm } from '@packages/types';
 import { useCustomersStore, useToastsStore } from '@/store';
-import { parsePhoneFromMask } from '@/helpers/parse-phone-from-mask';
 import type { $ZodFlattenedError } from 'zod/v4/core';
 import z, { ZodError } from 'zod';
 import { countBonusesFormScheme } from '@packages/schemes';
@@ -13,6 +12,7 @@ import { InputMask, InputNumber, Button, IftaLabel } from 'primevue';
 const toastsStore = useToastsStore();
 const customersStore = useCustomersStore();
 
+const isPhoneInputVisible: Ref<boolean> = ref(true);
 const inputErrors: Ref<$ZodFlattenedError<CountBonusesForm> | null> = ref(null);
 const countBonusesData: CountBonusesForm = reactive({
   phone: '',
@@ -23,7 +23,7 @@ const handleEnrollBonuses = async (): Promise<void> => {
   try {
     inputErrors.value = null;
 
-    const data = { phone: parsePhoneFromMask(countBonusesData.phone).phone, sum: countBonusesData.sum };
+    const data = { phone: `380${countBonusesData.phone}`, sum: countBonusesData.sum };
     const parsedData = countBonusesFormScheme.parse(toRaw(data));
 
     await customersStore.upsertCustomer(parsedData);
@@ -36,6 +36,12 @@ const handleEnrollBonuses = async (): Promise<void> => {
   } finally {
     countBonusesData.phone = '';
     countBonusesData.sum = 0;
+
+    // without this trick primevue can't fully reset input value
+    isPhoneInputVisible.value = false;
+    nextTick(() => {
+      isPhoneInputVisible.value = true;
+    });
   }
 };
 </script>
@@ -45,6 +51,8 @@ const handleEnrollBonuses = async (): Promise<void> => {
     <div class="mb-3">
       <IftaLabel>
         <InputMask
+          v-if="isPhoneInputVisible"
+          unmask
           data-test="enroll-phone"
           id="phone-enroll"
           v-model="countBonusesData.phone"
