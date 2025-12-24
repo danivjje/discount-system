@@ -21,7 +21,7 @@ export const getCustomers: RequestHandler = async (req, res, next) => {
     const response: GetCustomersResponse = await customerService.fetchAll(page, phone, sort, order);
     return res.status(200).json(response);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
@@ -36,7 +36,7 @@ export const getCustomerByPhone: RequestHandler = async (req, res, next) => {
 
     throw new NotFoundError('Пользователь не найден.');
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
@@ -49,7 +49,7 @@ export const upsertCustomer: RequestHandler = async (req, res, next) => {
 
     return res.status(200).json(upsertedCustomer);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
@@ -61,6 +61,6 @@ export const resetCustomerBonuses: RequestHandler = async (req, res, next) => {
 
     return res.status(200).json({ phone });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };

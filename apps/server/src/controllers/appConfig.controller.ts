@@ -8,7 +8,7 @@ export const getAppConfig: RequestHandler = async (_req, res, next) => {
     const appConfig: CurrentAppConfig[] = await configService.fetchAll();
     return res.status(200).json(appConfig);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
@@ -21,6 +21,6 @@ export const updateAppConfig: RequestHandler = async (req, res, next) => {
 
     return res.status(200).json(newConfig);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };

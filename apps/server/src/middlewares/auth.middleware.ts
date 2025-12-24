@@ -15,9 +15,9 @@ const authMiddleware: RequestHandler = async (req, res, next) => {
       res.cookie('authtoken', sessionPayload.token);
     }
 
-    next();
+    return next();
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 

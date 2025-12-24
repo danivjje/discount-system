@@ -33,7 +33,8 @@ export interface LoginResponse {
   sessionToken: string;
 }
 
-export type ApiErrorType = 'server' | 'validation' | 'notFound' | 'unauthorized';
+export type ApiErrorType = 'server' | 'validation' | 'notFound' | 'unauthorized' | 'forbidden';
+
 export interface ApiError<T> {
   type: ApiErrorType;
   code: number;

@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 import type { ErrorRequestHandler } from 'express';
 import z, { ZodError } from 'zod';
-import { NotFoundError, ServerError, UnauthorizedError, ValidationError } from '@/errors';
+import { ServerError, UnauthorizedError, ValidationError } from '@/errors';
+import { ApiError } from '@/errors/ApiError';
 
 const { JsonWebTokenError, NotBeforeError, TokenExpiredError } = jwt;
 
@@ -14,12 +15,8 @@ const errorHandlingMiddleware: ErrorRequestHandler = async (err, _req, res, _nex
     return res.status(401).json(new UnauthorizedError('Токен авторизации истёк.'));
   }
 
-  if (err instanceof UnauthorizedError) {
-    return res.status(401).json(err);
-  }
-
-  if (err instanceof NotFoundError) {
-    return res.status(404).json(err);
+  if (err instanceof ApiError) {
+    return res.status(err.code).json(err);
   }
 
   return res.status(500).json(new ServerError());

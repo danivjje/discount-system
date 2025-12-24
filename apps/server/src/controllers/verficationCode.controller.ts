@@ -10,7 +10,7 @@ export const createCode: RequestHandler = async (req, res, next) => {
     await verificationCodeService.create(phone);
     return res.status(200).end();
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
 
@@ -24,6 +24,6 @@ export const verifyCode: RequestHandler = async (req, res, next) => {
 
     throw new UnauthorizedError('Введёный SMS-код неверный');
   } catch (err) {
-    next(err);
+    return next(err);
   }
 };
