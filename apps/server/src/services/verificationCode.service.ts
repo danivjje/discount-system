@@ -17,11 +17,24 @@ export const create = async (phone: string): Promise<void> => {
   const codeHash: string = hashSync(code, 10);
   const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
 
-  await db.delete(verificationCodesTable).where(eq(verificationCodesTable.phone, phone));
-  await db.insert(verificationCodesTable).values({
-    phone,
-    code: codeHash,
-    expiresAt,
+  // template of request to sms service
+  const response = await fetch(`${process.env.SMS_API_URL}/user/balance`, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.SMS_API_TOKEN}`,
+    },
+  });
+
+  console.log(await response.json()); // remove
+
+  await db.transaction(async (tx) => {
+    await tx.delete(verificationCodesTable).where(eq(verificationCodesTable.phone, phone));
+    await tx.insert(verificationCodesTable).values({
+      phone,
+      code: codeHash,
+      expiresAt,
+    });
   });
 };
 
