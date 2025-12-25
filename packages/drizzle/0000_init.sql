@@ -9,8 +9,8 @@ CREATE TABLE `app_config` (
 CREATE TABLE `customers` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`phone` char(12) NOT NULL,
-	`total_sum` decimal(10,2) NOT NULL DEFAULT 0,
-	`bonuses` decimal(10,2) NOT NULL DEFAULT 0,
+	`total_sum` decimal(12,2) NOT NULL DEFAULT 0,
+	`bonuses` decimal(12,2) NOT NULL DEFAULT 0,
 	CONSTRAINT `customers_id` PRIMARY KEY(`id`),
 	CONSTRAINT `customers_phone_unique` UNIQUE(`phone`)
 );

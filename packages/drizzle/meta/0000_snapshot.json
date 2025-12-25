@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "71b2bba6-8722-4cf6-9641-bbbd25aa74c4",
+  "id": "3b5783a4-9c7a-478b-8ab2-ea26800f8070",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "app_config": {
@@ -68,7 +68,7 @@
         },
         "total_sum": {
           "name": "total_sum",
-          "type": "decimal(10,2)",
+          "type": "decimal(12,2)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -76,7 +76,7 @@
         },
         "bonuses": {
           "name": "bonuses",
-          "type": "decimal(10,2)",
+          "type": "decimal(12,2)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
