@@ -99,9 +99,6 @@ importers:
       cors:
         specifier: ^2.8.5
         version: 2.8.5
-      dotenv:
-        specifier: ^17.2.3
-        version: 17.2.3
       drizzle-orm:
         specifier: ^0.44.7
         version: 0.44.7(mysql2@3.16.0)

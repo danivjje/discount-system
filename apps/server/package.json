@@ -5,11 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "vitest",
-    "dev": "tsx watch src/app.ts",
-    "build": "tsup",
+    "test": "dotenv -e .env -- vitest",
+    "dev": "dotenv -e .env -- tsx watch src/app.ts",
+    "build": "dotenv -e .env -- tsup",
     "type-check": "tsc --build --noEmit tsconfig.build.json",
-    "start": "node dist/app.js"
+    "start": "dotenv -e .env -- node dist/app.js"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +19,6 @@
     "bcrypt-ts": "^7.1.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
     "drizzle-orm": "^0.44.7",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
