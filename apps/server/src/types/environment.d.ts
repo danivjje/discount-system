@@ -1,13 +1,13 @@
 declare namespace NodeJS {
   interface ProcessEnv {
-    DATABASE_URL: string;
-    SMS_API_TOKEN: string;
-    SMS_API_URL: string;
-    JWT_SECRET_KEY: string;
-    JWT_REFRESH_SECRET_KEY: string;
-    ADMIN_USERNAME: string;
-    ADMIN_PASSWORD: string;
-    ALLOWED_ORIGINS: string;
-    PORT: string;
+    readonly DATABASE_URL: string;
+    readonly SMS_API_TOKEN: string;
+    readonly SMS_API_URL: string;
+    readonly JWT_SECRET_KEY: string;
+    readonly JWT_REFRESH_SECRET_KEY: string;
+    readonly ADMIN_USERNAME: string;
+    readonly ADMIN_PASSWORD: string;
+    readonly ALLOWED_ORIGINS: string;
+    readonly PORT: string;
   }
 }
