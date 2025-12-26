@@ -28,22 +28,32 @@ pnpm install
 ```
 
 Fill in the environment files:
-
 (You can use the provided .env.example files in those directories as templates.)
 
 - apps/server/.env
-- packages/.env
+- .env
 
 Database Setup:
 
 ```bash
-cd packages
-pnpm drizzle-kit migrate
+pnpm db:migrate
+pnpm db:seed:base
+```
+
+Also you can create 500 test customers with random values:
+
+```bash
+pnpm db:seed:dev
 ```
 
 Run the project:
 
 ```bash
-pnpm server:dev
-pnpm client:dev
+pnpm dev
+```
+
+For build:
+
+```bash
+pnpm build
 ```
