@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { drizzle, MySql2Database } from 'drizzle-orm/mysql2';
 import { Pool } from 'mysql2';
 

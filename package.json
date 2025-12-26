@@ -4,15 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "pnpm run --parallel --filter=\"./apps/**\" dev",
-    "test": "pnpm run --parallel --filter=\"./apps/**\" test",
+    "dev": "dotenv -e .env -- pnpm run --filter=\"./apps/**\" dev",
+    "test": "dotenv -e .env -- pnpm run --filter=\"./apps/**\" test",
     "type-check": "pnpm -r run type-check",
-    "build": "pnpm -r run --parallel build",
-    "start": "pnpm run --filter=\"./apps/server\" start",
+    "build": "dotenv -e .env -- pnpm -r run --parallel build",
+    "start": "dotenv -e .env -- pnpm run --filter=\"./apps/server\" start",
     "clean": "pnpm -r exec rimraf dist",
-    "db:migrate": "pnpm --filter=\"./packages/db\" exec drizzle-kit migrate",
-    "db:seed:base": "pnpm run --filter=\"./packages/db\" db:seed:base",
-    "db:seed:dev": "pnpm run --filter=\"./packages/db\" db:seed:dev"
+    "db:migrate": "dotenv -e .env -- pnpm --filter=\"./packages/db\" exec drizzle-kit migrate",
+    "db:seed:base": "dotenv -e .env -- pnpm run --filter=\"./packages/db\" db:seed:base",
+    "db:seed:dev": "dotenv -e .env -- pnpm run --filter=\"./packages/db\" db:seed:dev"
   },
   "workspaces": [
     "apps/*",
@@ -23,6 +23,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.23.0",
   "devDependencies": {
+    "dotenv-cli": "^11.0.0",
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "rimraf": "^6.1.2"

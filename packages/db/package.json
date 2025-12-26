@@ -18,8 +18,8 @@
     }
   },
   "scripts": {
-    "build": "pnpm exec tsc --build tsconfig.build.json",
-    "type-check": "pnpm exec tsc --build --noEmit tsconfig.build.json",
+    "build": "tsc --build tsconfig.build.json",
+    "type-check": "tsc --build --noEmit tsconfig.build.json",
     "db:seed:dev": "tsx src/seeds/dev.seed.ts",
     "db:seed:base": "tsx src/seeds/base.seed.ts"
   },
@@ -29,10 +29,7 @@
   "packageManager": "pnpm@10.18.1",
   "dependencies": {
     "bcrypt-ts": "^7.1.0",
-    "dotenv": "^17.2.3",
-    "mysql2": "^3.16.0"
-  },
-  "peerDependencies": {
+    "mysql2": "^3.16.0",
     "drizzle-orm": "^0.44.7"
   },
   "devDependencies": {
