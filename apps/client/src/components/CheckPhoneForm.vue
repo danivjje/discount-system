@@ -2,7 +2,7 @@
 import { useCustomersStore } from '@/store';
 import { nextTick, ref, type Ref } from 'vue';
 import type { $ZodFlattenedError } from 'zod/v4/core';
-import { phoneScheme } from '@packages/schemes';
+import { phoneScheme } from '@packages/shared';
 import z, { ZodError } from 'zod';
 
 import { InputMask, IftaLabel, Button, Dialog } from 'primevue';
@@ -64,7 +64,7 @@ const handleCloseModal = (): void => {
     </div>
     <Button data-test="check-submit" type="submit">Узнать баланс</Button>
   </form>
-  <Dialog v-model:visible="isModalVisible" modal :draggable="false" class="w-full max-w-[450px]">
+  <Dialog v-model:visible="isModalVisible" modal :draggable="false" class="w-full max-w-115">
     <template #container>
       <CustomerInfo
         v-if="customersStore.selectedCustomer"

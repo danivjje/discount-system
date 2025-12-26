@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import request from 'supertest';
-import { app } from '@/app';
+import { app } from '@/app.js';
 import jwt from 'jsonwebtoken';
-import { AppConfig } from '@packages/types';
+import type { AppConfig } from '@packages/shared';
 
 describe('app config controller', () => {
   it('GET, POST /api/config', async () => {

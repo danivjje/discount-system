@@ -1,10 +1,9 @@
-import { getCustomer, getCustomers, patchCustomerResetBonuses, postCustomer } from '@/api';
-import type { Customer, GetCustomersResponse, SortParam } from '@packages/types';
 import { defineStore } from 'pinia';
 import { ref, type Ref } from 'vue';
-import type { CountBonusesForm } from '@packages/types';
 import { useToastsStore } from './toasts';
 import { handleHttpError } from '@/helpers/handle-http-error';
+import { getCustomer, getCustomers, patchCustomerResetBonuses, postCustomer } from '@/api';
+import type { CountBonusesForm, Customer, GetCustomersResponse, SortParam } from '@packages/shared';
 
 export const useCustomersStore = defineStore('customers', () => {
   const toastsStore = useToastsStore();

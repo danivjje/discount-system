@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, type Ref } from 'vue';
-import type { Customer } from '@packages/types';
+import type { Customer } from '@packages/shared';
 import { renderPhone } from '@/helpers/render-phone';
 import { useCustomersStore, useToastsStore } from '@/store';
 import { handleHttpError } from '@/helpers/handle-http-error';

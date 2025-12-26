@@ -1,7 +1,7 @@
 import ky from 'ky';
 import { type ZodSchema, z } from 'zod';
-import { userScheme, configScheme, customerScheme, phoneScheme, getCustomersScheme } from '@packages/schemes';
-import type { AppConfig, Customer, GetCustomersResponse, LoginForm, SafeUser, SortParam } from '@packages/types';
+import { userScheme, configScheme, customerScheme, phoneScheme, getCustomersScheme } from '@packages/shared';
+import type { AppConfig, Customer, GetCustomersResponse, LoginForm, SafeUser, SortParam } from '@packages/shared';
 
 const api = ky.create({
   prefixUrl: import.meta.env.VITE_API_URL,

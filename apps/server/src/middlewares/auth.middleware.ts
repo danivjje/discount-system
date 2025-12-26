@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import * as authService from '@/services/auth.service';
+import * as authService from '@/services/auth.service.js';
 
 const authMiddleware: RequestHandler = async (req, res, next) => {
   const sessionToken: string | undefined = req.cookies.authtoken;

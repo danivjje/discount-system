@@ -1,10 +1,16 @@
-import { NotFoundError } from '@/errors';
-import type { SortField, SortOrder, GetCustomersResponse, BonusPercentConfig } from '@packages/types';
-import db from '@packages/db';
-import { appConfigTable, customersTable } from '@packages/db/schema';
-import { AppConfig, CountBonusesForm, Customer } from '@packages/types';
+import { NotFoundError, ApiError } from '@/errors/index.js';
+import { db } from '@packages/db/client';
+import { appConfigTable, customersTable } from '@packages/db';
+import type {
+  SortField,
+  SortOrder,
+  GetCustomersResponse,
+  BonusPercentConfig,
+  AppConfig,
+  CountBonusesForm,
+  Customer,
+} from '@packages/shared';
 import { asc, count, desc, DrizzleQueryError, eq, like, sql } from 'drizzle-orm';
-import { ApiError } from '@/errors/ApiError';
 
 export const fetchAll = async (
   page: number,

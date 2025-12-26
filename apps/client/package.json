@@ -7,9 +7,11 @@
     "dev": "vite",
     "test": "vitest",
     "build": "vue-tsc -b && vite build",
+    "type-check": "pnpm exec vue-tsc -b --noEmit",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@packages/shared": "workspace:*",
     "@primeuix/themes": "^1.2.5",
     "@vueuse/core": "^14.1.0",
     "ky": "^1.14.1",

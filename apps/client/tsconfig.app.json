@@ -1,5 +1,5 @@
 {
-  "extends": ["../../tsconfig.json", "@vue/tsconfig/tsconfig.dom.json"],
+  "extends": ["@vue/tsconfig/tsconfig.dom.json"],
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "types": ["vite/client", "vitest/globals"],
@@ -13,8 +13,7 @@
     "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@packages/*": ["../../packages/src/*"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]

@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import z, { ZodError } from 'zod';
-import { useAuthStore, useToastsStore } from '@/store';
 import { useRouter } from 'vue-router';
-import type { LoginForm } from '@packages/types';
 import { reactive, ref, type Ref } from 'vue';
-import { loginFormScheme } from '@packages/schemes';
 import type { $ZodFlattenedError } from 'zod/v4/core';
+import { useAuthStore, useToastsStore } from '@/store';
+import { type LoginForm, loginFormScheme } from '@packages/shared';
 
 import { InputText, Button, FloatLabel } from 'primevue';
 import InputErrors from '@/components/ui/InputErrors.vue';

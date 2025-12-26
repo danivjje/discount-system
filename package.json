@@ -4,11 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client:test": "pnpm --filter=\"client\" test",
-    "server:test": "pnpm --filter=\"server\" test",
-    "client:dev": "pnpm --filter=\"client\" dev",
-    "server:dev": "pnpm --filter=\"server\" serve",
-    "test": "pnpm client:test && pnpm server:test"
+    "dev": "pnpm run --parallel --filter=\"./apps/**\" dev",
+    "test": "pnpm run --parallel --filter=\"./apps/**\" test",
+    "type-check": "pnpm -r run type-check",
+    "build": "pnpm -r run --parallel build",
+    "start": "pnpm run --filter=\"./apps/server\" start",
+    "clean": "pnpm -r exec rimraf dist",
+    "db:migrate": "pnpm --filter=\"./packages/db\" exec drizzle-kit migrate",
+    "db:seed:base": "pnpm run --filter=\"./packages/db\" db:seed:base",
+    "db:seed:dev": "pnpm run --filter=\"./packages/db\" db:seed:dev"
   },
   "workspaces": [
     "apps/*",
@@ -20,6 +24,7 @@
   "packageManager": "pnpm@10.23.0",
   "devDependencies": {
     "prettier": "^3.7.4",
-    "prettier-plugin-tailwindcss": "^0.7.2"
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "rimraf": "^6.1.2"
   }
 }

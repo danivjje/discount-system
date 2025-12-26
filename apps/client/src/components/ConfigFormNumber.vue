@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, type Ref } from 'vue';
 import { useConfigStore } from '@/store';
-import type { AppConfig } from '@packages/types';
+import type { AppConfig } from '@packages/shared';
 import z, { ZodError, type ZodSchema } from 'zod';
 import type { $ZodFlattenedError } from 'zod/v4/core';
 

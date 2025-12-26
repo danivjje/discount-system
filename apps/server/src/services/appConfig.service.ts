@@ -1,7 +1,6 @@
-import db from '@packages/db';
-import { appConfigTable } from '@packages/db/schema';
-import { getConfigScheme } from '@packages/schemes';
-import { AppConfig, CreateCurrentAppConfig, CurrentAppConfig } from '@packages/types';
+import { db } from '@packages/db/client';
+import { appConfigTable } from '@packages/db';
+import { type AppConfig, type CreateCurrentAppConfig, type CurrentAppConfig, getConfigScheme } from '@packages/shared';
 
 export const fetchAll = async (): Promise<CurrentAppConfig[]> => {
   const data: AppConfig[] = await db.select().from(appConfigTable);

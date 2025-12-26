@@ -1,5 +1,5 @@
 import { getConfig, postConfig } from '@/api';
-import type { AppConfig } from '@packages/types';
+import type { AppConfig } from '@packages/shared';
 import { defineStore } from 'pinia';
 import { type Ref, ref } from 'vue';
 import { useToastsStore } from './toasts';

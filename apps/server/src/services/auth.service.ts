@@ -1,12 +1,12 @@
-import db from '@packages/db';
-import { eq } from 'drizzle-orm';
-import { compareSync } from 'bcrypt-ts';
 import jwt from 'jsonwebtoken';
-import { usersTable } from '@packages/db/schema';
-import { NotFoundError, UnauthorizedError } from '@/errors';
-import { LoginForm, LoginResponse, User } from '@packages/types';
-import * as refreshTokenService from '@/services/refreshToken.service';
-import { JwtCustomPayload } from '@/types';
+import { eq } from 'drizzle-orm';
+import { db } from '@packages/db/client';
+import { usersTable } from '@packages/db';
+import { compareSync } from 'bcrypt-ts';
+import type { JwtCustomPayload } from '@/types/index.js';
+import { NotFoundError, UnauthorizedError } from '@/errors/index.js';
+import type { LoginForm, LoginResponse, User } from '@packages/shared';
+import * as refreshTokenService from '@/services/refreshToken.service.js';
 
 export const login = async (data: LoginForm): Promise<LoginResponse> => {
   const { username, password } = data;

@@ -1,4 +1,4 @@
-import type { Customer, SortField } from '@packages/types';
+import type { Customer, SortField } from '@packages/shared';
 
 export interface SortTableOption {
   title: string;

@@ -1,5 +1,5 @@
 import { authCheckUser, authLoginUser } from '@/api';
-import type { LoginForm, SafeUser } from '@packages/types';
+import type { LoginForm, SafeUser } from '@packages/shared';
 import { defineStore } from 'pinia';
 import { type Ref, ref } from 'vue';
 import { useToastsStore } from './toasts';

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { app } from '@/app';
+import { app } from '@/app.js';
 import request from 'supertest';
 import jwt from 'jsonwebtoken';
 
@@ -12,7 +12,7 @@ describe('customers controller', () => {
       .get('/api/customers')
       .set('Cookie', [`authtoken=${token}`]);
     expect(response.statusCode).toBe(200);
-    expect(Array.isArray(response.body)).toBe(true);
+    expect(response.body).toHaveProperty('customers');
   });
 
   it('GET /api/customers (401 error)', async () => {

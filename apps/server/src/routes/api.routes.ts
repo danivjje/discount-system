@@ -1,10 +1,10 @@
 import express from 'express';
 
-import authRouter from './auth.routes';
-import customerRouter from './customer.routes';
-import appConfigRouter from './appConfig.routes';
-import verificationCodeRouter from './verificationCode.routes';
-import authMiddleware from '@/middlewares/auth.middleware';
+import authRouter from './auth.routes.js';
+import customerRouter from './customer.routes.js';
+import appConfigRouter from './appConfig.routes.js';
+import verificationCodeRouter from './verificationCode.routes.js';
+import authMiddleware from '@/middlewares/auth.middleware.js';
 
 const apiRouter = express.Router();
 

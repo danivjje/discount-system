@@ -1,20 +1,18 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "es2022",
-    "module": "es2022",
-    "moduleResolution": "bundler",
+    "module": "nodenext",
+    "target": "esnext",
+    "moduleResolution": "nodenext",
+    "rootDir": "src",
     "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "types": ["node", "vitest/globals"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@packages/*": ["../../packages/src/*"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["src/**/*.ts"]

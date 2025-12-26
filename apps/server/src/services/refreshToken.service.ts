@@ -1,10 +1,10 @@
-import { UnauthorizedError } from '@/errors';
-import { JwtCustomPayload } from '@/types';
-import db from '@packages/db';
-import { refreshTokensTable, usersTable } from '@packages/db/schema';
-import { RefreshToken, SafeUser, User } from '@packages/types';
-import { and, eq } from 'drizzle-orm';
 import jwt from 'jsonwebtoken';
+import { and, eq } from 'drizzle-orm';
+import { UnauthorizedError } from '@/errors/index.js';
+import type { JwtCustomPayload } from '@/types/index.js';
+import { db } from '@packages/db/client';
+import { refreshTokensTable, usersTable } from '@packages/db';
+import type { RefreshToken, SafeUser, User } from '@packages/shared';
 
 export const create = async (data: SafeUser): Promise<string> => {
   const { id, username } = data;

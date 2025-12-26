@@ -6,16 +6,15 @@ import {
   createConfigScheme,
   getCustomersScheme,
   loginFormScheme,
-} from './schemes';
-import { usersTable, customersTable, appConfigTable, refreshTokensTable, verificationCodesTable } from './db/schema';
+} from './schemes.js';
+import type { User, Customer, AppConfig, RefreshToken, VerificationCode } from '@packages/db';
 
-export type User = typeof usersTable.$inferSelect;
+export type { User, Customer, AppConfig, RefreshToken, VerificationCode };
+
 export type SafeUser = Omit<User, 'password'>;
 
-export type Customer = typeof customersTable.$inferSelect;
 export type GetCustomersResponse = z.infer<typeof getCustomersScheme>;
 
-export type AppConfig = typeof appConfigTable.$inferSelect;
 export type CurrentAppConfig = z.infer<typeof configScheme>;
 export type CreateCurrentAppConfig = z.infer<typeof createConfigScheme>;
 
@@ -23,10 +22,6 @@ export type BonusPercentConfig = z.infer<typeof configBonusPercentScheme>;
 
 export type LoginForm = z.infer<typeof loginFormScheme>;
 export type CountBonusesForm = z.infer<typeof countBonusesFormScheme>;
-
-export type RefreshToken = typeof refreshTokensTable.$inferSelect;
-
-export type VerificationCode = typeof verificationCodesTable.$inferInsert;
 
 export interface LoginResponse {
   refreshToken: string;

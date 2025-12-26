@@ -4,7 +4,7 @@ import type { ColumnConfig } from '@/types';
 import { useCustomersStore } from '@/store';
 import { renderPhone } from '@/helpers/render-phone';
 import { renderNumber } from '@/helpers/render-number';
-import type { SortField, SortParam } from '@packages/types';
+import type { SortField, SortParam } from '@packages/shared';
 
 import { DataTable, Column, Paginator, type DataTableSortEvent } from 'primevue';
 

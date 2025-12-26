@@ -1,5 +1,5 @@
-import { SortField, SortOrder } from '@packages/types';
-import { JwtPayload } from 'jsonwebtoken';
+import type { SortField, SortOrder } from '@packages/shared';
+import type { JwtPayload } from 'jsonwebtoken';
 
 export interface GetCustomersQuery {
   page?: string;

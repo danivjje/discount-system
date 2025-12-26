@@ -1,4 +1,4 @@
-import { ApiError } from './ApiError';
+import { ApiError } from './ApiError.js';
 
 export class ValidationError<T = unknown> extends ApiError {
   details: T;

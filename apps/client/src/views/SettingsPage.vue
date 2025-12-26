@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useConfigStore } from '@/store';
-import { configBonusPercentValueScheme } from '@packages/schemes';
+import { configBonusPercentValueScheme } from '@packages/shared';
 
 import NavigationPageTemplate from '@/components/ui/NavigationPageTemplate.vue';
 import ConfigFormNumber from '@/components/ConfigFormNumber.vue';

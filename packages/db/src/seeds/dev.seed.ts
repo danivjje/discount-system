@@ -1,9 +1,10 @@
-import db from '../index';
+import { db } from '../client.js';
 import { seed } from 'drizzle-seed';
-import { customersTable } from '../schema';
+import { customersTable } from '../schema.js';
 
 async function main() {
   try {
+    console.log('Seeding...');
     await seed(db, { customers: customersTable }).refine((f) => ({
       customers: {
         columns: {
@@ -18,6 +19,8 @@ async function main() {
   } catch (err) {
     console.log(err);
   } finally {
+    db.$client.end();
+    console.log('Successfully');
   }
 }
 

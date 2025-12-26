@@ -1,9 +1,9 @@
-import db from '@packages/db';
-import { verificationCodesTable } from '@packages/db/schema';
 import crypto from 'crypto';
-import { compareSync, hashSync } from 'bcrypt-ts';
 import { eq } from 'drizzle-orm';
-import { VerificationCode } from '@packages/types';
+import { compareSync, hashSync } from 'bcrypt-ts';
+import { db } from '@packages/db/client';
+import { verificationCodesTable } from '@packages/db';
+import type { VerificationCode } from '@packages/shared';
 
 export const create = async (phone: string): Promise<void> => {
   let code: string = String(crypto.randomInt(9999));

@@ -1,6 +1,9 @@
-import { getCustomers, resetCustomerBonuses } from '@/controllers/customer.controller';
-import { getCustomerByPhone } from '@/controllers/customer.controller';
-import { upsertCustomer } from '@/controllers/customer.controller';
+import {
+  getCustomers,
+  resetCustomerBonuses,
+  getCustomerByPhone,
+  upsertCustomer,
+} from '@/controllers/customer.controller.js';
 import express from 'express';
 
 const customerRouter = express.Router();

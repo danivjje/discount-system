@@ -1,8 +1,7 @@
 import jwt from 'jsonwebtoken';
 import type { ErrorRequestHandler } from 'express';
 import z, { ZodError } from 'zod';
-import { ServerError, UnauthorizedError, ValidationError } from '@/errors';
-import { ApiError } from '@/errors/ApiError';
+import { ServerError, UnauthorizedError, ValidationError, ApiError } from '@/errors/index.js';
 
 const { JsonWebTokenError, NotBeforeError, TokenExpiredError } = jwt;
 

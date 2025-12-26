@@ -1,4 +1,4 @@
-import { ApiErrorType } from '@packages/types';
+import type { ApiErrorType } from '@packages/shared';
 
 export class ApiError extends Error {
   code: number;

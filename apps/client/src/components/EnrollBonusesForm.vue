@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { nextTick, reactive, ref, toRaw, type Ref } from 'vue';
-import type { CountBonusesForm } from '@packages/types';
-import { useCustomersStore, useToastsStore } from '@/store';
-import type { $ZodFlattenedError } from 'zod/v4/core';
 import z, { ZodError } from 'zod';
-import { countBonusesFormScheme } from '@packages/schemes';
+import type { $ZodFlattenedError } from 'zod/v4/core';
+import { useCustomersStore, useToastsStore } from '@/store';
+import { nextTick, reactive, ref, toRaw, type Ref } from 'vue';
+import { type CountBonusesForm, countBonusesFormScheme } from '@packages/shared';
 
 import InputErrors from '@/components/ui/InputErrors.vue';
 import { InputMask, InputNumber, Button, IftaLabel } from 'primevue';
