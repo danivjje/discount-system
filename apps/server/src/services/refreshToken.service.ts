@@ -4,7 +4,7 @@ import { UnauthorizedError } from '@/errors';
 import type { JwtCustomPayload } from '@/types';
 import { db } from '@packages/db/client';
 import { refreshTokensTable, usersTable } from '@packages/db';
-import type { RefreshToken, SafeUser, User } from '@packages/shared';
+import type { SafeUser } from '@packages/shared';
 
 export const create = async (data: SafeUser): Promise<string> => {
   const { id, username } = data;
@@ -32,8 +32,7 @@ export const create = async (data: SafeUser): Promise<string> => {
 export const refreshToken = async (token: string | undefined): Promise<string> => {
   if (!token) throw new UnauthorizedError('Вы не авторизованы.');
 
-  const result = await db.select().from(refreshTokensTable).where(eq(refreshTokensTable.token, token)).limit(1);
-  const tokenItem: RefreshToken | null = result[0] || null;
+  const [tokenItem] = await db.select().from(refreshTokensTable).where(eq(refreshTokensTable.token, token)).limit(1);
 
   if (tokenItem && !tokenItem.revoked) {
     try {

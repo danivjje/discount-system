@@ -48,9 +48,8 @@ export const fetchAll = async (
 };
 
 export const fetchByPhone = async (phone: string): Promise<Customer | null> => {
-  const result = await db.select().from(customersTable).where(eq(customersTable.phone, phone)).limit(1);
-  const customer: Customer | null = result[0] || null;
-  return customer;
+  const [customer] = await db.select().from(customersTable).where(eq(customersTable.phone, phone)).limit(1);
+  return customer ?? null;
 };
 
 export const upsert = async (data: CountBonusesForm): Promise<Customer> => {
@@ -90,7 +89,7 @@ export const upsert = async (data: CountBonusesForm): Promise<Customer> => {
     throw err;
   }
 
-  const [customer]: Customer[] = await db.select().from(customersTable).where(eq(customersTable.phone, phone)).limit(1);
+  const [customer] = await db.select().from(customersTable).where(eq(customersTable.phone, phone)).limit(1);
   return customer;
 };
 

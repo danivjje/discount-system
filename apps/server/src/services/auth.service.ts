@@ -5,7 +5,7 @@ import { usersTable } from '@packages/db';
 import { compareSync } from 'bcrypt-ts';
 import type { JwtCustomPayload } from '@/types';
 import { NotFoundError, UnauthorizedError } from '@/errors';
-import type { LoginForm, LoginResponse, User } from '@packages/shared';
+import type { LoginForm, LoginResponse } from '@packages/shared';
 import * as refreshTokenService from '@/services/refreshToken.service';
 
 export const login = async (data: LoginForm): Promise<LoginResponse> => {
