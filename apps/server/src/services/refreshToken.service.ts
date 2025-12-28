@@ -14,8 +14,7 @@ export const create = async (data: SafeUser): Promise<string> => {
     expiresIn: '30d',
   });
 
-  const userResult = await db.select().from(usersTable).where(eq(usersTable.username, username)).limit(1);
-  const user: User = userResult[0];
+  const [user] = await db.select().from(usersTable).where(eq(usersTable.username, username)).limit(1);
 
   const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days to ms with utc+0
 

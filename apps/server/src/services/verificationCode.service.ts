@@ -41,6 +41,7 @@ export const create = async (phone: string): Promise<void> => {
 export const verify = async (phone: string, code: string): Promise<boolean> => {
   const result = await db.select().from(verificationCodesTable).where(eq(verificationCodesTable.phone, phone)).limit(1);
   const dbCode: VerificationCode = result[0];
+
   if (dbCode.expiresAt > new Date(Date.now())) {
     return compareSync(code, dbCode.code);
   }

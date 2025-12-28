@@ -11,8 +11,8 @@ import * as refreshTokenService from '@/services/refreshToken.service';
 export const login = async (data: LoginForm): Promise<LoginResponse> => {
   const { username, password } = data;
 
-  const result = await db.select().from(usersTable).where(eq(usersTable.username, username)).limit(1);
-  const user: User | null = result[0] || null;
+  const [user] = await db.select().from(usersTable).where(eq(usersTable.username, username)).limit(1);
+
   if (!user) {
     throw new NotFoundError('Пользователя с этим именем пользователя не существует');
   }
