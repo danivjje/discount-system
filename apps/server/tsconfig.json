@@ -1,16 +1,19 @@
 {
   "compilerOptions": {
-    "module": "nodenext",
+    "module": "esnext",
     "target": "esnext",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "bundler",
+
+    "baseUrl": ".",
     "rootDir": "src",
     "outDir": "dist",
+
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
+
     "types": ["node", "vitest/globals"],
-    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     }

@@ -4,9 +4,9 @@
     "rootDir": "src",
     "outDir": "dist",
     "declarationMap": true,
-    "module": "nodenext",
+    "module": "esnext",
     "target": "esnext",
-    "moduleResolution": "nodenext",
+    "moduleResolution": "bundler",
     "strict": true
   },
   "include": ["src"]

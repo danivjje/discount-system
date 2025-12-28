@@ -2,8 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
-import apiRouter from '@/routes/api.routes.js';
-import errorHandlingMiddleware from '@/middlewares/errorHandling.middleware.js';
+import apiRouter from '@/routes/api.routes';
+import errorHandlingMiddleware from '@/middlewares/errorHandling.middleware';
 
 const port = Number(process.env.PORT) ?? 3000;
 export const app = express();

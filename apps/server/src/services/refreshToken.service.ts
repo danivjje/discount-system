@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { and, eq } from 'drizzle-orm';
-import { UnauthorizedError } from '@/errors/index.js';
-import type { JwtCustomPayload } from '@/types/index.js';
+import { UnauthorizedError } from '@/errors';
+import type { JwtCustomPayload } from '@/types';
 import { db } from '@packages/db/client';
 import { refreshTokensTable, usersTable } from '@packages/db';
 import type { RefreshToken, SafeUser, User } from '@packages/shared';

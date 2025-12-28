@@ -1,5 +1,5 @@
 import type { RequestHandler } from 'express';
-import * as configService from '@/services/appConfig.service.js';
+import * as configService from '@/services/appConfig.service';
 import { postConfigScheme, type AppConfig, type CurrentAppConfig, type CreateCurrentAppConfig } from '@packages/shared';
 
 export const getAppConfig: RequestHandler = async (_req, res, next) => {

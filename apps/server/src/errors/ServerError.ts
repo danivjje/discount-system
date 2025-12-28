@@ -1,4 +1,4 @@
-import { ApiError } from './ApiError.js';
+import { ApiError } from './ApiError';
 
 export class ServerError extends ApiError {
   constructor() {

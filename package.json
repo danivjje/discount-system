@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "dotenv -e .env -- pnpm run --filter=\"./apps/**\" dev",
     "test": "dotenv -e .env -- pnpm run --filter=\"./apps/**\" test",
-    "type-check": "pnpm -r run type-check",
-    "build": "dotenv -e .env -- pnpm -r run --parallel build",
+    "type-check": "pnpm -r run --parallel type-check",
+    "build": "dotenv -e .env -- pnpm -r run build",
     "start": "dotenv -e .env -- pnpm run --filter=\"./apps/server\" start",
     "clean": "pnpm -r exec rimraf dist",
     "db:migrate": "dotenv -e .env -- pnpm --filter=\"./packages/db\" exec drizzle-kit migrate",
@@ -23,9 +23,14 @@
   "license": "ISC",
   "packageManager": "pnpm@10.23.0",
   "devDependencies": {
+    "@types/node": "^25.0.3",
     "dotenv-cli": "^11.0.0",
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.7.2",
-    "rimraf": "^6.1.2"
+    "rimraf": "^6.1.2",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
   }
 }

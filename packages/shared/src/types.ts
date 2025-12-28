@@ -6,7 +6,7 @@ import {
   createConfigScheme,
   getCustomersScheme,
   loginFormScheme,
-} from './schemes.js';
+} from './schemes';
 import type { User, Customer, AppConfig, RefreshToken, VerificationCode } from '@packages/db';
 
 export type { User, Customer, AppConfig, RefreshToken, VerificationCode };

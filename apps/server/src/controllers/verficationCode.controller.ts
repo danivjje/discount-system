@@ -1,7 +1,7 @@
 import { phoneScheme, verifyCodeScheme } from '@packages/shared';
 import { RequestHandler } from 'express';
-import * as verificationCodeService from '@/services/verificationCode.service.js';
-import { UnauthorizedError } from '@/errors/index.js';
+import * as verificationCodeService from '@/services/verificationCode.service';
+import { UnauthorizedError } from '@/errors';
 
 export const createCode: RequestHandler = async (req, res, next) => {
   try {

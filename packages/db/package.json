@@ -4,21 +4,20 @@
   "description": "",
   "type": "module",
   "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "import": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
     "./client": {
-      "types": "./src/client.ts",
-      "import": "./src/client.ts",
+      "types": "./dist/client.d.ts",
+      "import": "./dist/client.js",
       "default": "./dist/client.js"
     }
   },
   "scripts": {
-    "build": "tsc --build tsconfig.build.json",
+    "build": "tsup",
     "type-check": "tsc --build --noEmit tsconfig.build.json",
     "db:seed:dev": "tsx src/seeds/dev.seed.ts",
     "db:seed:base": "tsx src/seeds/base.seed.ts"
@@ -29,14 +28,11 @@
   "packageManager": "pnpm@10.18.1",
   "dependencies": {
     "bcrypt-ts": "^7.1.0",
-    "mysql2": "^3.16.0",
-    "drizzle-orm": "^0.44.7"
+    "drizzle-orm": "^0.44.7",
+    "mysql2": "^3.16.0"
   },
   "devDependencies": {
-    "@types/node": "^24.10.4",
     "drizzle-kit": "^0.31.8",
-    "drizzle-seed": "^0.3.1",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "drizzle-seed": "^0.3.1"
   }
 }

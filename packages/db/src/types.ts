@@ -1,4 +1,4 @@
-import { usersTable, customersTable, appConfigTable, refreshTokensTable, verificationCodesTable } from './schema.js';
+import { usersTable, customersTable, appConfigTable, refreshTokensTable, verificationCodesTable } from './schema';
 
 export type User = typeof usersTable.$inferSelect;
 

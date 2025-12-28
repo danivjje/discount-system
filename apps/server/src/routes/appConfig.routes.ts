@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAppConfig, updateAppConfig } from '@/controllers/appConfig.controller.js';
+import { getAppConfig, updateAppConfig } from '@/controllers/appConfig.controller';
 
 const appConfigRouter = express.Router();
 

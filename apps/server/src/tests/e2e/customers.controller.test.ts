@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { app } from '@/app.js';
+import { app } from '@/app';
 import request from 'supertest';
 import jwt from 'jsonwebtoken';
 

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { RequestHandler } from 'express';
-import * as authService from '@/services/auth.service.js';
-import { UnauthorizedError, ApiError } from '@/errors/index.js';
+import * as authService from '@/services/auth.service';
+import { UnauthorizedError, ApiError } from '@/errors';
 import { type LoginResponse, loginFormScheme } from '@packages/shared';
 
 const { JsonWebTokenError, NotBeforeError, TokenExpiredError } = jwt;

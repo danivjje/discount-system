@@ -1,5 +1,5 @@
-import { NotFoundError, ApiError } from '@/errors/index.js';
 import { db } from '@packages/db/client';
+import { NotFoundError, ApiError } from '@/errors';
 import { appConfigTable, customersTable } from '@packages/db';
 import type {
   SortField,

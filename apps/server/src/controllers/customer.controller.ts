@@ -1,7 +1,7 @@
 import type { RequestHandler } from 'express';
-import { NotFoundError } from '@/errors/index.js';
-import * as customerService from '@/services/customer.service.js';
-import type { GetCustomersQuery, NormalizedGetCustomersQuery } from '@/types/index.js';
+import { NotFoundError } from '@/errors';
+import * as customerService from '@/services/customer.service';
+import type { GetCustomersQuery, NormalizedGetCustomersQuery } from '@/types';
 import { type Customer, type GetCustomersResponse, countBonusesFormScheme, phoneScheme } from '@packages/shared';
 
 export const getCustomers: RequestHandler = async (req, res, next) => {

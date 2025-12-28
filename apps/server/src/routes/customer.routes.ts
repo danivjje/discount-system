@@ -3,7 +3,7 @@ import {
   resetCustomerBonuses,
   getCustomerByPhone,
   upsertCustomer,
-} from '@/controllers/customer.controller.js';
+} from '@/controllers/customer.controller';
 import express from 'express';
 
 const customerRouter = express.Router();

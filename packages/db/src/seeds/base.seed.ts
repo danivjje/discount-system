@@ -1,6 +1,6 @@
-import { db } from '../client.js';
+import { db } from '../client';
 import { seed } from 'drizzle-seed';
-import { usersTable, appConfigTable } from '../schema.js';
+import { usersTable, appConfigTable } from '../schema';
 import { hashSync } from 'bcrypt-ts';
 
 async function main() {
