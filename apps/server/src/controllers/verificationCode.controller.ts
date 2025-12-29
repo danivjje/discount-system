@@ -7,7 +7,10 @@ export const createCode: RequestHandler = async (req, res, next) => {
   try {
     const body = req.body;
     const phone: string = phoneScheme.parse(body.phone);
-    await verificationCodeService.create(phone);
+
+    const code: string = await verificationCodeService.create(phone);
+    await verificationCodeService.send(code);
+
     return res.status(200).end();
   } catch (err) {
     return next(err);

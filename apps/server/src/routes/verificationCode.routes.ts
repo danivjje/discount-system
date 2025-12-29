@@ -1,4 +1,4 @@
-import { createCode, verifyCode } from '@/controllers/verficationCode.controller';
+import { createCode, verifyCode } from '@/controllers/verificationCode.controller';
 import express from 'express';
 
 const verificationCodeRouter = express.Router();
