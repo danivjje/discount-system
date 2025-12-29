@@ -16,7 +16,7 @@ export const updateAppConfig: RequestHandler = async (req, res, next) => {
     const data: AppConfig[] = req.body;
     const appConfig: CreateCurrentAppConfig[] = postConfigScheme.parse(data);
 
-    const newConfig: AppConfig[] = await configService.update(appConfig);
+    const newConfig: CurrentAppConfig[] = await configService.update(appConfig);
 
     return res.status(200).json(newConfig);
   } catch (err) {
