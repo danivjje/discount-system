@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { markRaw, onMounted } from 'vue';
 import { useConfigStore } from '@/store';
 import { configBonusPercentScheme } from '@packages/shared';
 
@@ -19,6 +19,10 @@ onMounted(() => {
 
 <template>
   <NavigationPageTemplate>
-    <ConfigFormNumber config-key="bonusPercent" title="Процент бонуса" :zod-scheme="configBonusPercentScheme" />
+    <ConfigFormNumber
+      config-key="bonusPercent"
+      title="Процент бонуса"
+      :zod-scheme="markRaw(configBonusPercentScheme)"
+    />
   </NavigationPageTemplate>
 </template>
