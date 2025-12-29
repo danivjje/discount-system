@@ -1,12 +1,12 @@
 import { getConfig, postConfig } from '@/api';
-import type { AppConfig } from '@packages/shared';
+import type { CreateCurrentAppConfig, CurrentAppConfig } from '@packages/shared';
 import { defineStore } from 'pinia';
 import { type Ref, ref } from 'vue';
 import { useToastsStore } from './toasts';
 import { handleHttpError } from '@/helpers/handle-http-error';
 
 export const useConfigStore = defineStore('config', () => {
-  const config: Ref<AppConfig[]> = ref([]);
+  const config: Ref<(CurrentAppConfig | CreateCurrentAppConfig)[]> = ref([]);
   const toastsStore = useToastsStore();
 
   const fetchConfig = async (): Promise<void> => {
@@ -18,7 +18,7 @@ export const useConfigStore = defineStore('config', () => {
     }
   };
 
-  const updateConfig = async (): Promise<AppConfig[] | void> => {
+  const updateConfig = async (): Promise<CurrentAppConfig[]> => {
     try {
       return await postConfig(config.value);
     } catch (err) {

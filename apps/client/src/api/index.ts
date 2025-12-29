@@ -1,7 +1,15 @@
 import ky from 'ky';
 import { type ZodSchema, z } from 'zod';
-import { userScheme, configScheme, customerScheme, phoneScheme, getCustomersScheme } from '@packages/shared';
-import type { AppConfig, Customer, GetCustomersResponse, LoginForm, SafeUser, SortParam } from '@packages/shared';
+import { userScheme, customerScheme, phoneScheme, getCustomersScheme, getConfigScheme } from '@packages/shared';
+import type {
+  CreateCurrentAppConfig,
+  CurrentAppConfig,
+  Customer,
+  GetCustomersResponse,
+  LoginForm,
+  SafeUser,
+  SortParam,
+} from '@packages/shared';
 
 const api = ky.create({
   prefixUrl: import.meta.env.VITE_API_URL,
@@ -60,14 +68,16 @@ export const patchCustomerResetBonuses = async (phone: string): Promise<{ phone:
   return parseData(z.object({ phone: phoneScheme }), data);
 };
 
-export const getConfig = async (): Promise<AppConfig[]> => {
+export const getConfig = async (): Promise<CurrentAppConfig[]> => {
   const data = await api.get('config').json();
-  return parseData(z.array(configScheme), data);
+  return parseData(getConfigScheme, data);
 };
 
-export const postConfig = async (configData: AppConfig[]): Promise<AppConfig[]> => {
+export const postConfig = async (
+  configData: (CurrentAppConfig | CreateCurrentAppConfig)[],
+): Promise<CurrentAppConfig[]> => {
   const data = await api.post('config', { json: configData }).json();
-  return parseData(z.array(configScheme), data);
+  return parseData(getConfigScheme, data);
 };
 
 export const authLoginUser = async (loginData: LoginForm): Promise<boolean> => {

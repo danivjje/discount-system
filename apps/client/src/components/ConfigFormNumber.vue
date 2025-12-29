@@ -1,19 +1,44 @@
 <script setup lang="ts">
 import { ref, watch, type Ref } from 'vue';
-import { useConfigStore } from '@/store';
-import type { AppConfig } from '@packages/shared';
-import z, { ZodError, type ZodSchema } from 'zod';
+import { useConfigStore, useToastsStore } from '@/store';
+import { createConfigScheme, type CreateCurrentAppConfig, type CurrentAppConfig } from '@packages/shared';
+import z, { ZodError } from 'zod';
 import type { $ZodFlattenedError } from 'zod/v4/core';
 
 import { InputNumber, Button, IftaLabel } from 'primevue';
 import InputErrors from '@/components/ui/InputErrors.vue';
-import { useToastsStore } from '@/store';
 
-const { configKey, title, zodScheme } = defineProps<{
-  configKey: string;
-  title: string;
-  zodScheme: ZodSchema;
-}>();
+const { configKey, title, zodScheme } = defineProps({
+  configKey: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  zodScheme: {
+    type: z.ZodObject,
+    required: true,
+    validator<T extends z.ZodObject>(value: T) {
+      const incomingKey: string | undefined = value.def.shape?.key?.def?.values[0];
+      const incomingValueType: string | undefined = value.def.shape?.value?.type;
+      const incomingKeysLength = Object.keys(value.def.shape).length;
+
+      return createConfigScheme.options.some((item) => {
+        const targetKey = item.def.shape.key.def.values[0];
+        const targetValueType = item.def.shape.value.type;
+        const targetSchemeKeysLength = Object.keys(item.def.shape).length;
+
+        return (
+          targetKey === incomingKey &&
+          incomingValueType === targetValueType &&
+          incomingKeysLength === targetSchemeKeysLength
+        );
+      });
+    },
+  },
+});
 
 const toastsStore = useToastsStore();
 const configStore = useConfigStore();
@@ -24,16 +49,19 @@ const inputValue: Ref<number> = ref(0);
 const submitConfigKeyUpdate = async (): Promise<void> => {
   try {
     inputErrors.value = null;
-    const value = zodScheme.parse(inputValue.value);
+    const newConfigItem: CreateCurrentAppConfig = zodScheme.parse({
+      key: configKey,
+      value: inputValue.value,
+    }) as CreateCurrentAppConfig;
 
     const thisConfigKeyIndex: number = configStore.config.findIndex((elem) => elem.key === configKey);
     if (thisConfigKeyIndex > -1) {
-      (configStore.config[thisConfigKeyIndex] as AppConfig).value = value;
+      configStore.config[thisConfigKeyIndex] = newConfigItem;
     } else {
-      configStore.config.push({ key: configKey, value: value } as AppConfig);
+      configStore.config.push(newConfigItem);
     }
 
-    const newConfig: AppConfig[] | void = await configStore.updateConfig();
+    const newConfig: CurrentAppConfig[] = await configStore.updateConfig();
     if (newConfig) {
       configStore.config = newConfig;
     }
