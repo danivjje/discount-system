@@ -1,8 +1,8 @@
-import { vi } from 'vitest';
+import { config } from '@vue/test-utils';
 import { createPinia, setActivePinia } from 'pinia';
+import PrimeVue from 'primevue/config';
+import { ToastService } from 'primevue';
+import router from '@/router';
 
 setActivePinia(createPinia());
-
-vi.mock('primevue/usetoast', () => ({
-  useToast: vi.fn(() => ({ add: vi.fn() })),
-}));
+config.global.plugins = [PrimeVue, ToastService, router];

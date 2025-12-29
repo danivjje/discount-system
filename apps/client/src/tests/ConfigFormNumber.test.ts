@@ -1,13 +1,16 @@
 import { describe, it } from 'vitest';
 import { mount } from '@vue/test-utils';
-import PrimeVue from 'primevue/config';
-import ConfigFormNumberTemplate from '@/components/ConfigFormNumber.vue';
+import ConfigFormNumber from '@/components/ConfigFormNumber.vue';
+import { configBonusPercentScheme } from '@packages/shared';
+import { markRaw } from 'vue';
 
-describe('ConfigFormNumberTemplate', () => {
+describe('ConfigFormNumber', () => {
   it('renders component', () => {
-    const wrapper = mount(ConfigFormNumberTemplate, {
-      global: {
-        plugins: [PrimeVue],
+    const wrapper = mount(ConfigFormNumber, {
+      props: {
+        configKey: 'bonusPercent',
+        title: 'title',
+        zodScheme: markRaw(configBonusPercentScheme),
       },
     });
 

@@ -1,15 +1,10 @@
 import { describe, it } from 'vitest';
 import { mount } from '@vue/test-utils';
 import EnrollBonusesForm from '@/components/EnrollBonusesForm.vue';
-import PrimeVue from 'primevue/config';
 
 describe('EnrollBonusesForm', () => {
   it('renders component', () => {
-    const wrapper = mount(EnrollBonusesForm, {
-      global: {
-        plugins: [PrimeVue],
-      },
-    });
+    const wrapper = mount(EnrollBonusesForm);
 
     wrapper.get('[data-test="enroll-phone"]');
     wrapper.get('[data-test="enroll-sum"]');
