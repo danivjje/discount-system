@@ -55,7 +55,7 @@ const handleCloseModal = (): void => {
           type="tel"
           mask="+38 (099) 999-99-99"
           placeholder="+38 (099) 999-99-99"
-          :invalid="!!inputErrors?.formErrors?.length"
+          :invalid="!!inputErrors"
           class="w-full"
         />
         <label for="check-phone">Номер телефона</label>

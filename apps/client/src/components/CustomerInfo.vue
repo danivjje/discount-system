@@ -1,12 +1,16 @@
 <script setup lang="ts">
+import z from 'zod';
+import { ZodError } from 'zod';
 import { ref, type Ref } from 'vue';
-import type { Customer } from '@packages/shared';
+import { verificationCodeScheme, type Customer } from '@packages/shared';
 import { renderPhone } from '@/helpers/render-phone';
 import { useCustomersStore, useToastsStore } from '@/store';
 import { handleHttpError } from '@/helpers/handle-http-error';
 import { sendVerificationCode, verifyVerificationCode } from '@/api';
+import type { $ZodFlattenedError } from 'zod/v4/core';
 
 import { Button, InputOtp } from 'primevue';
+import InputErrors from '@/components/ui/InputErrors.vue';
 import CloseIcon from '@/components/icons/CloseIcon.vue';
 
 const emit = defineEmits<{
@@ -21,6 +25,7 @@ const customersStore = useCustomersStore();
 
 const isCodeSent: Ref<boolean> = ref(false);
 const codeInputValue: Ref<string> = ref('');
+const inputErrors: Ref<$ZodFlattenedError<unknown> | null> = ref(null);
 
 const handleSendCode = async (): Promise<void> => {
   try {
@@ -33,13 +38,19 @@ const handleSendCode = async (): Promise<void> => {
 
 const handleResetBonuses = async (): Promise<void> => {
   try {
-    await verifyVerificationCode(customer.phone, codeInputValue.value);
+    inputErrors.value = null;
+    const code = verificationCodeScheme.parse(codeInputValue.value);
+
+    await verifyVerificationCode(customer.phone, code);
     await customersStore.resetCustomerBonuses(customer.phone);
     toastsStore.showSuccessToast('Бонусы успешно сброшены');
 
     isCodeSent.value = false;
     emit('close');
   } catch (err) {
+    if (err instanceof ZodError) {
+      inputErrors.value = z.flattenError(err);
+    }
     await handleHttpError(err, toastsStore);
   } finally {
     codeInputValue.value = '';
@@ -66,7 +77,10 @@ const handleResetBonuses = async (): Promise<void> => {
       </strong>
       <form v-if="isCodeSent" @submit.prevent="handleResetBonuses" class="flex w-full flex-col items-center">
         <strong class="mb-3 text-center font-medium">Введите код подтверждения</strong>
-        <InputOtp v-model="codeInputValue" class="mb-2" size="small" integer-only />
+        <div class="mb-2 flex flex-col items-center">
+          <InputOtp v-model="codeInputValue" size="small" integer-only :invalid="!!inputErrors" />
+          <InputErrors :errors="inputErrors?.formErrors" />
+        </div>
         <button
           @click.prevent
           class="text-surface-500 active:text-surface-600 mb-3 text-[16px] transition-opacity duration-300 hover:opacity-80"

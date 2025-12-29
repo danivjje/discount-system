@@ -43,9 +43,11 @@ export const countBonusesFormScheme = z.object({
   sum: number.min(1, 'Число должно быть больше нуля').max(9999999999, 'Число должно быть не больше 9 999 999 999'),
 });
 
+export const verificationCodeScheme = string.length(4, 'Код должен содержать 4 символа');
+
 export const verifyCodeScheme = z.object({
   phone: phoneScheme,
-  code: z.string().length(4, 'Код должен содержать 4 символа'),
+  code: verificationCodeScheme,
 });
 
 // config schemes

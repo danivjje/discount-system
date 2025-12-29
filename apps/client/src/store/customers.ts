@@ -64,6 +64,7 @@ export const useCustomersStore = defineStore('customers', () => {
         return customer.phone === updatedCustomerPhone.phone;
       });
       if (customerIndex > -1) {
+        customersData.value.customers[customerIndex]!.bonuses = 0;
         if (selectedCustomer.value && selectedCustomer.value.phone === updatedCustomerPhone.phone) {
           selectedCustomer.value = { ...selectedCustomer.value, bonuses: 0 };
         }
