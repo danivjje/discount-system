@@ -6,7 +6,7 @@ import type { AppConfig } from '@packages/shared';
 
 describe('app config controller', () => {
   it('GET, POST /api/config', async () => {
-    const token = jwt.sign({ username: 'admin' }, process.env.JWT_SECRET_KEY);
+    const token = jwt.sign({ username: process.env.ADMIN_USERNAME }, process.env.JWT_SECRET_KEY);
 
     const getResponse = await request(app)
       .get('/api/config')

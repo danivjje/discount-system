@@ -29,7 +29,7 @@ describe('auth controller', () => {
   });
 
   it('GET /api/auth/check', async () => {
-    const token = jwt.sign({ username: 'admin' }, process.env.JWT_SECRET_KEY, { expiresIn: '10m' });
+    const token = jwt.sign({ username: process.env.ADMIN_USERNAME }, process.env.JWT_SECRET_KEY, { expiresIn: '10m' });
     const response = await request(app)
       .get('/api/auth/check')
       .set('Cookie', [`authtoken=${token}`]);
